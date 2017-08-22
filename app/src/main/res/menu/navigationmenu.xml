@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/spdl"
+            android:title="Sports Dil Se">
+
+            <menu>
+
+                <item
+                    android:id="@+id/home"
+                    android:title="Home">
+                </item>
+
+                <item
+                    android:id="@+id/cricket"
+                    android:title="Cricket">
+                </item>
+
+                <item
+                    android:id="@+id/football"
+                    android:title="Football">
+                </item>
+
+                <item
+                    android:id="@+id/tennis"
+                    android:title="Tennis">
+                </item>
+
+                <item
+                    android:id="@+id/badminton"
+                    android:title="Badminton">
+                </item>
+
+                <item
+                    android:id="@+id/formula"
+                    android:title="Formula_1">
+                </item>
+
+                <item
+                    android:id="@+id/hockey"
+                    android:title="Hockey">
+                </item>
+
+                <item
+                    android:id="@+id/tandf"
+                    android:title="Track and Field">
+                </item>
+
+                <item
+                    android:id="@+id/osports"
+                    android:title="Other Sports">
+                </item>
+            </menu>
+
+        </item>
+
+    </group>
+</menu>

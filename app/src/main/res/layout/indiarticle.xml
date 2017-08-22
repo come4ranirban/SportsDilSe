@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/newscard"
+    android:clickable="true"
+    android:layout_width="match_parent"
+    android:layout_height="185dp"
+    app:cardMaxElevation="1dp"
+    app:cardElevation="1dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/newsimage"
+            android:scaleType="fitXY" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/imagegradient">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:text="Author Name"
+                    android:paddingLeft="5dp"
+                    android:textColor="#FFFFFF"
+                    android:textAlignment="textStart"
+                    android:typeface="monospace"
+                    android:id="@+id/catagory"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:text="1 day ago "
+                    android:paddingRight="5dp"
+                    android:textColor="#FFFFFF"
+                    android:textAlignment="textEnd"
+                    android:typeface="sans"
+                    android:id="@+id/time"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:text="JSBDCIJD C JD CJD CD CD CDKJC DS CDJ CJ"
+                android:gravity="bottom|center_horizontal" />
+        </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</android.support.v7.widget.CardView>
