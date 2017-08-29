@@ -1,5 +1,8 @@
 package com.example.asarka1x.sportsdilse;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -14,8 +17,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import in.technomenia.user.sportsdilse.R;
 
@@ -31,7 +39,7 @@ public class NewsDetails extends Fragment {
     private TextView newscontent, newsAuthor, newsTime, newsHeadline;
     private ImageButton backButton;
     ImageView bookmark;
-    //private Picasso picasso;
+    SQLiteDatabase db;
     private Uri uri;
     @Nullable
     @Override
@@ -74,7 +82,6 @@ public class NewsDetails extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((AppCompatActivity)getActivity()).getSupportActionBar().show();
                 MainActivity.activity.onBackPressed();
             }
         });
@@ -82,7 +89,21 @@ public class NewsDetails extends Fragment {
         bookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bookmark.setImageResource(R.drawable.bookmarkadded);
+
+                db= getActivity().openOrCreateDatabase("bookmarked", Context.MODE_PRIVATE, null);
+                File file= new File(getActivity().getFilesDir(), Const.newsDetails.get(Const.newsindex+0).toString()+".jpg");
+                Toast.makeText(getActivity(), file.getParent()+"/"+Const.newsDetails.get(Const.newsindex+0).toString()+".jpg", Toast.LENGTH_SHORT).show();
+                try{
+                    FileOutputStream stream= null;
+                    stream= new FileOutputStream(file);
+                    newsimage.buildDrawingCache();
+                    Bitmap bm= newsimage.getDrawingCache();
+                    bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    stream.flush();
+                    stream.close();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
             }
         });
     }

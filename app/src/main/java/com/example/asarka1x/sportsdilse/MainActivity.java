@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,11 +51,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent= new Intent();
         intent.setComponent(new ComponentName(getApplication(), SportsDilSeService.class));
         startService(intent);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         text= (TextView) toolbar.findViewById(R.id.toolbartext);
@@ -66,11 +63,14 @@ public class MainActivity extends AppCompatActivity {
         //tabLayout.setBackgroundColor(Color.BLACK);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-
-
         //initialize pager adapter class
         pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         //initialize action bar drawer toggle
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -79,130 +79,44 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         navigationView= (NavigationView)findViewById(R.id.navigationview);
 
-        //Displaying welcome page
-        pagerAdapter.clearList();
-        pagerAdapter.addFragment(new Articls(),"Feed");
-       // Const.pageHistory.add(pagerAdapter);
-        //pagerAdapter.addFragment(new MatchList(),"Matches");
-        viewPager.setAdapter(pagerAdapter);
-        Const.pageHistory.add(pagerAdapter);
-//        tabLayout.setTabTextColors(Color.parseColor("#18FFFF"), Color.parseColor("#FFFFFF"));
-     //   tabLayout.setupWithViewPager(viewPager);
-
         drawerLayout.closeDrawers();
 
-        /*
-        //items selected in navigation view
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        ImageView sportsPreference= (ImageView)navigationView.findViewById(R.id.yourpreference);
+        sportsPreference.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                switch (item.getItemId()){
-
-                    case R.id.home:
-                        Const.webview_url="https://sportsdilse.com/";
-                        pagerAdapter.clearList();
-                        pagerAdapter.addFragment(new WebViewClass(),"Feed");
-                        pagerAdapter.addFragment(new MatchList(),"Matches");
-                        viewPager.setAdapter(pagerAdapter);
-                        tabLayout.setTabTextColors(Color.parseColor("#18FFFF"), Color.parseColor("#FFFFFF"));
-                        tabLayout.setupWithViewPager(viewPager);
-                        drawerLayout.closeDrawers();
-                        break;
-
-                    case R.id.cricket:
-                        Const.webview_url="https://sportsdilse.com/category/cricket/";
-                        pagerAdapter.clearList();
-                        pagerAdapter.addFragment(new WebViewClass(),"Feed");
-                        pagerAdapter.addFragment(new MatchList(),"Matches");
-                        viewPager.setAdapter(pagerAdapter);
-                        tabLayout.setTabTextColors(Color.parseColor("#18FFFF"), Color.parseColor("#FFFFFF"));
-                        tabLayout.setupWithViewPager(viewPager);
-                        Toast.makeText(getApplicationContext(),"https://sportsdilse.com/category/cricket/", Toast.LENGTH_SHORT).show();
-                        break;
-
-                    case R.id.football:
-                        Const.webview_url="https://sportsdilse.com/category/football/";
-                        pagerAdapter.clearList();
-                        pagerAdapter.addFragment(new WebViewClass(),"Feed");
-                        pagerAdapter.addFragment(new MatchList(),"Matches");
-                        viewPager.setAdapter(pagerAdapter);
-                        tabLayout.setTabTextColors(Color.parseColor("#18FFFF"), Color.parseColor("#FFFFFF"));
-                        tabLayout.setupWithViewPager(viewPager);
-                        drawerLayout.closeDrawers();
-                        break;
-
-                    case R.id.tennis:
-                        Const.webview_url="https://sportsdilse.com/category/tennis/";
-                        pagerAdapter.clearList();
-                        pagerAdapter.addFragment(new WebViewClass(),"Feed");
-                        pagerAdapter.addFragment(new MatchList(),"Matches");
-                        viewPager.setAdapter(pagerAdapter);
-                        tabLayout.setTabTextColors(Color.parseColor("#18FFFF"), Color.parseColor("#FFFFFF"));
-                        tabLayout.setupWithViewPager(viewPager);
-                        drawerLayout.closeDrawers();
-                        break;
-
-                    case R.id.badminton:
-                        Const.webview_url="https://sportsdilse.com/category/badminton/";
-                        pagerAdapter.clearList();
-                        pagerAdapter.addFragment(new WebViewClass(),"Feed");
-                        pagerAdapter.addFragment(new MatchList(),"Matches");
-                        viewPager.setAdapter(pagerAdapter);
-                        tabLayout.setTabTextColors(Color.parseColor("#18FFFF"), Color.parseColor("#FFFFFF"));
-                        tabLayout.setupWithViewPager(viewPager);
-                        drawerLayout.closeDrawers();
-                        break;
-
-                    case R.id.formula:
-                        Const.webview_url="https://sportsdilse.com/category/formula1/";
-                        pagerAdapter.clearList();
-                        pagerAdapter.addFragment(new WebViewClass(),"Feed");
-                        pagerAdapter.addFragment(new MatchList(),"Matches");
-                        viewPager.setAdapter(pagerAdapter);
-                        tabLayout.setTabTextColors(Color.parseColor("#18FFFF"), Color.parseColor("#FFFFFF"));
-                        tabLayout.setupWithViewPager(viewPager);
-                        drawerLayout.closeDrawers();
-                        break;
-
-                    case R.id.hockey:
-                        Const.webview_url="https://sportsdilse.com/category/hockey/";
-                        pagerAdapter.clearList();
-                        pagerAdapter.addFragment(new WebViewClass(),"Feed");
-                        pagerAdapter.addFragment(new MatchList(),"Matches");
-                        viewPager.setAdapter(pagerAdapter);
-                        tabLayout.setTabTextColors(Color.parseColor("#18FFFF"), Color.parseColor("#FFFFFF"));
-                        tabLayout.setupWithViewPager(viewPager);
-                        drawerLayout.closeDrawers();
-                        break;
-
-                    case R.id.tandf:
-                        Const.webview_url="https://sportsdilse.com/category/track-field/";
-                        pagerAdapter.clearList();
-                        pagerAdapter.addFragment(new WebViewClass(),"Feed");
-                        pagerAdapter.addFragment(new MatchList(),"Matches");
-                        viewPager.setAdapter(pagerAdapter);
-                        tabLayout.setTabTextColors(Color.parseColor("#18FFFF"), Color.parseColor("#FFFFFF"));
-                        tabLayout.setupWithViewPager(viewPager);
-                        drawerLayout.closeDrawers();
-                        break;
-
-                    case R.id.osports:
-                        Const.webview_url="https://sportsdilse.com/category/othersports/";
-                        pagerAdapter.clearList();
-                        pagerAdapter.addFragment(new WebViewClass(),"Feed");
-                        pagerAdapter.addFragment(new MatchList(),"Matches");
-                        viewPager.setAdapter(pagerAdapter);
-                        tabLayout.setTabTextColors(Color.parseColor("#18FFFF"), Color.parseColor("#FFFFFF"));
-                        tabLayout.setupWithViewPager(viewPager);
-                        drawerLayout.closeDrawers();
-                        break;
-                }
-                return true;
+            public void onClick(View v) {
+                pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+                pagerAdapter.clearList();
+                pagerAdapter.addFragment(new SelectSports(),"Sports Preference");
+                Const.pageHistory.add(pagerAdapter);
+                viewPager.setAdapter(pagerAdapter);
+                drawerLayout.closeDrawers();
             }
-        });*/
+        });
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(Const.pageHistory.isEmpty()){
+            Toast.makeText(getApplicationContext(), "history empty", Toast.LENGTH_SHORT).show();
+            //Displaying welcome page
+            pagerAdapter.clearList();
+            pagerAdapter.addFragment(new Articls(),"Feed");
+            // Const.pageHistory.add(pagerAdapter);
+            //pagerAdapter.addFragment(new MatchList(),"Matches");
+            Const.pageHistory.add(pagerAdapter);
+            viewPager.setAdapter(pagerAdapter);
+           //tabLayout.setTabTextColors(Color.parseColor("#18FFFF"), Color.parseColor("#FFFFFF"));
+            //   tabLayout.setupWithViewPager(viewPager);
+        }else{
+            if(Const.pageHistory.get(Const.pageHistory.size()-1).getPageTitle(0).equals("Feed"))
+                getSupportActionBar().show();
+            viewPager.setAdapter(Const.pageHistory.get(Const.pageHistory.size()-1));
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -213,7 +127,8 @@ public class MainActivity extends AppCompatActivity {
             }
             else
             {
-               //Toast.makeText(getApplicationContext(), Const.pageHistory.size()+"\nPage->"+Const.pageHistory.get(Const.pageHistory.size()-1).getFraglist(), Toast.LENGTH_SHORT).show();
+                if(Const.pageHistory.get(Const.pageHistory.size()-1).getPageTitle(0).equals("Feed"))
+                    getSupportActionBar().show();
                 viewPager.setAdapter(Const.pageHistory.get(Const.pageHistory.size()-1));
             }
     }

@@ -48,8 +48,7 @@ class GetScore {
 
     public void getNews() throws MalformedURLException {
         hitServer= new HitServer();
-        urls="https://sportsdilse.com/?json=get_recent_posts&count=100";
-        url = new URL(urls);
+        urls="https://sportsdilse.com/?json=get_recent_posts&count=200";
         if(buffer==null)
             buffer = new StringBuffer();
         Const.newsflag=1;
@@ -64,11 +63,10 @@ class GetScore {
         protected Object doInBackground(Object[] objects) {
 
             try {
-
+                url = new URL(urls);
                 InputStream isr = url.openConnection().getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(isr));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(isr,"UTF-8"),8125);
 
-                buffer.delete(0, buffer.length());
                 String line = null;
 
                 while ((line = reader.readLine()) != null) {
@@ -191,87 +189,124 @@ class ReadJson {
     JSONObject jsonObject;
     JSONArray posts;
 
-    public void readNews() throws JSONException{
+    public void readNews() throws JSONException, MalformedURLException {
 
-        jsonObject = new JSONObject(Const.news);
-       /* Picasso picasso = new Picasso.Builder(MainActivity.activity)
-                .memoryCache(new LruCache(204800))
-                .build();*/
+        if(Const.news==null) {
+            new GetScore().getNews();
+        }else{
+            jsonObject = new JSONObject(Const.news);
+            if (jsonObject.has("count_total")) {
+                Const.flag = 4;
+                Const.newsCount = jsonObject.getInt("count_total");
+            }
 
-        if (jsonObject.has("count_total")) {
-            Const.flag = 4;
-            Const.newsCount = jsonObject.getInt("count_total");
-        }
+            Const.newsid.clear();
+            Const.newsDetails.clear();
+            Const.tempid.clear();
 
-        posts = jsonObject.getJSONArray("posts");
-        for (int i = 0; i < posts.length(); i++) {
-            JSONObject post = posts.getJSONObject(i);
-            if (post.has("id"))
-                Const.newsid.add(post.getString("id"));
-        }
+            posts = jsonObject.getJSONArray("posts");
+            for (int i = 0; i < posts.length(); i++) {
+                JSONObject post = posts.getJSONObject(i);
+                if (post.has("id"))
+                    Const.newsid.add(post.getString("id"));
+            }
 
-        for(int i=0; i<posts.length(); i++){
-            JSONObject post= posts.getJSONObject(i);
-            if(post.has("id"))
-                Const.newsDetails.add(post.getString("id"));
-            if(post.has("title"))
-                Const.newsDetails.add(post.getString("title"));
-            if(post.has("date"))
-                Const.newsDetails.add(post.getString("date"));
-            if(post.has("modified"))
-                Const.newsDetails.add(post.getString("modified"));
-            if(post.has("url"))
-                Const.newsDetails.add(post.getString("url"));
-            if(post.has("content"))
-                Const.newsDetails.add(post.getString("content"));
-            if(post.has("categories")){
-                JSONArray catagories= post.getJSONArray("categories");
-                Const.newsDetails.add(catagories.getJSONObject(0).getString("title"));
-                switch(catagories.getJSONObject(0).getString("title")) {
+            for(int i=0; i<posts.length(); i++){
+                JSONObject post= posts.getJSONObject(i);
+                if(post.has("id"))
+                    Const.newsDetails.add(post.getString("id"));
+                else
+                    Const.newsDetails.add("null");
 
-                    case "Formula 1":
-                        Const.formula1id.add(post.getString("id"));
-                        break;
+                if(post.has("title"))
+                    Const.newsDetails.add(post.getString("title"));
+                else
+                    Const.newsDetails.add("null");
 
-                    case "Cricket":
-                        Const.cricketid.add(post.getString("id"));
-                        break;
+                if(post.has("date"))
+                    Const.newsDetails.add(post.getString("date"));
+                else
+                    Const.newsDetails.add("null");
 
-                    case "Football":
-                        Const.footballid.add(post.getString("id"));
-                        break;
+                if(post.has("modified"))
+                    Const.newsDetails.add(post.getString("modified"));
+                else
+                    Const.newsDetails.add("null");
 
-                    case "Tennis":
-                        Const.tennisid.add(post.getString("id"));
-                        break;
+                if(post.has("url"))
+                    Const.newsDetails.add(post.getString("url"));
+                else
+                    Const.newsDetails.add("null");
+                if(post.has("content"))
+                    Const.newsDetails.add(post.getString("content"));
+                else
+                    Const.newsDetails.add("null");
 
-                    case "Track &amp; Field":
-                        Const.tracknfieldid.add(post.getString("id"));
-                        break;
+                if(post.has("categories")){
+                    JSONArray catagories= post.getJSONArray("categories");
 
-                    case "Hockey":
-                        Const.hockeyid.add(post.getString("id"));
-                        break;
+                    if(catagories.length()>0){
+                        Const.newsDetails.add(catagories.getJSONObject(0).getString("title"));
+                        switch (catagories.getJSONObject(0).getString("title")) {
+                            case "Cricket":
+                                if (Const.cricket == true)
+                                    Const.tempid.add(post.getString("id"));
+                                break;
 
-                    case "Badminton":
-                        Const.badmintonid.add(post.getString("id"));
-                        break;
+                            case "Football":
+                                if (Const.football == true)
+                                    Const.tempid.add(post.getString("id"));
+                                break;
 
-                    default:
-                        Const.otherSportsid.add(post.getString("id"));
-                        break;
+                            case "Tennis":
+                                if (Const.tennis == true)
+                                    Const.tempid.add(post.getString("id"));
+                                break;
+
+                            case "Badminton":
+                                if (Const.badminton == true)
+                                    Const.tempid.add(post.getString("id"));
+                                break;
+
+                            case "Formula 1":
+                                if (Const.formula1 == true)
+                                    Const.tempid.add(post.getString("id"));
+                                break;
+
+                            case "Hockey":
+                                if (Const.hockey == true)
+                                    Const.tempid.add(post.getString("id"));
+                                break;
+
+                            case "Track & Field":
+                                if (Const.trackfield == true)
+                                    Const.tempid.add(post.getString("id"));
+                                break;
+
+                            default:
+                                if (Const.other == true) {
+                                    Const.tempid.add(post.getString("id"));
+                                }
+                                break;
+                        }
+                    }
+                    else
+                        Const.newsDetails.add("null");
                 }
-            }
-            if (post.has("author"))
-                Const.newsDetails.add(post.getJSONObject("author").getString("nickname"));
-            if(post.has("thumbnail_images")){
-                JSONObject thumbnail= post.getJSONObject("thumbnail_images");
-                //Const.newsDetails.add(picasso.with(MainActivity.activity).load(thumbnail.getJSONObject("medium_large").getString("url")).fit().centerCrop());
-                Const.newsDetails.add(thumbnail.getJSONObject("medium_large").getString("url"));
-            }
-        }
+                if (post.has("author"))
+                    Const.newsDetails.add(post.getJSONObject("author").getString("nickname"));
+                else
+                    Const.newsDetails.add("null");
 
-        Const.newsflag=2;
+                if(post.has("thumbnail_images")){
+                    JSONObject thumbnail= post.getJSONObject("thumbnail_images");
+                    Const.newsDetails.add(thumbnail.getJSONObject("medium_large").getString("url"));
+                }
+                else
+                    Const.newsDetails.add("null");
+            }
+            Const.showadapter=true;
+        }
     }
 }
 

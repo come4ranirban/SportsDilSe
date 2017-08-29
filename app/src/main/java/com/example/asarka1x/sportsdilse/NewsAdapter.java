@@ -6,10 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.squareup.picasso.Cache;
 
 import in.technomenia.user.sportsdilse.R;
 
@@ -19,7 +21,6 @@ import in.technomenia.user.sportsdilse.R;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsHolder>{
 
-    //private Picasso picasso;
     private int index;
     private Uri uri;
     private MyPagerAdapter pagerAdapter;
@@ -33,7 +34,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsHolder>{
 
     @Override
     public void onBindViewHolder(final NewsHolder holder, final int position) {
-        index= Const.newsDetails.indexOf(Const.newsid.get(position));
+        index= Const.newsDetails.indexOf(Const.tempid.get(position));
         holder.catagory.setText((String) Const.newsDetails.get(index+6));
         holder.title.setText((String) Const.newsDetails.get(index+1));
         holder.datetime.setText((String)Const.newsDetails.get(index+2));
@@ -43,7 +44,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsHolder>{
         holder.newscard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int index= Const.newsDetails.indexOf(Const.newsid.get(position));
+                int index= Const.newsDetails.indexOf(Const.tempid.get(position));
                 Const.newsindex= index;
                 pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
                 pagerAdapter.clearList();
@@ -52,14 +53,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsHolder>{
                 Const.pageHistory.add(pagerAdapter);
             }
         });
+
     }
 
     @Override
     public int getItemCount() {
-        return Const.newsCount;
+        return Const.tempid.size()-1;
     }
-
-    
 }
 
 class NewsHolder extends RecyclerView.ViewHolder {

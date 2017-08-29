@@ -56,14 +56,19 @@ public class Articls extends Fragment{
         super.onResume();
         h= new Handler();
 
+        /*if(Const.newsid.isEmpty())
+            Toast.makeText(getActivity(), "temp news empty", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(getActivity(), "newsid count->"+Const.tempid.size()+"\nshow->"+Const.showadapter, Toast.LENGTH_SHORT).show();*/
+
         h.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(savedstate==null) {
-                    if (Const.newsflag == 2) {
-                        Const.newsflag = 0;
-                        Toast.makeText(getActivity(),"newsflag->"+Const.newsflag, Toast.LENGTH_SHORT).show();
+                 if(savedstate==null){
+                    if(Const.showadapter==true) {
+                        Const.showadapter=false;
                         newsRecycler.setAdapter(new NewsAdapter());
+                        h.removeCallbacks(this);
                     }
                     else
                         h.postDelayed(this,2);
@@ -85,9 +90,16 @@ public class Articls extends Fragment{
         super.onViewStateRestored(savedInstanceState);
 
         if (savedstate != null) {
-            listState = savedstate.getParcelable(KEY_RECYCLER_STATE);
-            newsRecycler.getLayoutManager().onRestoreInstanceState(listState);
-            newsRecycler.setAdapter(new NewsAdapter());
+            if(Const.setadapter==true){
+                Const.setadapter= false;
+                savedstate= null;
+                onResume();
+            }
+            else{
+                listState = savedstate.getParcelable(KEY_RECYCLER_STATE);
+                newsRecycler.getLayoutManager().onRestoreInstanceState(listState);
+                newsRecycler.setAdapter(new NewsAdapter());
+            }
         }
     }
 }

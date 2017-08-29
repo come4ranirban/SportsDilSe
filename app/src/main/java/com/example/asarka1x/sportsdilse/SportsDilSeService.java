@@ -41,9 +41,9 @@ public class SportsDilSeService extends Service {
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
-                h.postDelayed(this, 2000);
+                h.postDelayed(this, 20000);
             }
-        },2000);
+        },20000);
         return super.onStartCommand(intent, flags, startId);
     }
 }
