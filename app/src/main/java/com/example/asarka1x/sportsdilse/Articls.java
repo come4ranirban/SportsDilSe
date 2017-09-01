@@ -35,6 +35,7 @@ public class Articls extends Fragment{
     private static Bundle savedstate;
     Parcelable listState;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,8 +77,13 @@ public class Articls extends Fragment{
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
-        Parcelable listState = newsRecycler.getLayoutManager().onSaveInstanceState();
+        listState = newsRecycler.getLayoutManager().onSaveInstanceState();
         savedstate=outState;
         savedstate.putParcelable(KEY_RECYCLER_STATE, listState);
         super.onSaveInstanceState(outState);

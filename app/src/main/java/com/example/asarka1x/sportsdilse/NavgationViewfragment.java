@@ -1,5 +1,6 @@
 package com.example.asarka1x.sportsdilse;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import in.technomenia.user.sportsdilse.R;
@@ -26,6 +28,7 @@ public class NavgationViewfragment extends Fragment {
 
     private ImageView sportsPreference;
     private RecyclerView selectedsports;
+    private TextView yoursports;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -65,13 +68,25 @@ public class NavgationViewfragment extends Fragment {
                 Const.selectedsportslist.add("Track & Field");
         }
 
-        Toast.makeText(getActivity(), "sports list->"+Const.selectedsportslist.size(), Toast.LENGTH_SHORT).show();
+
+        yoursports= (TextView)v.findViewById(R.id.yoursports);
+        yoursports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(yoursports.getTextColors().equals(Color.WHITE)){
+                    yoursports.setTextColor(Color.GREEN);
+                }
+            }
+        });
+
+
         sportsPreference= (ImageView)v.findViewById(R.id.yourpreference);
         selectedsports= (RecyclerView)v.findViewById(R.id.selectedsportsrecycler);
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         selectedsports.setLayoutManager(layoutManager);
         selectedsports.setHasFixedSize(true);
 
+        //Calling recyclerview for displaying selected sports
         sportsPreference.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

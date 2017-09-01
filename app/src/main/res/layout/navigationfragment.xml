@@ -28,6 +28,8 @@
                 android:layout_height="wrap_content"
                 android:text="Your Sports"
                 android:layout_marginLeft="10dp"
+                android:id="@+id/yoursports"
+                android:clickable="true"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"/>

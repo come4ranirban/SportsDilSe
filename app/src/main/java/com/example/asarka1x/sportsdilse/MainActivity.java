@@ -25,6 +25,9 @@ import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import org.json.JSONException;
+
+import java.net.MalformedURLException;
 import java.util.Stack;
 
 import in.technomenia.user.sportsdilse.R;
@@ -113,6 +116,15 @@ public class MainActivity extends AppCompatActivity {
             viewPager.setAdapter(pagerAdapter);
            //tabLayout.setTabTextColors(Color.parseColor("#18FFFF"), Color.parseColor("#FFFFFF"));
             //   tabLayout.setupWithViewPager(viewPager);
+            Const.starttempid=true;
+            Const.tempid.clear();
+            try {
+                new ReadJson().readNews();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }else{
             if(Const.pageHistory.get(Const.pageHistory.size()-1).getPageTitle(0).equals("Feed"))
                 getSupportActionBar().show();
