@@ -7,7 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="@drawable/reverseimagegradient"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:elevation="8dp">
 
         <ImageButton
             android:id="@+id/back"
@@ -88,7 +89,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="3"
-                    android:layout_height="100dp"
+                    android:layout_height="110dp"
                     android:clickable="true"
                     android:id="@+id/allSports"
                     android:background="@drawable/rectangleshape"
@@ -98,13 +99,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:gravity="center"
                         android:layout_weight="7">
 
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/cricket"
                             ></ImageView>
 
                     </LinearLayout>
@@ -128,7 +128,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="3"
-                    android:layout_height="100dp"
+                    android:layout_height="110dp"
                     android:clickable="true"
                     android:id="@+id/cricket"
                     android:background="@drawable/rectangleshape"
@@ -138,13 +138,13 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:gravity="center"
                         android:layout_weight="7">
 
                         <ImageView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/cricket"
+                            android:id="@+id/cricketicon"
                             ></ImageView>
 
                     </LinearLayout>
@@ -169,7 +169,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="3"
-                    android:layout_height="100dp"
+                    android:layout_height="110dp"
                     android:clickable="true"
                     android:id="@+id/football"
                     android:background="@drawable/rectangleshape"
@@ -179,13 +179,13 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:gravity="center"
                         android:layout_weight="7">
 
                         <ImageView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/cricket"
+                            android:id="@+id/footballicon"
                             ></ImageView>
 
                     </LinearLayout>
@@ -217,7 +217,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="3"
-                    android:layout_height="100dp"
+                    android:layout_height="110dp"
                     android:clickable="true"
                     android:id="@+id/tennis"
                     android:background="@drawable/rectangleshape"
@@ -227,13 +227,13 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:gravity="center"
                         android:layout_weight="7">
 
                         <ImageView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/cricket"
+                            android:id="@+id/tennisicon"
                             ></ImageView>
 
                     </LinearLayout>
@@ -257,7 +257,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="3"
-                    android:layout_height="100dp"
+                    android:layout_height="110dp"
                     android:clickable="true"
                     android:id="@+id/badminton"
                     android:background="@drawable/rectangleshape"
@@ -267,13 +267,13 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="7">
+                        android:layout_weight="7"
+                        android:gravity="center">
 
                         <ImageView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/cricket"
+                            android:id="@+id/badmintonicon"
                             ></ImageView>
 
                     </LinearLayout>
@@ -298,7 +298,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="3"
-                    android:layout_height="100dp"
+                    android:layout_height="110dp"
                     android:id="@+id/formula1"
                     android:background="@drawable/rectangleshape"
                     android:clickable="true"
@@ -308,13 +308,13 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="7">
+                        android:layout_weight="7"
+                        android:gravity="center">
 
                         <ImageView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/cricket"
+                            android:id="@+id/formulaicon"
                             ></ImageView>
 
                     </LinearLayout>
@@ -347,7 +347,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="3"
-                    android:layout_height="100dp"
+                    android:layout_height="110dp"
                     android:id="@+id/hockey"
                     android:background="@drawable/rectangleshape"
                     android:clickable="true"
@@ -357,13 +357,13 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="7">
+                        android:layout_weight="7"
+                        android:gravity="center">
 
                         <ImageView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/cricket"
+                            android:id="@+id/hockeyicon"
                             ></ImageView>
 
                     </LinearLayout>
@@ -387,7 +387,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="3"
-                    android:layout_height="100dp"
+                    android:layout_height="110dp"
                     android:clickable="true"
                     android:id="@+id/trackfield"
                     android:background="@drawable/rectangleshape"
@@ -397,13 +397,13 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="7">
+                        android:layout_weight="7"
+                        android:gravity="center">
 
                         <ImageView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/cricket"
+                            android:id="@+id/trackfieldicon"
                             ></ImageView>
 
                     </LinearLayout>
@@ -428,7 +428,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="3"
-                    android:layout_height="100dp"
+                    android:layout_height="110dp"
                     android:clickable="true"
                     android:id="@+id/others"
                     android:background="@drawable/rectangleshape"
@@ -441,10 +441,9 @@
                         android:layout_weight="7">
 
                         <ImageView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@drawable/cricket"
                             ></ImageView>
 
                     </LinearLayout>

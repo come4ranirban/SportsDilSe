@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
@@ -194,6 +195,7 @@ class ReadJson {
         if(Const.news==null) {
             new GetScore().getNews();
         }else{
+
             jsonObject = new JSONObject(Const.news);
             if (jsonObject.has("count_total")) {
                 Const.flag = 4;
@@ -202,7 +204,7 @@ class ReadJson {
 
             Const.newsid.clear();
             Const.newsDetails.clear();
-            Const.tempid.clear();
+
 
             posts = jsonObject.getJSONArray("posts");
             for (int i = 0; i < posts.length(); i++) {
@@ -247,47 +249,50 @@ class ReadJson {
 
                     if(catagories.length()>0){
                         Const.newsDetails.add(catagories.getJSONObject(0).getString("title"));
-                        switch (catagories.getJSONObject(0).getString("title")) {
-                            case "Cricket":
-                                if (Const.cricket == true)
-                                    Const.tempid.add(post.getString("id"));
-                                break;
+                        if(Const.starttempid == true){
+                           // Toast.makeText(MainActivity.activity, "Show adapter->"+Const.showadapter+"\nstart->"+Const.starttempid, Toast.LENGTH_SHORT).show();
+                            switch (catagories.getJSONObject(0).getString("title")) {
+                                case "Cricket":
+                                    if (Const.cricket == true)
+                                        Const.tempid.add(post.getString("id"));
+                                    break;
 
-                            case "Football":
-                                if (Const.football == true)
-                                    Const.tempid.add(post.getString("id"));
-                                break;
+                                case "Football":
+                                    if (Const.football == true)
+                                        Const.tempid.add(post.getString("id"));
+                                    break;
 
-                            case "Tennis":
-                                if (Const.tennis == true)
-                                    Const.tempid.add(post.getString("id"));
-                                break;
+                                case "Tennis":
+                                    if (Const.tennis == true)
+                                        Const.tempid.add(post.getString("id"));
+                                    break;
 
-                            case "Badminton":
-                                if (Const.badminton == true)
-                                    Const.tempid.add(post.getString("id"));
-                                break;
+                                case "Badminton":
+                                    if (Const.badminton == true)
+                                        Const.tempid.add(post.getString("id"));
+                                    break;
 
-                            case "Formula 1":
-                                if (Const.formula1 == true)
-                                    Const.tempid.add(post.getString("id"));
-                                break;
+                                case "Formula 1":
+                                    if (Const.formula1 == true)
+                                        Const.tempid.add(post.getString("id"));
+                                    break;
 
-                            case "Hockey":
-                                if (Const.hockey == true)
-                                    Const.tempid.add(post.getString("id"));
-                                break;
+                                case "Hockey":
+                                    if (Const.hockey == true)
+                                        Const.tempid.add(post.getString("id"));
+                                    break;
 
-                            case "Track & Field":
-                                if (Const.trackfield == true)
-                                    Const.tempid.add(post.getString("id"));
-                                break;
+                                case "Track & Field":
+                                    if (Const.trackfield == true)
+                                        Const.tempid.add(post.getString("id"));
+                                    break;
 
-                            default:
-                                if (Const.other == true) {
-                                    Const.tempid.add(post.getString("id"));
-                                }
-                                break;
+                                default:
+                                    if (Const.other == true) {
+                                        Const.tempid.add(post.getString("id"));
+                                    }
+                                    break;
+                            }
                         }
                     }
                     else
@@ -305,7 +310,11 @@ class ReadJson {
                 else
                     Const.newsDetails.add("null");
             }
-            Const.showadapter=true;
+
+            if(Const.starttempid==true){
+                Const.starttempid= false;
+                Const.showadapter=true;
+            }
         }
     }
 }

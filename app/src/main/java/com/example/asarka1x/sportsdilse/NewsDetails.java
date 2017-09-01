@@ -3,6 +3,7 @@ package com.example.asarka1x.sportsdilse;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -14,8 +15,11 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,9 +40,11 @@ import static android.text.Html.fromHtml;
 public class NewsDetails extends Fragment {
 
     private SimpleDraweeView newsimage;
-    private TextView newscontent, newsAuthor, newsTime, newsHeadline;
+    private TextView newscontent, newsAuthor, newsTime, newsHeadline,daymode;
     private ImageButton backButton;
+    private LinearLayout articlelayout;
     ImageView bookmark;
+    private Switch dayswitch;
     SQLiteDatabase db;
     private Uri uri;
     @Nullable
@@ -48,20 +54,33 @@ public class NewsDetails extends Fragment {
         newsimage= (SimpleDraweeView)v.findViewById(R.id.newsimage);
         newscontent= (TextView)v.findViewById(R.id.newscontent);
         newsAuthor= (TextView)v.findViewById(R.id.newsAuthor);
-        newsTime= (TextView)v.findViewById(R.id.newstime);
+        dayswitch= (Switch)v.findViewById(R.id.dayswitch);
+        daymode= (TextView)v.findViewById(R.id.daymode);
+       // newsTime= (TextView)v.findViewById(R.id.newstime);
         newsHeadline= (TextView)v.findViewById(R.id.newsHeadline);
         backButton= (ImageButton) v.findViewById(R.id.back);
         bookmark= (ImageView) v.findViewById(R.id.bookmark);
-        /*picasso = new Picasso.Builder(MainActivity.activity)
-                .memoryCache(new LruCache(204800))
-                .build();*/
+        articlelayout= (LinearLayout)v.findViewById(R.id.articlelayout);
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+
+        if(Const.daymode==false){
+            dayswitch.setChecked(false);
+            darktheme();
+        }else{
+            dayswitch.setChecked(true);
+            lighttheme();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
 
         String html;
         //picasso.with(MainActivity.activity).load((String) Const.newsDetails.get(Const.newsindex+8)).fit().into(newsimage);
@@ -70,7 +89,7 @@ public class NewsDetails extends Fragment {
         newsimage.setImageURI(uri);
         html= (String) Const.newsDetails.get(Const.newsindex+5);
         newsAuthor.setText(Const.newsDetails.get(Const.newsindex+7).toString());
-        newsTime.setText(Const.newsDetails.get(Const.newsindex+2).toString());
+        //newsTime.setText(Const.newsDetails.get(Const.newsindex+2).toString());
         newsHeadline.setText(Const.newsDetails.get(Const.newsindex+1).toString());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -106,8 +125,37 @@ public class NewsDetails extends Fragment {
                 }
             }
         });
+
+        dayswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    lighttheme();
+                    Const.daymode=true;
+                }else {
+                    darktheme();
+                    Const.daymode=false;
+                }
+            }
+        });
     }
 
+    public void darktheme(){
+        articlelayout.setBackgroundColor(Color.BLACK);
+        newsAuthor.setTextColor(Color.WHITE);
+        newsHeadline.setTextColor(Color.WHITE);
+        daymode.setTextColor(Color.WHITE);
+        newscontent.setTextColor(Color.WHITE);
+    }
+
+    public void lighttheme(){
+        articlelayout.setBackgroundColor(Color.WHITE);
+        newsAuthor.setTextColor(Color.BLACK);
+        newsHeadline.setTextColor(Color.BLACK);
+        daymode.setTextColor(Color.BLUE);
+        newscontent.setTextColor(Color.DKGRAY);
+    }
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

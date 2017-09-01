@@ -17,6 +17,7 @@ public class Const {
     static String jsonuid;
     static String jsonMatch;
     static String news=null;
+    static boolean daymode,starttempid;
     static int newsCount=0;
     static boolean allSports,cricket,football,tennis,badminton,formula1,hockey,trackfield,other,setadapter,showadapter;
     static ArrayList<String> uid= new ArrayList<>();
@@ -25,5 +26,6 @@ public class Const {
     static ArrayList<String> matchDetails= new ArrayList<>();
     static ArrayList<Object> newsDetails= new ArrayList<>();
     static ArrayList<MyPagerAdapter> pageHistory= new ArrayList<>();
+    static ArrayList<String> selectedsportslist= new ArrayList<>();
 }
 

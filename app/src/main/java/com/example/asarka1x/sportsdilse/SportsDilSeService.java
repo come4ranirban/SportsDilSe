@@ -16,7 +16,7 @@ import java.net.MalformedURLException;
 
 public class SportsDilSeService extends Service {
 
-    private Handler h;
+    static Handler h;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

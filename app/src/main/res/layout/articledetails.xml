@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="@drawable/reverseimagegradient"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:elevation="8dp">
 
         <ImageButton
             android:id="@+id/back"
@@ -46,6 +47,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#000000"
+                android:id="@+id/articlelayout"
                 android:orientation="vertical">
 
                 <com.facebook.drawee.view.SimpleDraweeView
@@ -62,7 +65,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/newsHeadline"
-                    android:background="#000000"
                     android:textColor="#FFFFFF"
                     android:textAlignment="gravity"
                     android:textSize="25sp"
@@ -73,12 +75,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="#000000"
                     android:padding="10dp">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#FFFFFF"
                         android:id="@+id/newsAuthor"
@@ -86,21 +86,34 @@
                         android:textAllCaps="true"
                         android:textAlignment="viewStart"/>
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="0.5"
-                        android:layout_height="wrap_content"
-                        android:textColor="#FFFFFF"
-                        android:id="@+id/newstime"
-                        android:textAlignment="viewEnd"/>
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+                    </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#FFFFFF"
+                            android:text="Day Mode"
+                            android:id="@+id/daymode"/>
+
+                        <Switch
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dayswitch"/>
+                    </LinearLayout>
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/newscontent"
-                    android:background="#000000"
                     android:textColor="#FFFFFF"
                     android:textAlignment="gravity"
                     android:textStyle="italic"

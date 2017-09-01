@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +18,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView text;
     static ViewPager viewPager;
-    private DrawerLayout drawerLayout;
+    static DrawerLayout drawerLayout;
     static MyPagerAdapter pagerAdapter;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private NavigationView navigationView;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private Runnable callback;
     static MainActivity activity;
     private boolean savedpageHistory;
+    private FrameLayout navigationframe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         //tabLayout.setBackgroundColor(Color.BLACK);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        drawerLayout.closeDrawers();
         //initialize pager adapter class
         pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
 
@@ -72,27 +76,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //initialize action bar drawer toggle
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close){
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                Toast.makeText(getApplicationContext(), "open", Toast.LENGTH_SHORT).show();
+                navigationView= (NavigationView)findViewById(R.id.navigationview);
+                navigationframe= (FrameLayout)findViewById(R.id.navigationframe);
+
+                FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.add(R.id.navigationframe, new NavgationViewfragment());
+                fragmentTransaction.commit();
+            }
+        };
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.WHITE);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        navigationView= (NavigationView)findViewById(R.id.navigationview);
-
-        drawerLayout.closeDrawers();
-
-        ImageView sportsPreference= (ImageView)navigationView.findViewById(R.id.yourpreference);
-        sportsPreference.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-                pagerAdapter.clearList();
-                pagerAdapter.addFragment(new SelectSports(),"Sports Preference");
-                Const.pageHistory.add(pagerAdapter);
-                viewPager.setAdapter(pagerAdapter);
-                drawerLayout.closeDrawers();
-            }
-        });
     }
 
 
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        //SET VIEWPAGER AS SOON AS ONRESUME IS CALLED
         if(Const.pageHistory.isEmpty()){
             Toast.makeText(getApplicationContext(), "history empty", Toast.LENGTH_SHORT).show();
             //Displaying welcome page
@@ -137,4 +139,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
     }
+
+
 }

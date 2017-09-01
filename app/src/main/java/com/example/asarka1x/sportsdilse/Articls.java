@@ -21,6 +21,7 @@ import in.technomenia.user.sportsdilse.R;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by user on 18-07-2017.
@@ -37,7 +38,7 @@ public class Articls extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.webviewlayout, container, false);
+        View v= inflater.inflate(R.layout.articlelayout, container, false);
 
         newsRecycler= (RecyclerView) v.findViewById(R.id.newsRecycler);
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -47,6 +48,8 @@ public class Articls extends Fragment{
         newsRecycler.setItemViewCacheSize(20);
         newsRecycler.setDrawingCacheEnabled(true);
         newsRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        newsRecycler.getRecycledViewPool().clear();
+        newsRecycler.removeAllViews();
 
         return v;
     }
@@ -55,26 +58,21 @@ public class Articls extends Fragment{
     public void onResume() {
         super.onResume();
         h= new Handler();
-
-        /*if(Const.newsid.isEmpty())
-            Toast.makeText(getActivity(), "temp news empty", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(getActivity(), "newsid count->"+Const.tempid.size()+"\nshow->"+Const.showadapter, Toast.LENGTH_SHORT).show();*/
-
         h.postDelayed(new Runnable() {
             @Override
             public void run() {
                  if(savedstate==null){
-                    if(Const.showadapter==true) {
+
+                    if(Const.showadapter==true && Const.starttempid==false) {
                         Const.showadapter=false;
                         newsRecycler.setAdapter(new NewsAdapter());
                         h.removeCallbacks(this);
                     }
                     else
-                        h.postDelayed(this,2);
+                        h.postDelayed(this,200);
                 }
             }
-        },2);
+        },200);
     }
 
     @Override
