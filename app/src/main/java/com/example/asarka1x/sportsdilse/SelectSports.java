@@ -1,5 +1,9 @@
 package com.example.asarka1x.sportsdilse;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -25,12 +29,13 @@ import in.technomenia.user.sportsdilse.R;
 
 public class SelectSports extends Fragment {
 
-    ImageButton back;
-    ImageView cricketicon,footballicon,tennisicon,badmintonicon,formulaicon,hockeyicon,trackfieldicon;
-    LinearLayout allsports,cricket,football,tennis,badminton,formula1,hockey,trackfield,others;
-    int index=0;
-    Handler h;
-    Runnable runnable;
+
+    private ImageButton back;
+    private ImageView cricketicon,footballicon,tennisicon,badmintonicon,formulaicon,hockeyicon,trackfieldicon;
+    private LinearLayout allsports,cricket,football,tennis,badminton,formula1,hockey,trackfield,others;
+    private SQLiteDatabase db;
+    private Handler h;
+    private Runnable runnable;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -376,6 +381,46 @@ public class SelectSports extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+
+        db= getActivity().openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
+
+        if(Const.cricket==true)
+            db.execSQL("UPDATE SPORTSLIST SET cricket=1");
+        else
+            db.execSQL("UPDATE SPORTSLIST SET cricket=0");
+
+        if(Const.football==true)
+            db.execSQL("UPDATE SPORTSLIST SET football=1");
+        else
+            db.execSQL("UPDATE SPORTSLIST SET football=0");
+
+        if(Const.tennis==true)
+            db.execSQL("UPDATE SPORTSLIST SET tennis=1");
+        else
+            db.execSQL("UPDATE SPORTSLIST SET tennis=0");
+
+        if(Const.badminton==true)
+            db.execSQL("UPDATE SPORTSLIST SET badminton=1");
+        else
+            db.execSQL("UPDATE SPORTSLIST SET badminton=0");
+
+        if(Const.formula1==true)
+            db.execSQL("UPDATE SPORTSLIST SET formula=1");
+        else
+            db.execSQL("UPDATE SPORTSLIST SET formula=0");
+
+        if(Const.hockey==true)
+            db.execSQL("UPDATE SPORTSLIST SET hockey=1");
+        else
+            db.execSQL("UPDATE SPORTSLIST SET hockey=0");
+
+        if(Const.trackfield==true)
+            db.execSQL("UPDATE SPORTSLIST SET track=1");
+        else
+            db.execSQL("UPDATE SPORTSLIST SET track=0");
+
+        Cursor cursor= db.rawQuery("select * from sportslist",null);
+        Toast.makeText(getActivity(),"count->"+cursor.getCount(), Toast.LENGTH_SHORT).show();
 
         if(h!=null)
             h.removeCallbacks(runnable);

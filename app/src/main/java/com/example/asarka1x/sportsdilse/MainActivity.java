@@ -1,7 +1,12 @@
 package com.example.asarka1x.sportsdilse;
 
 import android.content.ComponentName;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -34,6 +39,7 @@ import in.technomenia.user.sportsdilse.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    SQLiteDatabase db;
     private TabLayout tabLayout;
     private Toolbar toolbar;
     private TextView text;
@@ -57,6 +63,45 @@ public class MainActivity extends AppCompatActivity {
         /*Intent intent= new Intent();
         intent.setComponent(new ComponentName(getApplication(), SportsDilSeService.class));
         startService(intent);*/
+
+        db= openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
+        try{
+            Cursor cursor= db.rawQuery("select * from sportslist",null);
+            if(cursor!=null){
+                cursor.moveToFirst();
+                if(cursor.getInt(0)==1)
+                    Const.cricket=true;
+                if(cursor.getInt(1)==1)
+                    Const.football=true;
+                if(cursor.getInt(2)==1)
+                    Const.tennis=true;
+                if(cursor.getInt(3)==1)
+                    Const.badminton=true;
+                if(cursor.getInt(4)==1)
+                    Const.formula1=true;
+                if(cursor.getInt(5)==1)
+                    Const.hockey=true;
+                if(cursor.getInt(6)==1)
+                    Const.trackfield=true;
+                if(cursor.getInt(7)==1)
+                    Const.other=true;
+            }
+        }catch (SQLiteException e){
+            db.execSQL("CREATE TABLE IF NOT EXISTS SPORTSLIST(cricket integer default 0, football integer default 0, " +
+                    "tennis integer default 0, badminton integer default 0, formula integer default 0," +
+                    "hockey integer default 0, track integer default 0, other integer default 0)");
+            ContentValues values= new ContentValues();
+            values.put("cricket", 0);
+            values.put("football", 0);
+            values.put("tennis", 0);
+            values.put("badminton", 0);
+            values.put("formula", 0);
+            values.put("hockey", 0);
+            values.put("track", 0);
+            values.put("other", 0);
+            db.insert("sportslist", null, values);
+        }
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         text= (TextView) toolbar.findViewById(R.id.toolbartext);
@@ -102,9 +147,7 @@ public class MainActivity extends AppCompatActivity {
         Const.starttempid=true;
         Const.tempid.clear();
         try {
-            new ReadJson().readNews();
-        } catch (JSONException e) {
-            e.printStackTrace();
+            new GetScore().getNews();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -118,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
         //SET VIEWPAGER AS SOON AS ONRESUME IS CALLED
         if(Const.pageHistory.isEmpty()){
             Toast.makeText(getApplicationContext(), "history empty", Toast.LENGTH_SHORT).show();
-            Const.cricket=true;
             Const.starttempid=true;
             Const.tempid.clear();
             //Displaying welcome page

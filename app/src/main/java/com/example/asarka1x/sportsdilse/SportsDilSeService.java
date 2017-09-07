@@ -31,19 +31,7 @@ public class SportsDilSeService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        final GetScore getScore= new GetScore();
-        h= new Handler();
-        h.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    getScore.getNews();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-                h.postDelayed(this, 20000);
-            }
-        },20000);
+
         return super.onStartCommand(intent, flags, startId);
     }
 }
