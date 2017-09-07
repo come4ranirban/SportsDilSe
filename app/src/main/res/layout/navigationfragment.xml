@@ -78,5 +78,39 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#FFFFFF"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:id="@+id/bookmarks"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Bookmarked Articles"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp"
+            android:layout_gravity="center"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/notebook"/>
+
+        <LinearLayout
+            android:layout_width="8dp"
+            android:layout_height="match_parent">
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
 

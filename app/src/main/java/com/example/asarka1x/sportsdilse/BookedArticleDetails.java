@@ -1,10 +1,12 @@
 package com.example.asarka1x.sportsdilse;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,41 +27,39 @@ import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.ByteArrayOutputStream;
 
 import in.technomenia.user.sportsdilse.R;
 
 import static android.text.Html.fromHtml;
 
 /**
- * Created by asarka1x on 8/9/2017.
+ * Created by asarka1x on 9/7/2017.
  */
 
-public class NewsDetails extends Fragment {
+public class BookedArticleDetails extends Fragment {
 
-    private SimpleDraweeView newsimage;
+    private ImageView newsimage;
     private TextView newscontent, newsAuthor, newsTime, newsHeadline,daymode;
     private ImageButton backButton;
     private LinearLayout articlelayout;
     ImageView bookmark;
     private Switch dayswitch;
-    SQLiteDatabase db;
+    static SQLiteDatabase db;
     private Uri uri;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.articledetails, container, false);
-        newsimage= (SimpleDraweeView)v.findViewById(R.id.newsimage);
+        View v= inflater.inflate(R.layout.bookarticledetails, container, false);
+        newsimage= (ImageView)v.findViewById(R.id.newsimage);
         newscontent= (TextView)v.findViewById(R.id.newscontent);
         newsAuthor= (TextView)v.findViewById(R.id.newsAuthor);
         dayswitch= (Switch)v.findViewById(R.id.dayswitch);
         daymode= (TextView)v.findViewById(R.id.daymode);
-       // newsTime= (TextView)v.findViewById(R.id.newstime);
+        // newsTime= (TextView)v.findViewById(R.id.newstime);
         newsHeadline= (TextView)v.findViewById(R.id.newsHeadline);
-        backButton= (ImageButton) v.findViewById(R.id.back);
-        bookmark= (ImageView) v.findViewById(R.id.bookmark);
         articlelayout= (LinearLayout)v.findViewById(R.id.articlelayout);
         return v;
     }
@@ -67,7 +67,7 @@ public class NewsDetails extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+
 
         if(Const.daymode==false){
             dayswitch.setChecked(false);
@@ -82,49 +82,26 @@ public class NewsDetails extends Fragment {
     public void onResume() {
         super.onResume();
 
+        db= MainActivity.activity.openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
+        Cursor cursor= db.rawQuery("select * from BOOKMARKED where id="+BookmarkFrame.id, null);
         String html;
-        //picasso.with(MainActivity.activity).load((String) Const.newsDetails.get(Const.newsindex+8)).fit().into(newsimage);
+        cursor.moveToFirst();
+        Toast.makeText(getActivity(), "count ->"+cursor.getInt(0), Toast.LENGTH_SHORT).show();
 
-        uri= Uri.parse(Const.newsDetails.get(Const.newsindex+8).toString());
-        newsimage.setImageURI(uri);
-        html= (String) Const.newsDetails.get(Const.newsindex+5);
-        newsAuthor.setText(Const.newsDetails.get(Const.newsindex+7).toString());
+        byte image[]= cursor.getBlob(5);
+        Bitmap bit= BitmapFactory.decodeByteArray(image, 0, image.length);
+        newsimage.setImageBitmap(bit);
+
+        html= cursor.getString(4);
+        newsAuthor.setText(cursor.getString(2));
         //newsTime.setText(Const.newsDetails.get(Const.newsindex+2).toString());
-        newsHeadline.setText(Const.newsDetails.get(Const.newsindex+1).toString());
+        newsHeadline.setText(cursor.getString(1));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-           newscontent.setText(fromHtml(html, Html.FROM_HTML_MODE_LEGACY)) ;
+            newscontent.setText(fromHtml(html, Html.FROM_HTML_MODE_LEGACY)) ;
         } else {
             newscontent.setText(Html.fromHtml(html));
         }
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.activity.onBackPressed();
-            }
-        });
-
-        bookmark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                db= getActivity().openOrCreateDatabase("bookmarked", Context.MODE_PRIVATE, null);
-                File file= new File(getActivity().getFilesDir(), Const.newsDetails.get(Const.newsindex+0).toString()+".jpg");
-                Toast.makeText(getActivity(), file.getParent()+"/"+Const.newsDetails.get(Const.newsindex+0).toString()+".jpg", Toast.LENGTH_SHORT).show();
-                try{
-                    FileOutputStream stream= null;
-                    stream= new FileOutputStream(file);
-                    newsimage.buildDrawingCache();
-                    Bitmap bm= newsimage.getDrawingCache();
-                    bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                    stream.flush();
-                    stream.close();
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-        });
 
         dayswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -155,9 +132,5 @@ public class NewsDetails extends Fragment {
         newsHeadline.setTextColor(Color.BLACK);
         daymode.setTextColor(Color.BLUE);
         newscontent.setTextColor(Color.DKGRAY);
-    }
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
     }
 }

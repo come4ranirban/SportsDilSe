@@ -44,7 +44,7 @@
                     android:id="@+id/catagory"
                     />
 
-                <TextView
+                <!--TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
@@ -54,7 +54,7 @@
                     android:textAlignment="textEnd"
                     android:typeface="sans"
                     android:id="@+id/time"
-                    />
+                    /-->
             </LinearLayout>
 
             <TextView
@@ -64,7 +64,6 @@
                 android:layout_weight="1"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
-                android:text="JSBDCIJD C JD CJD CD CD CDKJC DS CDJ CJ"
                 android:gravity="bottom|center_horizontal" />
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>

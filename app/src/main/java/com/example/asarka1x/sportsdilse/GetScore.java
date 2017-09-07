@@ -9,9 +9,6 @@ import android.os.Handler;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.squareup.picasso.LruCache;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +21,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
-import java.util.concurrent.CountedCompleter;
+
 
 class GetScore {
 

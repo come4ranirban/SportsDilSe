@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.squareup.picasso.Cache;
 
 import in.technomenia.user.sportsdilse.R;
 
@@ -39,7 +38,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsHolder>{
         index= Const.newsDetails.indexOf(Const.tempid.get(position));
         holder.catagory.setText((String) Const.newsDetails.get(index+6));
         holder.title.setText((String) Const.newsDetails.get(index+1));
-        holder.datetime.setText((String)Const.newsDetails.get(index+2));
+//        holder.datetime.setText((String)Const.newsDetails.get(index+2));
         uri= Uri.parse(Const.newsDetails.get(index+8).toString());
         holder.imageNews.setImageURI(uri);
 
@@ -50,7 +49,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsHolder>{
                 Const.newsindex= index;
                 pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
                 pagerAdapter.clearList();
-                pagerAdapter.addFragment(new NewsDetails(), "NewsDetails");
+                pagerAdapter.addFragment(new ArticleDetails(), "ArticleDetails");
                 MainActivity.viewPager.setAdapter(pagerAdapter);
                 Const.pageHistory.add(pagerAdapter);
             }
@@ -72,7 +71,7 @@ class NewsHolder extends RecyclerView.ViewHolder {
     public NewsHolder(View itemView) {
         super(itemView);
         title= (TextView)itemView.findViewById(R.id.title);
-        datetime= (TextView)itemView.findViewById(R.id.time);
+  //      datetime= (TextView)itemView.findViewById(R.id.time);
         catagory= (TextView)itemView.findViewById(R.id.catagory);
         imageNews= (SimpleDraweeView)itemView.findViewById(R.id.newsimage);
         newscard= (CardView)itemView.findViewById(R.id.newscard);

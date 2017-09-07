@@ -107,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
         //SET VIEWPAGER AS SOON AS ONRESUME IS CALLED
         if(Const.pageHistory.isEmpty()){
             Toast.makeText(getApplicationContext(), "history empty", Toast.LENGTH_SHORT).show();
+            Const.cricket=true;
+            Const.starttempid=true;
+            Const.tempid.clear();
             //Displaying welcome page
             pagerAdapter.clearList();
             pagerAdapter.addFragment(new Articls(),"Feed");
@@ -116,8 +119,6 @@ public class MainActivity extends AppCompatActivity {
             viewPager.setAdapter(pagerAdapter);
            //tabLayout.setTabTextColors(Color.parseColor("#18FFFF"), Color.parseColor("#FFFFFF"));
             //   tabLayout.setupWithViewPager(viewPager);
-            Const.starttempid=true;
-            Const.tempid.clear();
             try {
                 new ReadJson().readNews();
             } catch (JSONException e) {
@@ -151,6 +152,4 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
     }
-
-
 }

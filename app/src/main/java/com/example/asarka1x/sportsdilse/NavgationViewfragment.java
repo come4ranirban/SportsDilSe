@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,12 +31,13 @@ public class NavgationViewfragment extends Fragment {
     private ImageView sportsPreference;
     private RecyclerView selectedsports;
     private TextView yoursports;
+    private LinearLayout bookmark;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v= inflater.inflate(R.layout.navigationfragment, container, false);
-
+        bookmark= (LinearLayout)v.findViewById(R.id.bookmarks);
         Const.selectedsportslist.clear();
 
         if(Const.allSports==true){
@@ -106,6 +109,18 @@ public class NavgationViewfragment extends Fragment {
         super.onResume();
 
         selectedsports.setAdapter(new SelectedSportsAdapter());
-
+        bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+                pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
+                pagerAdapter.clearList();
+                pagerAdapter.addFragment(new BookmarkedArticles(), "BookmarkedArticles");
+                Const.pageHistory.add(pagerAdapter);
+                viewPager.setAdapter(pagerAdapter);
+                drawerLayout.closeDrawers();
+            }
+        });
     }
+
 }
