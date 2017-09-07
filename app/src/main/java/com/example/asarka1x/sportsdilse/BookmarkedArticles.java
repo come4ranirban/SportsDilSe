@@ -59,14 +59,13 @@ public class BookmarkedArticles extends Fragment {
         Cursor cursor=null;
         try{
             cursor= db.rawQuery("select * from BOOKMARKED", null);
+            if(cursor.getCount()>0){
+                getActivity().getSupportFragmentManager().beginTransaction().add(R.id.frame, new BookmarkFrame()).commit();
+            }else{
+                getFragmentManager().beginTransaction().replace(R.id.frame, new NoBookmarks()).commit();
+            }
         }catch (SQLiteException e){
             getActivity().getSupportFragmentManager().beginTransaction().add(R.id.frame, new NoBookmarks()).commit();
-        }
-
-        if(cursor.getCount()>0){
-            getActivity().getSupportFragmentManager().beginTransaction().add(R.id.frame, new BookmarkFrame()).commit();
-        }else{
-            getFragmentManager().beginTransaction().replace(R.id.frame, new NoBookmarks()).commit();
         }
     }
 

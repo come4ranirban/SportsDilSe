@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Fresco.initialize(this);
         activity= this;
-        Intent intent= new Intent();
+        /*Intent intent= new Intent();
         intent.setComponent(new ComponentName(getApplication(), SportsDilSeService.class));
-        startService(intent);
+        startService(intent);*/
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         text= (TextView) toolbar.findViewById(R.id.toolbartext);
@@ -97,6 +97,17 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
         actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.WHITE);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        //start reading articles from server
+        Const.starttempid=true;
+        Const.tempid.clear();
+        try {
+            new ReadJson().readNews();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
 
