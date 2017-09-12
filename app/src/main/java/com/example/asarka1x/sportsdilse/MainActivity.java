@@ -39,30 +39,25 @@ import in.technomenia.user.sportsdilse.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    static ViewPager viewPager;
+    static DrawerLayout drawerLayout;
+    static MyPagerAdapter pagerAdapter;
+    static MainActivity activity;
     SQLiteDatabase db;
     private TabLayout tabLayout;
     private Toolbar toolbar;
     private TextView text;
-    static ViewPager viewPager;
-    static DrawerLayout drawerLayout;
-    static MyPagerAdapter pagerAdapter;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private NavigationView navigationView;
     private Handler h;
     private Runnable callback;
-    static MainActivity activity;
     private boolean savedpageHistory;
     private FrameLayout navigationframe;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Fresco.initialize(this);
-        activity= this;
-        /*Intent intent= new Intent();
-        intent.setComponent(new ComponentName(getApplication(), SportsDilSeService.class));
-        startService(intent);*/
+    public void init(){
+
+        //reset display tempid
+        Const.tempid.clear();
 
         db= openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
         try{
@@ -85,11 +80,15 @@ public class MainActivity extends AppCompatActivity {
                     Const.trackfield=true;
                 if(cursor.getInt(7)==1)
                     Const.other=true;
+                if(cursor.getInt(8)==1)
+                    Const.nightmode=true;
             }
         }catch (SQLiteException e){
             db.execSQL("CREATE TABLE IF NOT EXISTS SPORTSLIST(cricket integer default 0, football integer default 0, " +
                     "tennis integer default 0, badminton integer default 0, formula integer default 0," +
-                    "hockey integer default 0, track integer default 0, other integer default 0)");
+                    "hockey integer default 0, track integer default 0, other integer default 0, nightmode integer default 0)");
+            db.execSQL("CREATE TABLE IF NOT EXISTS BOOKMARKED(ID number, HEADLINE varchar(1000), AUTHOR varchar(30), DATE varchar(18), CONTENT varchar(1024), IMAGE BLOB NOT NULL)");
+
             ContentValues values= new ContentValues();
             values.put("cricket", 0);
             values.put("football", 0);
@@ -99,12 +98,25 @@ public class MainActivity extends AppCompatActivity {
             values.put("hockey", 0);
             values.put("track", 0);
             values.put("other", 0);
+            values.put("nightmode", 0);
             db.insert("sportslist", null, values);
+            db.close();
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Fresco.initialize(this);
+        activity= this;
+        Intent intent= new Intent();
+        intent.setComponent(new ComponentName(getApplication(), SportsDilSeService.class));
+        startService(intent);
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        text= (TextView) toolbar.findViewById(R.id.toolbartext);
+        //text= (TextView) toolbar.findViewById(R.id.toolbartext);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -118,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
         //initialize pager adapter class
         pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
 
+        //initialize all settings
+        init();
     }
 
     @Override
@@ -129,7 +143,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                Toast.makeText(getApplicationContext(), "open", Toast.LENGTH_SHORT).show();
                 navigationView= (NavigationView)findViewById(R.id.navigationview);
                 navigationframe= (FrameLayout)findViewById(R.id.navigationframe);
 
@@ -143,9 +156,7 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.WHITE);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        //start reading articles from server
-        Const.starttempid=true;
-        Const.tempid.clear();
+
         try {
             new GetScore().getNews();
         } catch (MalformedURLException e) {
@@ -160,9 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
         //SET VIEWPAGER AS SOON AS ONRESUME IS CALLED
         if(Const.pageHistory.isEmpty()){
-            Toast.makeText(getApplicationContext(), "history empty", Toast.LENGTH_SHORT).show();
-            Const.starttempid=true;
-            Const.tempid.clear();
+
             //Displaying welcome page
             pagerAdapter.clearList();
             pagerAdapter.addFragment(new Articls(),"Feed");
@@ -190,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         Const.pageHistory.remove(Const.pageHistory.size()-1);
             if(Const.pageHistory.isEmpty()){
-                Toast.makeText(getApplicationContext(), "PageString", Toast.LENGTH_SHORT).show();
                 super.onBackPressed();
             }
             else
@@ -204,5 +212,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        SportsDilSeService.h.removeCallbacks(SportsDilSeService.run);
     }
+
 }

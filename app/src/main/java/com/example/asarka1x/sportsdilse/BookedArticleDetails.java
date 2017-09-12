@@ -39,13 +39,13 @@ import static android.text.Html.fromHtml;
 
 public class BookedArticleDetails extends Fragment {
 
+    static SQLiteDatabase db;
+    ImageView bookmark;
     private ImageView newsimage;
-    private TextView newscontent, newsAuthor, newsTime, newsHeadline,daymode;
+    private TextView newscontent, newsAuthor, newsTime, newsHeadline,nightmode;
     private ImageButton backButton;
     private LinearLayout articlelayout;
-    ImageView bookmark;
-    private Switch dayswitch;
-    static SQLiteDatabase db;
+    private Switch nightswitch;
     private Uri uri;
 
 
@@ -56,8 +56,8 @@ public class BookedArticleDetails extends Fragment {
         newsimage= (ImageView)v.findViewById(R.id.newsimage);
         newscontent= (TextView)v.findViewById(R.id.newscontent);
         newsAuthor= (TextView)v.findViewById(R.id.newsAuthor);
-        dayswitch= (Switch)v.findViewById(R.id.dayswitch);
-        daymode= (TextView)v.findViewById(R.id.daymode);
+        nightswitch= (Switch)v.findViewById(R.id.nightswitch);
+        nightmode= (TextView)v.findViewById(R.id.nightmode);
         // newsTime= (TextView)v.findViewById(R.id.newstime);
         newsHeadline= (TextView)v.findViewById(R.id.newsHeadline);
         articlelayout= (LinearLayout)v.findViewById(R.id.articlelayout);
@@ -69,12 +69,12 @@ public class BookedArticleDetails extends Fragment {
         super.onStart();
 
 
-        if(Const.daymode==false){
-            dayswitch.setChecked(false);
-            darktheme();
-        }else{
-            dayswitch.setChecked(true);
+        if(Const.nightmode==false){
+            nightswitch.setChecked(false);
             lighttheme();
+        }else{
+            nightswitch.setChecked(true);
+            darktheme();
         }
     }
 
@@ -103,26 +103,26 @@ public class BookedArticleDetails extends Fragment {
             newscontent.setText(Html.fromHtml(html));
         }
 
-        dayswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        nightswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked)
                 {
-                    lighttheme();
-                    Const.daymode=true;
-                }else {
+                    Const.nightmode=true;
                     darktheme();
-                    Const.daymode=false;
+                }else {
+                    Const.nightmode=false;
+                    lighttheme();
                 }
             }
         });
     }
 
     public void darktheme(){
-        articlelayout.setBackgroundColor(Color.BLACK);
+        articlelayout.setBackgroundColor(Color.parseColor("#616161"));
         newsAuthor.setTextColor(Color.WHITE);
         newsHeadline.setTextColor(Color.WHITE);
-        daymode.setTextColor(Color.WHITE);
+        nightswitch.setTextColor(Color.WHITE);
         newscontent.setTextColor(Color.WHITE);
     }
 
@@ -130,7 +130,7 @@ public class BookedArticleDetails extends Fragment {
         articlelayout.setBackgroundColor(Color.WHITE);
         newsAuthor.setTextColor(Color.BLACK);
         newsHeadline.setTextColor(Color.BLACK);
-        daymode.setTextColor(Color.BLUE);
+        nightswitch.setTextColor(Color.BLUE);
         newscontent.setTextColor(Color.DKGRAY);
     }
 }

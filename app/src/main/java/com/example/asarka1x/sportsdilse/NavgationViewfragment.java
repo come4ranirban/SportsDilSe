@@ -32,12 +32,14 @@ public class NavgationViewfragment extends Fragment {
     private RecyclerView selectedsports;
     private TextView yoursports;
     private LinearLayout bookmark;
+    private LinearLayout wrt;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v= inflater.inflate(R.layout.navigationfragment, container, false);
         bookmark= (LinearLayout)v.findViewById(R.id.bookmarks);
+        wrt= (LinearLayout)v.findViewById(R.id.wrt);
         Const.selectedsportslist.clear();
 
         if(Const.allSports==true){

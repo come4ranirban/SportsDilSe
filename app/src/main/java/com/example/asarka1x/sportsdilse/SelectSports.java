@@ -325,7 +325,7 @@ public class SelectSports extends Fragment {
             allsports.setBackgroundResource(R.drawable.selectedsports);
         if(Const.cricket== true){
             cricket.setBackgroundResource(R.drawable.selectedsports);
-            cricketicon.setImageResource(R.drawable.cricketwhite);
+            cricketicon.setImageResource(R.drawable.cricketblack);
         }else{
             cricket.setBackgroundResource(R.drawable.rectangleshape);
             cricketicon.setImageResource(R.drawable.cricketblack);
@@ -419,8 +419,6 @@ public class SelectSports extends Fragment {
         else
             db.execSQL("UPDATE SPORTSLIST SET track=0");
 
-        Cursor cursor= db.rawQuery("select * from sportslist",null);
-        Toast.makeText(getActivity(),"count->"+cursor.getCount(), Toast.LENGTH_SHORT).show();
 
         if(h!=null)
             h.removeCallbacks(runnable);

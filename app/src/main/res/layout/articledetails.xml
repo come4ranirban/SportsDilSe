@@ -1,75 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:clipChildren="true">
+    android:layout_height="match_parent">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/sharefab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:src="@drawable/shareimage"
+        app:backgroundTint="#0D47A1"
+        />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@drawable/reverseimagegradient"
-        android:orientation="horizontal"
-        android:elevation="8dp">
+        android:layout_height="match_parent"
+        android:clipChildren="true">
 
-        <ImageButton
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:padding="15dp"
-            android:src="@drawable/backarrow32" />
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent">
-        </LinearLayout>
-        <ImageView
-            android:id="@+id/bookmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:padding="15dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/bookmark" />
-    </LinearLayout>
-
-    <ScrollView
-            android:orientation="vertical"
-            android:id="@+id/linearlayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@drawable/blackgradient"
+            android:elevation="8dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="15dp"
+                android:src="@drawable/leftarrow" />
 
             <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:padding="15dp"
+                />
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/articlelayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#000000"
-                android:id="@+id/articlelayout"
                 android:orientation="vertical">
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/newsimage"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/batball"
-                    android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/batball" />
 
                 <TextView
+                    android:id="@+id/newsHeadline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/newsHeadline"
-                    android:textColor="#FFFFFF"
+                    android:padding="10dp"
                     android:textAlignment="gravity"
+                    android:textColor="#FFFFFF"
                     android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:padding="10dp"/>
+                    android:textStyle="bold"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -77,19 +96,35 @@
                     android:orientation="horizontal"
                     android:padding="10dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#FFFFFF"
-                        android:id="@+id/newsAuthor"
-                        android:textSize="18sp"
-                        android:textAllCaps="true"
-                        android:textAlignment="viewStart"/>
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:id="@+id/newsAuthor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="5"
+                            android:textAlignment="viewStart"
+                            android:textAllCaps="true"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18sp"/>
+
+                        <TextView
+                            android:id="@+id/date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="5"
+                            android:textAlignment="textStart"
+                            android:textSize="15sp"/>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
                     </LinearLayout>
 
                     <LinearLayout
@@ -97,28 +132,33 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/nightmode"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="#FFFFFF"
-                            android:text="Day Mode"
-                            android:id="@+id/daymode"/>
+                            android:text="Night Mode"
+                            android:textColor="#FFFFFF"/>
+
+                        <View
+                            android:layout_width="2dp"
+                            android:layout_height="wrap_content"/>
 
                         <Switch
+                            android:id="@+id/nightswitch"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/dayswitch"/>
+                            android:layout_height="wrap_content"/>
                     </LinearLayout>
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/newscontent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/newscontent"
-                    android:textColor="#FFFFFF"
-                    android:textAlignment="gravity"
-                    android:textSize="16sp"
                     android:padding="10dp"
+                    android:textAlignment="gravity"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
                     />
             </LinearLayout>
         </ScrollView>
-</LinearLayout>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

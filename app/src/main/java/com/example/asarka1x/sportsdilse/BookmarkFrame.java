@@ -25,8 +25,8 @@ import static com.example.asarka1x.sportsdilse.MainActivity.viewPager;
 
 public class BookmarkFrame extends Fragment {
 
-    RecyclerView bookmarks;
     static int id;
+    RecyclerView bookmarks;
 
     @Nullable
     @Override
@@ -57,10 +57,11 @@ public class BookmarkFrame extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(BookmarkHolder holder, int position) {
+        public void onBindViewHolder(BookmarkHolder holder, final int position) {
             db= MainActivity.activity.openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
             cursor= db.rawQuery("select * from BOOKMARKED", null);
             cursor.move(position+1);
+            final int deleteid= cursor.getInt(0);
             holder.itemhead.setText(cursor.getString(1));
             byte image[]= cursor.getBlob(5);
             Bitmap bit= BitmapFactory.decodeByteArray(image, 0, image.length);
@@ -69,8 +70,7 @@ public class BookmarkFrame extends Fragment {
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    db.execSQL("delete from BOOKMARKED where id="+cursor.getInt(0));
-                    cursor= db.rawQuery("select * from BOOKMARKED", null);
+                    db.execSQL("delete from BOOKMARKED where id="+deleteid);
                     db.close();
                     bookmarks.setAdapter(new BookmarkAdapter());
                 }

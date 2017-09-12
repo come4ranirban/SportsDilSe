@@ -17,7 +17,7 @@ public class Const {
     static String jsonuid;
     static String jsonMatch;
     static String news=null;
-    static boolean daymode,starttempid;
+    static boolean nightmode,starttempid;
     static int newsCount=0;
     static boolean allSports,cricket,football,tennis,badminton,formula1,hockey,trackfield,other,setadapter,showadapter;
     static ArrayList<String> uid= new ArrayList<>();

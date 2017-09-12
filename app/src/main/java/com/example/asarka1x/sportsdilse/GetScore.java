@@ -50,6 +50,10 @@ class GetScore {
         if(buffer==null)
             buffer = new StringBuffer();
         Const.newsflag=1;
+
+        //start reading articles from server
+        Const.starttempid=true;
+
         hitServer.execute();
     }
 
@@ -247,7 +251,7 @@ class ReadJson {
                     if(catagories.length()>0){
                         Const.newsDetails.add(catagories.getJSONObject(0).getString("title"));
                         if(Const.starttempid == true){
-                           // Toast.makeText(MainActivity.activity, "Show adapter->"+Const.showadapter+"\nstart->"+Const.starttempid, Toast.LENGTH_SHORT).show();
+
                             switch (catagories.getJSONObject(0).getString("title")) {
                                 case "Cricket":
                                     if (Const.cricket == true)

@@ -17,6 +17,7 @@ import java.net.MalformedURLException;
 public class SportsDilSeService extends Service {
 
     static Handler h;
+    static Runnable run;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -31,7 +32,18 @@ public class SportsDilSeService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-
+        h= new Handler();
+        h.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    run=this;
+                    new GetScore().getNews();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        },2000);
         return super.onStartCommand(intent, flags, startId);
     }
 }
