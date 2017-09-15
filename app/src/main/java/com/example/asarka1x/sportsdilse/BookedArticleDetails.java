@@ -86,7 +86,6 @@ public class BookedArticleDetails extends Fragment {
         Cursor cursor= db.rawQuery("select * from BOOKMARKED where id="+BookmarkFrame.id, null);
         String html;
         cursor.moveToFirst();
-        Toast.makeText(getActivity(), "count ->"+cursor.getInt(0), Toast.LENGTH_SHORT).show();
 
         byte image[]= cursor.getBlob(5);
         Bitmap bit= BitmapFactory.decodeByteArray(image, 0, image.length);

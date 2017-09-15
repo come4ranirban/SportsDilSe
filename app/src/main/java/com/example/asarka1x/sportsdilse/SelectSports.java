@@ -1,8 +1,6 @@
 package com.example.asarka1x.sportsdilse;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
@@ -81,7 +79,7 @@ public class SelectSports extends Fragment {
                         && Const.formula1==true && Const.other==true && Const.trackfield==true)
                     allsports.setBackgroundResource(R.drawable.selectedsports);
                 else
-                    allsports.setBackgroundResource(R.drawable.rectangleshape);
+                    allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
                 runnable= this;
                 h.postDelayed(this, 20);
             }
@@ -112,10 +110,10 @@ public class SelectSports extends Fragment {
                     Const.cricket=true;
                 }else {
                     if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshape);
+                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
                         Const.allSports=false;
                     }
-                    cricket.setBackgroundResource(R.drawable.rectangleshape);
+                    cricket.setBackgroundResource(R.drawable.rectangleshapewhite);
                     cricketicon.setImageResource(R.drawable.cricketblack);
                     Const.cricket= false;
                 }
@@ -132,10 +130,10 @@ public class SelectSports extends Fragment {
                     Const.football=true;
                 }else {
                     if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshape);
+                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
                         Const.allSports=false;
                     }
-                    football.setBackgroundResource(R.drawable.rectangleshape);
+                    football.setBackgroundResource(R.drawable.rectangleshapewhite);
                     footballicon.setImageResource(R.drawable.footballblack);
                     Const.football= false;
                 }
@@ -153,10 +151,10 @@ public class SelectSports extends Fragment {
                     Const.tennis=true;
                 }else {
                     if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshape);
+                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
                         Const.allSports=false;
                     }
-                    tennis.setBackgroundResource(R.drawable.rectangleshape);
+                    tennis.setBackgroundResource(R.drawable.rectangleshapewhite);
                     tennisicon.setImageResource(R.drawable.tennisblack);
                     Const.tennis= false;
                 }
@@ -173,10 +171,10 @@ public class SelectSports extends Fragment {
                     Const.badminton=true;
                 }else {
                     if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshape);
+                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
                         Const.allSports=false;
                     }
-                    badminton.setBackgroundResource(R.drawable.rectangleshape);
+                    badminton.setBackgroundResource(R.drawable.rectangleshapewhite);
                     badmintonicon.setImageResource(R.drawable.badmintonblack);
                     Const.badminton= false;
                 }
@@ -193,10 +191,10 @@ public class SelectSports extends Fragment {
                     Const.formula1=true;
                 }else {
                     if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshape);
+                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
                         Const.allSports=false;
                     }
-                    formula1.setBackgroundResource(R.drawable.rectangleshape);
+                    formula1.setBackgroundResource(R.drawable.rectangleshapewhite);
                     formulaicon.setImageResource(R.drawable.formulablack);
                     Const.formula1= false;
                 }
@@ -213,10 +211,10 @@ public class SelectSports extends Fragment {
                     Const.hockey=true;
                 }else {
                     if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshape);
+                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
                         Const.allSports=false;
                     }
-                    hockey.setBackgroundResource(R.drawable.rectangleshape);
+                    hockey.setBackgroundResource(R.drawable.rectangleshapewhite);
                     hockeyicon.setImageResource(R.drawable.hockeyblack);
                     Const.hockey= false;
                 }
@@ -233,10 +231,10 @@ public class SelectSports extends Fragment {
                     Const.trackfield=true;
                 }else {
                     if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshape);
+                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
                         Const.allSports=false;
                     }
-                    trackfield.setBackgroundResource(R.drawable.rectangleshape);
+                    trackfield.setBackgroundResource(R.drawable.rectangleshapewhite);
                     trackfieldicon.setImageResource(R.drawable.tracksblack);
                     Const.trackfield= false;
                 }
@@ -252,10 +250,10 @@ public class SelectSports extends Fragment {
                     Const.other=true;
                 }else {
                     if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshape);
+                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
                         Const.allSports=false;
                     }
-                    others.setBackgroundResource(R.drawable.rectangleshape);
+                    others.setBackgroundResource(R.drawable.rectangleshapewhite);
                     Const.other= false;
                 }
             }
@@ -263,22 +261,22 @@ public class SelectSports extends Fragment {
     }
 
     public void disselectAllSports(){
-        allsports.setBackgroundResource(R.drawable.rectangleshape);
-        cricket.setBackgroundResource(R.drawable.rectangleshape);
+        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
+        cricket.setBackgroundResource(R.drawable.rectangleshapewhite);
         cricketicon.setImageResource(R.drawable.cricketblack);
-        football.setBackgroundResource(R.drawable.rectangleshape);
+        football.setBackgroundResource(R.drawable.rectangleshapewhite);
         footballicon.setImageResource(R.drawable.footballblack);
-        tennis.setBackgroundResource(R.drawable.rectangleshape);
+        tennis.setBackgroundResource(R.drawable.rectangleshapewhite);
         tennisicon.setImageResource(R.drawable.tennisblack);
-        badminton.setBackgroundResource(R.drawable.rectangleshape);
+        badminton.setBackgroundResource(R.drawable.rectangleshapewhite);
         badmintonicon.setImageResource(R.drawable.badmintonblack);
-        formula1.setBackgroundResource(R.drawable.rectangleshape);
+        formula1.setBackgroundResource(R.drawable.rectangleshapewhite);
         formulaicon.setImageResource(R.drawable.formulablack);
-        hockey.setBackgroundResource(R.drawable.rectangleshape);
+        hockey.setBackgroundResource(R.drawable.rectangleshapewhite);
         hockeyicon.setImageResource(R.drawable.hockeyblack);
-        trackfield.setBackgroundResource(R.drawable.rectangleshape);
+        trackfield.setBackgroundResource(R.drawable.rectangleshapewhite);
         trackfieldicon.setImageResource(R.drawable.tracksblack);
-        others.setBackgroundResource(R.drawable.rectangleshape);
+        others.setBackgroundResource(R.drawable.rectangleshapewhite);
         Const.allSports=false;
         Const.cricket=false;
         Const.football=false;
@@ -327,7 +325,7 @@ public class SelectSports extends Fragment {
             cricket.setBackgroundResource(R.drawable.selectedsports);
             cricketicon.setImageResource(R.drawable.cricketblack);
         }else{
-            cricket.setBackgroundResource(R.drawable.rectangleshape);
+            cricket.setBackgroundResource(R.drawable.rectangleshapewhite);
             cricketicon.setImageResource(R.drawable.cricketblack);
         }
 
@@ -335,7 +333,7 @@ public class SelectSports extends Fragment {
             football.setBackgroundResource(R.drawable.selectedsports);
             footballicon.setImageResource(R.drawable.footballwhite);
         }else{
-            football.setBackgroundResource(R.drawable.rectangleshape);
+            football.setBackgroundResource(R.drawable.rectangleshapewhite);
             footballicon.setImageResource(R.drawable.footballblack);
         }
 
@@ -343,35 +341,35 @@ public class SelectSports extends Fragment {
             tennis.setBackgroundResource(R.drawable.selectedsports);
             tennisicon.setImageResource(R.drawable.tenniswhite);
         }else{
-            tennis.setBackgroundResource(R.drawable.rectangleshape);
+            tennis.setBackgroundResource(R.drawable.rectangleshapewhite);
             tennisicon.setImageResource(R.drawable.tennisblack);
         }
         if(Const.badminton== true){
             badminton.setBackgroundResource(R.drawable.selectedsports);
             badmintonicon.setImageResource(R.drawable.badmintonwhite);
         }else{
-            badminton.setBackgroundResource(R.drawable.rectangleshape);
+            badminton.setBackgroundResource(R.drawable.rectangleshapewhite);
             badmintonicon.setImageResource(R.drawable.badmintonblack);
         }
         if(Const.formula1== true){
             formula1.setBackgroundResource(R.drawable.selectedsports);
             formulaicon.setImageResource(R.drawable.formulawhite);
         }else{
-            formula1.setBackgroundResource(R.drawable.rectangleshape);
+            formula1.setBackgroundResource(R.drawable.rectangleshapewhite);
             formulaicon.setImageResource(R.drawable.formulablack);
         }
         if(Const.hockey== true){
             hockey.setBackgroundResource(R.drawable.selectedsports);
             hockeyicon.setImageResource(R.drawable.hockeywhite);
         }else{
-            hockey.setBackgroundResource(R.drawable.rectangleshape);
+            hockey.setBackgroundResource(R.drawable.rectangleshapewhite);
             hockeyicon.setImageResource(R.drawable.hockeyblack);
         }
         if(Const.trackfield== true){
             trackfield.setBackgroundResource(R.drawable.selectedsports);
             trackfieldicon.setImageResource(R.drawable.trackswhite);
         }else{
-            trackfield.setBackgroundResource(R.drawable.rectangleshape);
+            trackfield.setBackgroundResource(R.drawable.rectangleshapewhite);
             trackfieldicon.setImageResource(R.drawable.tracksblack);
         }
         if(Const.other== true)

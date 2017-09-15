@@ -1,5 +1,8 @@
 package com.example.asarka1x.sportsdilse;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -121,6 +124,33 @@ public class NavgationViewfragment extends Fragment {
                 Const.pageHistory.add(pagerAdapter);
                 viewPager.setAdapter(pagerAdapter);
                 drawerLayout.closeDrawers();
+            }
+        });
+
+        wrt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SQLiteDatabase db= getActivity().openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
+                Cursor cursor= db.rawQuery("select *from usercredential",null);
+
+                if(cursor.getCount()>0){
+                    ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+                    pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
+                    pagerAdapter.clearList();
+                    pagerAdapter.addFragment(new WriteArticle(), "WriteArticle");
+                    Const.pageHistory.add(pagerAdapter);
+                    viewPager.setAdapter(pagerAdapter);
+                    drawerLayout.closeDrawers();
+                }else{
+                    ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+                    pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
+                    pagerAdapter.clearList();
+                    pagerAdapter.addFragment(new LoginPage(), "Login");
+                    Const.pageHistory.add(pagerAdapter);
+                    viewPager.setAdapter(pagerAdapter);
+                    drawerLayout.closeDrawers();
+                }
             }
         });
     }

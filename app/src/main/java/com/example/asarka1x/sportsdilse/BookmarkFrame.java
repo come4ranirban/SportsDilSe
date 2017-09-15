@@ -71,7 +71,6 @@ public class BookmarkFrame extends Fragment {
                 @Override
                 public void onClick(View v) {
                     db.execSQL("delete from BOOKMARKED where id="+deleteid);
-                    db.close();
                     bookmarks.setAdapter(new BookmarkAdapter());
                 }
             });
@@ -79,8 +78,9 @@ public class BookmarkFrame extends Fragment {
             holder.read.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    cursor= db.rawQuery("select * from BOOKMARKED", null);
+                    cursor.move(position+1);
                     id= cursor.getInt(0);
-                    db.close();
                     pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
                     pagerAdapter.clearList();
                     pagerAdapter.addFragment(new BookedArticleDetails(), "BookedArticleDetails");

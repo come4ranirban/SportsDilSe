@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
         //reset display tempid
         Const.tempid.clear();
 
-        db= openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
         try{
             Cursor cursor= db.rawQuery("select * from sportslist",null);
             if(cursor!=null){
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             db.execSQL("CREATE TABLE IF NOT EXISTS SPORTSLIST(cricket integer default 0, football integer default 0, " +
                     "tennis integer default 0, badminton integer default 0, formula integer default 0," +
                     "hockey integer default 0, track integer default 0, other integer default 0, nightmode integer default 0)");
-            db.execSQL("CREATE TABLE IF NOT EXISTS BOOKMARKED(ID number, HEADLINE varchar(1000), AUTHOR varchar(30), DATE varchar(18), CONTENT varchar(1024), IMAGE BLOB NOT NULL)");
+            db.execSQL("CREATE TABLE IF NOT EXISTS BOOKMARKED(ID number, HEADLINE varchar(200), AUTHOR varchar(30), DATE varchar(18), CONTENT varchar(1500), IMAGE BLOB NOT NULL)");
 
             ContentValues values= new ContentValues();
             values.put("cricket", 0);
@@ -100,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
             values.put("other", 0);
             values.put("nightmode", 0);
             db.insert("sportslist", null, values);
-            db.close();
         }
     }
 
@@ -114,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
         intent.setComponent(new ComponentName(getApplication(), SportsDilSeService.class));
         startService(intent);
 
+        db= openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
+        db.execSQL("create table if not exists usercredential(status int, firstname varchar(20), lastname varchar(20), email varchar(40), password varchar(25), phone varchar(10))");
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         //text= (TextView) toolbar.findViewById(R.id.toolbartext);

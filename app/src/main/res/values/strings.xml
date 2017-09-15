@@ -2,4 +2,16 @@
     <string name="app_name">SportsDilSe</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+
+    <string-array name="sportslist">
+        <item>Select Sports Catagory</item>
+        <item>Cricket</item>
+        <item>Football</item>
+        <item>Tennis</item>
+        <item>Badminton</item>
+        <item>Formula 1</item>
+        <item>Hockey</item>
+        <item>Track &amp; Field</item>
+        <item>Other</item>
+    </string-array>
 </resources>
