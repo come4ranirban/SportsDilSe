@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         startService(intent);
 
         db= openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
-        db.execSQL("create table if not exists usercredential(status int, firstname varchar(20), lastname varchar(20), email varchar(40), password varchar(25), phone varchar(10))");
+        db.execSQL("create table if not exists usercredential(status int, username varchar(20), email varchar(40), password varchar(25))");
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         //text= (TextView) toolbar.findViewById(R.id.toolbartext);
