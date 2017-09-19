@@ -40,13 +40,13 @@ import static android.text.Html.fromHtml;
 public class BookedArticleDetails extends Fragment {
 
     static SQLiteDatabase db;
-    ImageView bookmark;
+    ImageButton back;
     private ImageView newsimage;
     private TextView newscontent, newsAuthor, newsTime, newsHeadline,nightmode;
     private ImageButton backButton;
     private LinearLayout articlelayout;
     private Switch nightswitch;
-    private Uri uri;
+
 
 
     @Nullable
@@ -58,6 +58,7 @@ public class BookedArticleDetails extends Fragment {
         newsAuthor= (TextView)v.findViewById(R.id.newsAuthor);
         nightswitch= (Switch)v.findViewById(R.id.nightswitch);
         nightmode= (TextView)v.findViewById(R.id.nightmode);
+        back= (ImageButton)v.findViewById(R.id.back);
         // newsTime= (TextView)v.findViewById(R.id.newstime);
         newsHeadline= (TextView)v.findViewById(R.id.newsHeadline);
         articlelayout= (LinearLayout)v.findViewById(R.id.articlelayout);
@@ -113,6 +114,14 @@ public class BookedArticleDetails extends Fragment {
                     Const.nightmode=false;
                     lighttheme();
                 }
+            }
+        });
+
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.activity.onBackPressed();
             }
         });
     }

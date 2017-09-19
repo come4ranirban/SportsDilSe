@@ -25,7 +25,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            android:background="@drawable/blackgradient"
+            android:background="@drawable/bluegradienttransparent"
             android:elevation="8dp"
             android:orientation="horizontal">
 
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:padding="15dp"
-                android:src="@drawable/leftarrow" />
+                android:src="@drawable/back" />
 
             <LinearLayout
                 android:layout_width="0dp"

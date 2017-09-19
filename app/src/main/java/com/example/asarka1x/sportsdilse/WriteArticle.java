@@ -1,22 +1,29 @@
 package com.example.asarka1x.sportsdilse;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.nio.Buffer;
 
 import in.technomenia.user.sportsdilse.R;
 
@@ -115,6 +122,8 @@ public class WriteArticle extends Fragment {
     public void onResume() {
         super.onResume();
 
+        final AlertDialog.Builder alert= new AlertDialog.Builder(MainActivity.activity);
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,15 +136,34 @@ public class WriteArticle extends Fragment {
                 if(content.getText().toString()==null || content.getText().toString().equals(""))
                     Toast.makeText(getActivity(), "Content Empty", Toast.LENGTH_SHORT).show();
 
-                if(!title.getText().toString().isEmpty() && !content.getText().toString().isEmpty() && catagory!=null)
-                {
-                    buffer= new StringBuffer();
-                    buffer.append("Catagory:-"+catagory);
-                    buffer.append("\nTitle:-"+title.getText().toString());
-                    buffer.append("\nContent:-"+content.getText().toString());
+                if(!title.getText().toString().isEmpty() && !content.getText().toString().isEmpty() && catagory!=null) {
+                    alert.setTitle("Warning");
+                    alert.setMessage("Your article is about to be send for review. All your saved data will be deleted.");
+                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ProgressDialog pdialog= new ProgressDialog(getActivity());
+                                    pdialog.setMessage("Sending Data..");
+                                    pdialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                                    pdialog.setIndeterminate(true);
+                                    pdialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                    SendMail sm= new SendMail(getActivity(), "anirbansrkr007@gmail.com", "test", buffer.toString());
-                    sm.execute();
+                                    buffer= new StringBuffer();
+                                    buffer.append("Catagory:-"+catagory);
+                                    buffer.append("\n\nTitle:-"+title.getText().toString());
+                                    buffer.append("\n\nContent:-"+content.getText().toString());
+                                    pdialog.show();
+                                    mailsender(dialog, pdialog, buffer);
+                                }
+                            });
+
+                    alert.setNegativeButton("review", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.show();
                 }
             }
         });
@@ -197,5 +225,37 @@ public class WriteArticle extends Fragment {
                 MainActivity.activity.onBackPressed();
             }
         });
+    }
+
+    public void mailsender(DialogInterface dialog, final ProgressDialog pdialog, StringBuffer buffer){
+        dialog.dismiss();
+        final Handler h= new Handler();
+        h.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(Config.mailsuccess){
+                    Config.mailsuccess=false;
+                    pdialog.dismiss();
+                    db.execSQL("delete from writearticle");
+                    content.setText("");
+                    title.setText("");
+                    sports.setSelection(0);
+                    final AlertDialog.Builder alertconfirm= new AlertDialog.Builder(MainActivity.activity);
+                    alertconfirm.setMessage("We are reviewing your post..");
+                    alertconfirm.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertconfirm.show();
+                    h.removeCallbacks(this);
+                }else {
+                    h.postDelayed(this, 20);
+                }
+            }
+        },20);
+        SendMail sm= new SendMail(getActivity(), "anirbansrkr007@gmail.com", "test", buffer.toString());
+        sm.execute();
     }
 }

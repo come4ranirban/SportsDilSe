@@ -111,7 +111,7 @@ public class SignUp extends Fragment {
                                         Const.pageHistory.add(pagerAdapter);
                                         viewPager.setAdapter(pagerAdapter);
                                     }else {
-                                        alert.setMessage("Invalid credentials. User may be registered");
+                                        alert.setMessage("You are already registered.\n Please login..");
                                         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -130,11 +130,10 @@ public class SignUp extends Fragment {
                         final Auth auth= new Auth(username.getText().toString(),email.getText().toString(),cpass.getText().toString());
                         auth.registration=true;
                         auth.getNonceReg();
-
+                    }
                 }
-            }
-        });
+            });
+        }
     }
-}
 
 

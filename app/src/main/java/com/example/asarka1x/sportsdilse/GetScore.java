@@ -25,7 +25,7 @@ import java.util.Collections;
 
 class GetScore {
 
-    HitServer hitServer;
+    static HitServer hitServer;
     private String urls;
     private URL url;
     private StringBuffer buffer;
@@ -56,7 +56,6 @@ class GetScore {
 
         hitServer.execute();
     }
-
 
 
     class HitServer extends AsyncTask {
@@ -103,25 +102,6 @@ class GetScore {
         }
 
 
-        /*
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-
-            if (Const.flag == 1) {
-                Const.jsonuid = buffer.toString();
-                if(buffer!=null)
-                    buffer.delete(0,buffer.length());
-                //check flag set for achived uid
-                if (Const.jsonuid != null) {
-                    try {
-                        new ReadJson().readUniqueId();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }*/
     }
 }
 

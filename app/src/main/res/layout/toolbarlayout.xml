@@ -3,21 +3,17 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/actionBarSize"
-    android:background="@android:color/holo_blue_light"
+    android:background="#01579B"
     android:elevation="8dp">
 
-    <!--TextView #3F51B5
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/toolbartext"
-        android:text="SPORTS DIL SE"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="15sp"
-        /-->
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/spdilse"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Sports Dilse"
+            android:textAlignment="viewStart"
+            android:textColor="@color/white"
+            android:textDirection="firstStrong"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 </android.support.v7.widget.Toolbar>

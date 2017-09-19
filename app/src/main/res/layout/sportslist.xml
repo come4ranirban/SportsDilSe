@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:padding="15dp"
-            android:src="@drawable/backarrow32" />
+            android:src="@drawable/back" />
 
         <LinearLayout
             android:layout_width="20dp"
@@ -28,9 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Your Sports"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp"
-            android:textStyle="bold"/>
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold|italic"/>
     </LinearLayout>
 
 
@@ -38,32 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="#000000"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:text="Keep Yourself Updated"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"></LinearLayout>
-
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,14 +10,14 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/backarrow32"
-            android:layout_marginLeft="10dp"
             android:layout_gravity="center"
-            android:clickable="true"
+            android:layout_marginLeft="10dp"
             android:background="@android:color/transparent"
-            android:id="@+id/back"/>
+            android:clickable="true"
+            android:src="@drawable/back"/>
 
         <LinearLayout
             android:layout_width="20dp"
@@ -27,16 +27,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bookmarks"
             android:layout_gravity="center"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp"
-            android:textStyle="bold"/>
+            android:text="Bookmarks"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold|italic"/>
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/frame">
+        android:layout_height="match_parent">
     </FrameLayout>
 </LinearLayout>

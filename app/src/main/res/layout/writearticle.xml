@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@drawable/blackgradient"
+        android:background="@drawable/bluegradienttransparent"
         android:elevation="8dp"
         android:orientation="horizontal">
 
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:padding="15dp"
-            android:src="@drawable/leftarrow" />
+            android:src="@drawable/back" />
 
         <View
             android:layout_width="20dp"
@@ -30,13 +30,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:text="Write To Us"
+            android:text="Write an Article"
             android:textAllCaps="true"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold"
             />
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,10 +49,9 @@
         <!--Sports Select-->
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="25dp"
-            android:layout_weight="1"
             android:orientation="horizontal">
 
             <Spinner
@@ -82,75 +82,67 @@
 
         </LinearLayout>
 
-        <!--Content-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="23dp"
-            android:layout_marginRight="23dp"
-            android:layout_weight="2"
-            android:orientation="vertical">
+            android:layout_marginTop="23dp"
+            android:text="Content Title :"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Content Title :"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/rectangleshapewhite">
-
-                <EditText
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/transparent"
-                    android:padding="8dp"
-                    android:textSize="15sp"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <!--Content-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginLeft="23dp"
             android:layout_marginRight="23dp"
             android:layout_marginTop="8dp"
-            android:layout_weight="4"
-            android:orientation="vertical">
+            android:layout_weight="1.5"
+            android:background="@drawable/rectangleshapewhite">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Content :"
-                android:textColor="#000000"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
+            <EditText
+                android:id="@+id/title"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/rectangleshapewhite">
+                android:layout_height="match_parent"
+                android:backgroundTint="@android:color/transparent"
+                android:padding="8dp"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
 
-                <EditText
-                    android:id="@+id/content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/transparent"
-                    android:padding="8dp" />
+        </LinearLayout>
 
-            </LinearLayout>
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="23dp"
+             android:layout_marginTop="8dp"
+             android:text="Content :"
+             android:textColor="#000000"
+             android:textSize="15sp"
+             android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="23dp"
+            android:layout_marginRight="23dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="6.5"
+            android:background="@drawable/rectangleshapewhite">
+
+            <EditText
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@android:color/transparent"
+                android:padding="8dp"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
         </LinearLayout>
 
         <LinearLayout

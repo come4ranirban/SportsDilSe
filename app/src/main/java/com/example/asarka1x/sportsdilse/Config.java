@@ -6,6 +6,7 @@ package com.example.asarka1x.sportsdilse;
 
 public class Config {
 
-    public static final String EMAIL ="sportsdilsesubmitarticle@gmail.com";
-    public static final String PASSWORD ="kittu1984$";
+    public static final String EMAIL ="spdse2017@gmail.com";
+    public static final String PASSWORD ="anirban@2647226";
+    public static boolean mailsuccess;
 }

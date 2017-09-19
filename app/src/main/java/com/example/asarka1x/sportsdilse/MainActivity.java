@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         //reset display tempid
         Const.tempid.clear();
+        Const.starttempid=true;
 
         try{
             Cursor cursor= db.rawQuery("select * from sportslist",null);
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }catch (SQLiteException e){
             db.execSQL("CREATE TABLE IF NOT EXISTS SPORTSLIST(cricket integer default 0, football integer default 0, " +
+
                     "tennis integer default 0, badminton integer default 0, formula integer default 0," +
                     "hockey integer default 0, track integer default 0, other integer default 0, nightmode integer default 0)");
             db.execSQL("CREATE TABLE IF NOT EXISTS BOOKMARKED(ID number, HEADLINE varchar(200), AUTHOR varchar(30), DATE varchar(18), CONTENT varchar(1500), IMAGE BLOB NOT NULL)");
@@ -108,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Fresco.initialize(this);
         activity= this;
+        Const.serviceflag=0;
         Intent intent= new Intent();
         intent.setComponent(new ComponentName(getApplication(), SportsDilSeService.class));
         startService(intent);
@@ -156,12 +160,6 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.WHITE);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-
-        try {
-            new GetScore().getNews();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
     }
 
 
@@ -212,7 +210,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        SportsDilSeService.h.removeCallbacks(SportsDilSeService.run);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(GetScore.hitServer.getStatus()!= AsyncTask.Status.FINISHED)
+            GetScore.hitServer.cancel(true);
+        SportsDilSeService.cd.cancel();
+    }
 }

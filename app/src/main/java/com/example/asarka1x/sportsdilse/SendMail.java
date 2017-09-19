@@ -56,6 +56,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
         //Dismissing the progress dialog
   //      progressDialog.dismiss();
         //Showing a success message
+        Config.mailsuccess=true;
         Toast.makeText(context,"Message Sent",Toast.LENGTH_LONG).show();
     }
 
@@ -73,7 +74,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
         props.put("mail.smtp.port", "465");
 
         //Creating a new session
-        session = Session.getDefaultInstance(props,
+        session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     //Authenticating the password
                     protected PasswordAuthentication getPasswordAuthentication() {

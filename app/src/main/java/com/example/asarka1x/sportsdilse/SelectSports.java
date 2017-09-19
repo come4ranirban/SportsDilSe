@@ -2,6 +2,7 @@ package com.example.asarka1x.sportsdilse;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -323,7 +324,7 @@ public class SelectSports extends Fragment {
             allsports.setBackgroundResource(R.drawable.selectedsports);
         if(Const.cricket== true){
             cricket.setBackgroundResource(R.drawable.selectedsports);
-            cricketicon.setImageResource(R.drawable.cricketblack);
+            cricketicon.setImageResource(R.drawable.cricketwhite);
         }else{
             cricket.setBackgroundResource(R.drawable.rectangleshapewhite);
             cricketicon.setImageResource(R.drawable.cricketblack);
@@ -424,6 +425,8 @@ public class SelectSports extends Fragment {
         if(Const.setadapter==true)
         {
             try {
+                if(GetScore.hitServer.getStatus()!= AsyncTask.Status.FINISHED)
+                    GetScore.hitServer.cancel(true);
                 Const.starttempid=true;
                 Const.tempid.clear();
                 new ReadJson().readNews();
