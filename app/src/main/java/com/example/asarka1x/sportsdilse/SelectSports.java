@@ -30,7 +30,7 @@ public class SelectSports extends Fragment {
 
 
     private ImageButton back;
-    private ImageView cricketicon,footballicon,tennisicon,badmintonicon,formulaicon,hockeyicon,trackfieldicon;
+    private ImageView cricketicon,footballicon,tennisicon,badmintonicon,formulaicon,hockeyicon,trackfieldicon,othericon,allsportsicon;
     private LinearLayout allsports,cricket,football,tennis,badminton,formula1,hockey,trackfield,others;
     private SQLiteDatabase db;
     private Handler h;
@@ -58,6 +58,8 @@ public class SelectSports extends Fragment {
         formulaicon= (ImageView)v.findViewById(R.id.formulaicon);
         hockeyicon= (ImageView)v.findViewById(R.id.hockeyicon);
         trackfieldicon= (ImageView)v.findViewById(R.id.trackfieldicon);
+        othericon= (ImageView)v.findViewById(R.id.othericon);
+        allsportsicon= (ImageView)v.findViewById(R.id.allSportsicon);
         return v;
     }
 
@@ -78,9 +80,15 @@ public class SelectSports extends Fragment {
             public void run() {
                 if(Const.cricket==true && Const.football==true && Const.hockey==true && Const.tennis==true && Const.badminton==true
                         && Const.formula1==true && Const.other==true && Const.trackfield==true)
+                {
                     allsports.setBackgroundResource(R.drawable.selectedsports);
+                    allsportsicon.setImageResource(R.drawable.allsportswhite);
+                }
                 else
+                {
                     allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
+                    allsportsicon.setImageResource(R.drawable.allsportsblack);
+                }
                 runnable= this;
                 h.postDelayed(this, 20);
             }
@@ -248,6 +256,7 @@ public class SelectSports extends Fragment {
                 Const.setadapter= true;
                 if(Const.other==false){
                     others.setBackgroundResource(R.drawable.selectedsports);
+                    othericon.setImageResource(R.drawable.climbingwhite);
                     Const.other=true;
                 }else {
                     if(Const.allSports==true){
@@ -255,6 +264,7 @@ public class SelectSports extends Fragment {
                         Const.allSports=false;
                     }
                     others.setBackgroundResource(R.drawable.rectangleshapewhite);
+                    othericon.setImageResource(R.drawable.climbingblack);
                     Const.other= false;
                 }
             }
@@ -263,6 +273,7 @@ public class SelectSports extends Fragment {
 
     public void disselectAllSports(){
         allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
+        allsportsicon.setImageResource(R.drawable.allsportsblack);
         cricket.setBackgroundResource(R.drawable.rectangleshapewhite);
         cricketicon.setImageResource(R.drawable.cricketblack);
         football.setBackgroundResource(R.drawable.rectangleshapewhite);
@@ -278,6 +289,7 @@ public class SelectSports extends Fragment {
         trackfield.setBackgroundResource(R.drawable.rectangleshapewhite);
         trackfieldicon.setImageResource(R.drawable.tracksblack);
         others.setBackgroundResource(R.drawable.rectangleshapewhite);
+        othericon.setImageResource(R.drawable.climbingblack);
         Const.allSports=false;
         Const.cricket=false;
         Const.football=false;
@@ -291,6 +303,7 @@ public class SelectSports extends Fragment {
 
     public void selectAllSports(){
         allsports.setBackgroundResource(R.drawable.selectedsports);
+        allsportsicon.setImageResource(R.drawable.allsportswhite);
         cricket.setBackgroundResource(R.drawable.selectedsports);
         cricketicon.setImageResource(R.drawable.cricketwhite);
         football.setBackgroundResource(R.drawable.selectedsports);
@@ -306,6 +319,7 @@ public class SelectSports extends Fragment {
         trackfield.setBackgroundResource(R.drawable.selectedsports);
         trackfieldicon.setImageResource(R.drawable.trackswhite);
         others.setBackgroundResource(R.drawable.selectedsports);
+        othericon.setImageResource(R.drawable.climbingwhite);
         Const.allSports=true;
         Const.cricket=true;
         Const.football=true;
@@ -321,7 +335,14 @@ public class SelectSports extends Fragment {
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if(Const.allSports== true)
+        {
             allsports.setBackgroundResource(R.drawable.selectedsports);
+            allsportsicon.setImageResource(R.drawable.allsportswhite);
+        }else {
+            allsportsicon.setImageResource(R.drawable.allsportsblack);
+            allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
+        }
+
         if(Const.cricket== true){
             cricket.setBackgroundResource(R.drawable.selectedsports);
             cricketicon.setImageResource(R.drawable.cricketwhite);
@@ -373,8 +394,15 @@ public class SelectSports extends Fragment {
             trackfield.setBackgroundResource(R.drawable.rectangleshapewhite);
             trackfieldicon.setImageResource(R.drawable.tracksblack);
         }
+
         if(Const.other== true)
+        {
             others.setBackgroundResource(R.drawable.selectedsports);
+            othericon.setImageResource(R.drawable.climbingwhite);
+        }else {
+            others.setBackgroundResource(R.drawable.rectangleshapewhite);
+            othericon.setImageResource(R.drawable.climbingblack);
+        }
     }
 
     @Override
@@ -418,6 +446,10 @@ public class SelectSports extends Fragment {
         else
             db.execSQL("UPDATE SPORTSLIST SET track=0");
 
+        if(Const.other==true)
+            db.execSQL("UPDATE SPORTSLIST SET other=1");
+        else
+            db.execSQL("UPDATE SPORTSLIST SET other=0");
 
         if(h!=null)
             h.removeCallbacks(runnable);
