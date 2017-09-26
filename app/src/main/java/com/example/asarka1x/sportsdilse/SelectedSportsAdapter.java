@@ -58,6 +58,10 @@ public class SelectedSportsAdapter extends RecyclerView.Adapter<SportsHolder> {
             case "Track & Field":
                 holder.sportsimage.setImageResource(R.drawable.racetrack24);
                 break;
+
+            case "other":
+                holder.sportsimage.setImageResource(R.drawable.other24);
+
         }
     }
 

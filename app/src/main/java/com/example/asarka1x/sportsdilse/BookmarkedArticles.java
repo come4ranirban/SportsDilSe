@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,16 +33,16 @@ import in.technomenia.user.sportsdilse.R;
 
 public class BookmarkedArticles extends Fragment {
 
-    SQLiteDatabase db;
-    ImageButton backpress;
     static FragmentTransaction fragmentTransaction;
+    SQLiteDatabase db;
+    private ImageButton backpress;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.bookmarkedarticles, container, false);
         backpress= (ImageButton)v.findViewById(R.id.back);
         fragmentTransaction= getActivity().getSupportFragmentManager().beginTransaction();
-
         backpress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

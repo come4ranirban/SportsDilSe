@@ -1,6 +1,7 @@
 package com.example.asarka1x.sportsdilse;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import in.technomenia.user.sportsdilse.R;
@@ -34,18 +36,28 @@ import java.util.ArrayList;
 public class Articls extends Fragment{
 
     private static Bundle savedstate;
+    private static RelativeLayout layoutbacktheme;
     private final String KEY_RECYCLER_STATE = "recycler_state";
     Parcelable listState;
     ProgressBar progressBar;
     boolean pvisibility;
     private RecyclerView newsRecycler;
     private Handler h;
+    private Runnable run;
+
+    public static void backtheme(){
+        if(Const.nightmode)
+            layoutbacktheme.setBackgroundColor(Color.parseColor("#212121"));
+        else
+            layoutbacktheme.setBackgroundColor(Color.parseColor("#FFFFFF"));
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.articlelayout, container, false);
 
+        layoutbacktheme= (RelativeLayout)v.findViewById(R.id.articlelayout);
         progressBar= (ProgressBar)v.findViewById(R.id.progressbar);
         pvisibility=true;
         newsRecycler= (RecyclerView) v.findViewById(R.id.newsRecycler);
@@ -58,7 +70,7 @@ public class Articls extends Fragment{
         newsRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         newsRecycler.getRecycledViewPool().clear();
         newsRecycler.removeAllViews();
-
+        backtheme();
         return v;
     }
 
@@ -71,6 +83,7 @@ public class Articls extends Fragment{
             progressBar.setVisibility(View.VISIBLE);
         else
             progressBar.setVisibility(View.GONE);
+
         h.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -80,14 +93,15 @@ public class Articls extends Fragment{
                         Const.showadapter=false;
                         progressBar.setVisibility(View.GONE);
                         newsRecycler.setAdapter(new NewsAdapter());
+                        run=this;
                         h.removeCallbacks(this);
                     }
                     else{
-                        h.postDelayed(this,200);
+                        h.postDelayed(this,20);
                     }
                 }
             }
-        },200);
+        },20);
     }
 
     @Override
@@ -108,14 +122,13 @@ public class Articls extends Fragment{
         super.onViewStateRestored(savedInstanceState);
 
         if (savedstate != null) {
+
             if(Const.setadapter==true){
                 Const.setadapter= false;
                 savedstate= null;
                 pvisibility=true;
-                onResume();
             }
             else{
-
                 listState = savedstate.getParcelable(KEY_RECYCLER_STATE);
                 pvisibility=false;
                 newsRecycler.getLayoutManager().onRestoreInstanceState(listState);

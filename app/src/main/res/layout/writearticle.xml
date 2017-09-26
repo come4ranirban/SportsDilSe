@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@drawable/bluegradienttransparent"
+        android:background="@color/toobar"
         android:elevation="8dp"
         android:orientation="horizontal">
 
@@ -101,13 +101,15 @@
             android:layout_marginRight="23dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1.5"
-            android:background="@drawable/rectangleshapewhite">
+            android:background="@drawable/rectangleshapewhite"
+            android:gravity="top">
 
             <EditText
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="@android:color/transparent"
+                android:gravity="top"
                 android:padding="8dp"
                 android:textSize="15sp"
                 android:textStyle="bold"/>
@@ -132,13 +134,15 @@
             android:layout_marginRight="23dp"
             android:layout_marginTop="8dp"
             android:layout_weight="6.5"
-            android:background="@drawable/rectangleshapewhite">
+            android:background="@drawable/rectangleshapewhite"
+            android:gravity="top">
 
             <EditText
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="@android:color/transparent"
+                android:gravity="top"
                 android:padding="8dp"
                 android:textSize="15sp"
                 android:textStyle="bold"/>

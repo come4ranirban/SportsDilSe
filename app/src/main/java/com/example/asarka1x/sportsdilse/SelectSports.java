@@ -155,7 +155,6 @@ public class SelectSports extends Fragment {
                 Const.setadapter= true;
                 if(Const.tennis==false){
                     tennis.setBackgroundResource(R.drawable.selectedsports);
-                    Toast.makeText(getActivity(), "tennis", Toast.LENGTH_SHORT).show();
                     tennisicon.setImageResource(R.drawable.tenniswhite);
                     Const.tennis=true;
                 }else {
@@ -457,8 +456,6 @@ public class SelectSports extends Fragment {
         if(Const.setadapter==true)
         {
             try {
-                if(GetScore.hitServer.getStatus()!= AsyncTask.Status.FINISHED)
-                    GetScore.hitServer.cancel(true);
                 Const.starttempid=true;
                 Const.tempid.clear();
                 new ReadJson().readNews();

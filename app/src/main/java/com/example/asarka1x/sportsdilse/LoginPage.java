@@ -51,6 +51,7 @@ public class LoginPage extends Fragment {
     static int result,isresultready,forgotflag;
     static String forgotmsg;
     EditText username,password;
+    TextView emailtext,passtext;
     LinearLayout login,signup,skip,forgot;
 
     SQLiteDatabase db;
@@ -148,6 +149,7 @@ public class LoginPage extends Fragment {
         forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(username.getText().toString().isEmpty()){
                    Toast.makeText(getActivity(), "Email Id empty", Toast.LENGTH_SHORT).show();
                 }else {

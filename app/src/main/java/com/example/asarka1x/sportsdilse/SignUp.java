@@ -32,7 +32,6 @@ import static com.example.asarka1x.sportsdilse.MainActivity.viewPager;
 public class SignUp extends Fragment {
 
     static boolean regresult, error;
-    static String readauthstring;
     EditText username,email,password,cpass;
     TextView register;
     SQLiteDatabase db;
@@ -80,7 +79,7 @@ public class SignUp extends Fragment {
                     Toast.makeText(getActivity(), "confirm password is empty", Toast.LENGTH_SHORT).show();
                 }
 
-                if(ok==true){
+                if(ok==true && password.getText().toString().equals(cpass.getText().toString())){
 
                     final ProgressDialog pdialog= new ProgressDialog(getActivity());
                     pdialog.setMessage("Please Wait..");
@@ -130,7 +129,10 @@ public class SignUp extends Fragment {
                         final Auth auth= new Auth(username.getText().toString(),email.getText().toString(),cpass.getText().toString());
                         auth.registration=true;
                         auth.getNonceReg();
-                    }
+
+                }else{
+                    Toast.makeText(getContext(), "Password mismatch", Toast.LENGTH_SHORT).show();
+                }
                 }
             });
         }

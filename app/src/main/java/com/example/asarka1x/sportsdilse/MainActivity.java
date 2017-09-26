@@ -1,5 +1,6 @@
 package com.example.asarka1x.sportsdilse;
 
+import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     static MyPagerAdapter pagerAdapter;
     static MainActivity activity;
     SQLiteDatabase db;
+    private boolean viewFlag;
+    private Cursor cursor;
     private TabLayout tabLayout;
     private Toolbar toolbar;
     private TextView text;
@@ -55,11 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean savedpageHistory;
     private FrameLayout navigationframe;
 
-    public void init(){
-
-        //reset display tempid
-        Const.tempid.clear();
-        Const.starttempid=true;
+    public void init() throws MalformedURLException, JSONException {
 
         try{
             Cursor cursor= db.rawQuery("select * from sportslist",null);
@@ -103,99 +103,139 @@ public class MainActivity extends AppCompatActivity {
             values.put("nightmode", 0);
             db.insert("sportslist", null, values);
         }
+
+
+        //reset display tempid
+        Const.tempid.clear();
+        Const.starttempid=true;
+
+        new ReadJson().readNews();
+
+        db.execSQL("create table if not exists usercredential(status int, username varchar(20), email varchar(40), password varchar(25))");
+
+        new CountDownTimer(2 * 1000, 1000) {
+            @Override
+            public void onTick(long l) {
+                setContentView(R.layout.welcomscreen);
+            }
+
+            @Override
+            public void onFinish() {
+                viewFlag=true;
+                setContentView(R.layout.activity_main);
+                onStart();
+            }
+        }.start();
     }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager  = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         Fresco.initialize(this);
         activity= this;
-        Const.serviceflag=0;
-        Intent intent= new Intent();
-        intent.setComponent(new ComponentName(getApplication(), SportsDilSeService.class));
-        startService(intent);
+        //setContentView(R.layout.activity_main);
+
+        if(isMyServiceRunning(SportsDilSeService.class)==false){
+            Intent intent= new Intent();
+            intent.setComponent(new ComponentName(getApplication(), SportsDilSeService.class));
+            startService(intent);
+        }
 
         db= openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
-        db.execSQL("create table if not exists usercredential(status int, username varchar(20), email varchar(40), password varchar(25))");
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //text= (TextView) toolbar.findViewById(R.id.toolbartext);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        //initialize tab layout,view pager & drawerlayout
-        //tabLayout = (TabLayout) findViewById(R.id.tablayout);
-        //tabLayout.setTabTextColors(Color.WHITE, Color.WHITE);
-        //tabLayout.setBackgroundColor(Color.BLACK);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        drawerLayout.closeDrawers();
-        //initialize pager adapter class
-        pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
 
         //initialize all settings
-        init();
+        try {
+            init();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        //initialize action bar drawer toggle
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close){
 
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                navigationView= (NavigationView)findViewById(R.id.navigationview);
-                navigationframe= (FrameLayout)findViewById(R.id.navigationframe);
+        if(viewFlag){
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-                FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.add(R.id.navigationframe, new NavgationViewfragment());
-                fragmentTransaction.commit();
-            }
-        };
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-        actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.WHITE);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+            //initialize tab layout,view pager & drawerlayout
+            viewPager = (ViewPager) findViewById(R.id.viewpager);
+            drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+            drawerLayout.closeDrawers();
+            //initialize pager adapter class
+            pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
 
+            //initialize action bar drawer toggle
+            actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close){
+
+                @Override
+                public void onDrawerOpened(View drawerView) {
+                    super.onDrawerOpened(drawerView);
+                    navigationView= (NavigationView)findViewById(R.id.navigationview);
+                    navigationframe= (FrameLayout)findViewById(R.id.navigationframe);
+
+                    FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.add(R.id.navigationframe, new NavgationViewfragment());
+                    fragmentTransaction.commit();
+                }
+            };
+            drawerLayout.addDrawerListener(actionBarDrawerToggle);
+            actionBarDrawerToggle.syncState();
+            actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.WHITE);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            onResume();
+        }
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
+        if(viewFlag==true){
 
-        //SET VIEWPAGER AS SOON AS ONRESUME IS CALLED
-        if(Const.pageHistory.isEmpty()){
-
-            //Displaying welcome page
-            pagerAdapter.clearList();
-            pagerAdapter.addFragment(new Articls(),"Feed");
-            // Const.pageHistory.add(pagerAdapter);
-            //pagerAdapter.addFragment(new MatchList(),"Matches");
-            Const.pageHistory.add(pagerAdapter);
-            viewPager.setAdapter(pagerAdapter);
-           //tabLayout.setTabTextColors(Color.parseColor("#18FFFF"), Color.parseColor("#FFFFFF"));
-            //   tabLayout.setupWithViewPager(viewPager);
-            try {
-                new ReadJson().readNews();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+            //SET VIEWPAGER AS SOON AS ONRESUME IS CALLED
+            if(Const.pageHistory.isEmpty()){
+                //Displaying welcome page
+                pagerAdapter.clearList();
+                pagerAdapter.addFragment(new Articls(),"Feed");
+                Const.pageHistory.add(pagerAdapter);
+                viewPager.setAdapter(pagerAdapter);
+                try {
+                    new ReadJson().readNews();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                if(Const.pageHistory.get(Const.pageHistory.size()-1).getPageTitle(0).equals("Feed"))
+                    getSupportActionBar().show();
+                viewPager.setAdapter(Const.pageHistory.get(Const.pageHistory.size()-1));
             }
-        }else{
-            if(Const.pageHistory.get(Const.pageHistory.size()-1).getPageTitle(0).equals("Feed"))
-                getSupportActionBar().show();
-            viewPager.setAdapter(Const.pageHistory.get(Const.pageHistory.size()-1));
         }
     }
 
     @Override
     public void onBackPressed() {
-        Const.pageHistory.remove(Const.pageHistory.size()-1);
+
+        if(viewFlag){
+            Const.pageHistory.remove(Const.pageHistory.size()-1);
             if(Const.pageHistory.isEmpty()){
                 super.onBackPressed();
             }
@@ -205,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
                     getSupportActionBar().show();
                 viewPager.setAdapter(Const.pageHistory.get(Const.pageHistory.size()-1));
             }
+        }
     }
 
     @Override
@@ -215,8 +256,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(GetScore.hitServer.getStatus()!= AsyncTask.Status.FINISHED)
-            GetScore.hitServer.cancel(true);
-        SportsDilSeService.cd.cancel();
+        Fresco.shutDown();
+    }
+
+    public void writearticle(View v){
+        SQLiteDatabase db= openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
+        Cursor cursor= db.rawQuery("select *from usercredential",null);
+        cursor.moveToFirst();
+        if(cursor.getCount()>0 ){
+            getSupportActionBar().hide();
+            pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
+            pagerAdapter.clearList();
+            pagerAdapter.addFragment(new WriteArticle(), "WriteArticle");
+            Const.pageHistory.add(pagerAdapter);
+            viewPager.setAdapter(pagerAdapter);
+            drawerLayout.closeDrawers();
+        }else{
+            getSupportActionBar().hide();
+            pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
+            pagerAdapter.clearList();
+            pagerAdapter.addFragment(new LoginPage(), "Login");
+            Const.pageHistory.add(pagerAdapter);
+            viewPager.setAdapter(pagerAdapter);
+            drawerLayout.closeDrawers();
+        }
     }
 }

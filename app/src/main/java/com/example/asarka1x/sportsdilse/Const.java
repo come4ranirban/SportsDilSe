@@ -14,7 +14,6 @@ public class Const {
     static int flag=0;//1-achived unique id; 2- achived livescore; 3- to display livescore in recyclerview
     static int newsflag=0;//2-compleated loading all news
     static int newsindex=0;
-    static int serviceflag;
     static String jsonuid;
     static String jsonMatch;
     static String news=null;

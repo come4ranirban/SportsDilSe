@@ -228,6 +228,7 @@ public class WriteArticle extends Fragment {
     }
 
     public void mailsender(DialogInterface dialog, final ProgressDialog pdialog, StringBuffer buffer){
+        Cursor cursor= db.rawQuery("select *from usercredential",null);
         dialog.dismiss();
         final Handler h= new Handler();
         h.postDelayed(new Runnable() {
@@ -255,7 +256,8 @@ public class WriteArticle extends Fragment {
                 }
             }
         },20);
-        SendMail sm= new SendMail(getActivity(), "anirbansrkr007@gmail.com", "test", buffer.toString());
+        cursor.moveToFirst();
+        SendMail sm= new SendMail(getActivity(), "anirbansrkr007@gmail.com", "Author:-"+cursor.getString(2), buffer.toString());
         sm.execute();
     }
 }

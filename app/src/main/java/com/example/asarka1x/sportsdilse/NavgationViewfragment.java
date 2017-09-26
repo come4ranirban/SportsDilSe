@@ -14,8 +14,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,11 +33,10 @@ import static com.example.asarka1x.sportsdilse.MainActivity.viewPager;
 
 public class NavgationViewfragment extends Fragment {
 
-    private ImageView sportsPreference;
     private RecyclerView selectedsports;
-    private TextView yoursports;
-    private LinearLayout bookmark;
+    private LinearLayout bookmark,sportsPreference;
     private LinearLayout wrt;
+    private Switch nightswitch;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -43,7 +44,14 @@ public class NavgationViewfragment extends Fragment {
         View v= inflater.inflate(R.layout.navigationfragment, container, false);
         bookmark= (LinearLayout)v.findViewById(R.id.bookmarks);
         wrt= (LinearLayout)v.findViewById(R.id.wrt);
+        nightswitch= (Switch)v.findViewById(R.id.nightswitch);
         Const.selectedsportslist.clear();
+
+        if(Const.nightmode==false){
+            nightswitch.setChecked(false);
+        }else{
+            nightswitch.setChecked(true);
+        }
 
         if(Const.allSports==true){
             Const.selectedsportslist.add("Cricket");
@@ -53,6 +61,7 @@ public class NavgationViewfragment extends Fragment {
             Const.selectedsportslist.add("Formula 1");
             Const.selectedsportslist.add("Hockey");
             Const.selectedsportslist.add("Track & Field");
+            Const.selectedsportslist.add("other");
         }else{
             if(Const.cricket==true)
                 Const.selectedsportslist.add("Cricket");
@@ -74,21 +83,12 @@ public class NavgationViewfragment extends Fragment {
 
             if(Const.trackfield==true)
                 Const.selectedsportslist.add("Track & Field");
+
+            if(Const.other==true)
+                Const.selectedsportslist.add("other");
         }
 
-
-        yoursports= (TextView)v.findViewById(R.id.yoursports);
-        yoursports.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(yoursports.getTextColors().equals(Color.WHITE)){
-                    yoursports.setTextColor(Color.GREEN);
-                }
-            }
-        });
-
-
-        sportsPreference= (ImageView)v.findViewById(R.id.yourpreference);
+        sportsPreference= (LinearLayout)v.findViewById(R.id.yourpreference);
         selectedsports= (RecyclerView)v.findViewById(R.id.selectedsportsrecycler);
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         selectedsports.setLayoutManager(layoutManager);
@@ -133,8 +133,8 @@ public class NavgationViewfragment extends Fragment {
 
                 SQLiteDatabase db= getActivity().openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
                 Cursor cursor= db.rawQuery("select *from usercredential",null);
-
-                if(cursor.getCount()>0){
+                cursor.moveToFirst();
+                if(cursor.getCount()>0 ){
                     ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
                     pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
                     pagerAdapter.clearList();
@@ -153,6 +153,23 @@ public class NavgationViewfragment extends Fragment {
                 }
             }
         });
-    }
 
+        nightswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                SQLiteDatabase db= getActivity().openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
+                if(isChecked)
+                {
+                    Const.nightmode=true;
+                    db.execSQL("UPDATE SPORTSLIST SET nightmode=1");
+                    Articls.backtheme();
+                }else {
+                    Const.nightmode=false;
+                    db.execSQL("UPDATE SPORTSLIST SET nightmode=0");
+                    Articls.backtheme();
+                }
+            }
+        });
+    }
 }

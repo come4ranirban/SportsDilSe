@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
 import in.technomenia.user.sportsdilse.R;
 
 /**
@@ -19,7 +19,7 @@ import in.technomenia.user.sportsdilse.R;
 public class MatchList extends Fragment {
 
     RecyclerView rview;
-    GetScore score;
+    GetArticles score;
     Handler h;
 
     @Nullable
@@ -31,7 +31,7 @@ public class MatchList extends Fragment {
         rview=(RecyclerView)v.findViewById(R.id.recyclView);
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         rview.setLayoutManager(layoutManager);
-        score= new GetScore();
+        score= new GetArticles();
         //score.getMatchList();
 
         return v;

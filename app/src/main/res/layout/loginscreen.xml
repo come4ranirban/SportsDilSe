@@ -31,6 +31,7 @@
 
 
             <TextView
+                android:id="@+id/emailtext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="email :"
@@ -47,6 +48,7 @@
                 android:textColor="#FFFFFF"/>
 
             <TextView
+                android:id="@+id/passtext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -88,7 +90,7 @@
                 android:id="@+id/forgot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:clickable="true">
 
                 <TextView
@@ -103,7 +105,7 @@
                 android:id="@+id/signin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:background="@drawable/bluebutton"
                 android:clickable="true"
                 android:gravity="center_horizontal"

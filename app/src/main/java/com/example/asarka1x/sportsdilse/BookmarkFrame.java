@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -39,6 +40,13 @@ public class BookmarkFrame extends Fragment {
         bookmarks.setNestedScrollingEnabled(false);
         bookmarks.setItemViewCacheSize(20);
         bookmarks.setAdapter(new BookmarkAdapter());
+
+        LinearLayout bookmarkback= (LinearLayout)v.findViewById(R.id.bookmarkback);
+
+        if(Const.nightmode)
+            bookmarkback.setBackgroundColor(Color.parseColor("#212121"));
+        else
+            bookmarkback.setBackgroundColor(Color.parseColor("#FFFFFF"));
         return v;
     }
 
@@ -53,6 +61,7 @@ public class BookmarkFrame extends Fragment {
             LayoutInflater inflater= LayoutInflater.from(MainActivity.activity);
             View v= inflater.inflate(R.layout.bookmarklayout, parent, false);
             BookmarkHolder holder= new BookmarkHolder(v);
+
             return holder;
         }
 
