@@ -142,7 +142,7 @@ public class ArticleDetails extends Fragment {
                     newsimage.buildDrawingCache();
                     Bitmap bm= newsimage.getDrawingCache();
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                    bm.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    bm.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
                     byte imageBuffer[] = outputStream.toByteArray();
 
                     ContentValues values=  new ContentValues();

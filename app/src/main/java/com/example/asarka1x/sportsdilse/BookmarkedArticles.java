@@ -69,5 +69,10 @@ public class BookmarkedArticles extends Fragment {
             getActivity().getSupportFragmentManager().beginTransaction().add(R.id.frame, new NoBookmarks()).commit();
         }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 }
 

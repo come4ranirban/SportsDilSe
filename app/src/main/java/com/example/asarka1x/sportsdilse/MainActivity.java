@@ -48,15 +48,9 @@ public class MainActivity extends AppCompatActivity {
     static MainActivity activity;
     SQLiteDatabase db;
     private boolean viewFlag;
-    private Cursor cursor;
-    private TabLayout tabLayout;
     private Toolbar toolbar;
-    private TextView text;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private NavigationView navigationView;
-    private Handler h;
-    private Runnable callback;
-    private boolean savedpageHistory;
     private FrameLayout navigationframe;
 
     public void init() throws MalformedURLException, JSONException {
@@ -92,16 +86,17 @@ public class MainActivity extends AppCompatActivity {
             db.execSQL("CREATE TABLE IF NOT EXISTS BOOKMARKED(ID number, HEADLINE varchar(200), AUTHOR varchar(30), DATE varchar(18), CONTENT varchar(1500), IMAGE BLOB NOT NULL)");
 
             ContentValues values= new ContentValues();
-            values.put("cricket", 0);
-            values.put("football", 0);
-            values.put("tennis", 0);
-            values.put("badminton", 0);
-            values.put("formula", 0);
-            values.put("hockey", 0);
-            values.put("track", 0);
-            values.put("other", 0);
+            values.put("cricket", 1);
+            values.put("football", 1);
+            values.put("tennis", 1);
+            values.put("badminton", 1);
+            values.put("formula", 1);
+            values.put("hockey", 1);
+            values.put("track", 1);
+            values.put("other", 1);
             values.put("nightmode", 0);
             db.insert("sportslist", null, values);
+            init();
         }
 
 
@@ -216,13 +211,6 @@ public class MainActivity extends AppCompatActivity {
                 pagerAdapter.addFragment(new Articls(),"Feed");
                 Const.pageHistory.add(pagerAdapter);
                 viewPager.setAdapter(pagerAdapter);
-                try {
-                    new ReadJson().readNews();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
             }else{
                 if(Const.pageHistory.get(Const.pageHistory.size()-1).getPageTitle(0).equals("Feed"))
                     getSupportActionBar().show();
@@ -256,7 +244,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Fresco.shutDown();
     }
 
     public void writearticle(View v){

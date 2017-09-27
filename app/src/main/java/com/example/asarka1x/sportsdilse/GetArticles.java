@@ -25,6 +25,7 @@ class GetArticles {
     private StringBuffer buffer;
 
     public void getNews() throws MalformedURLException {
+
         hitServer= new HitServer();
         urls="https://sportsdilse.com/?json=get_recent_posts&count=200";
         if(buffer==null)

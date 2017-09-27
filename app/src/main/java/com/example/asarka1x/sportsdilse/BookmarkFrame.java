@@ -17,6 +17,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import in.technomenia.user.sportsdilse.R;
 
@@ -28,6 +33,8 @@ public class BookmarkFrame extends Fragment {
 
     static int id;
     RecyclerView bookmarks;
+    Bitmap bit;
+    byte[] image;
 
     @Nullable
     @Override
@@ -40,7 +47,6 @@ public class BookmarkFrame extends Fragment {
         bookmarks.setNestedScrollingEnabled(false);
         bookmarks.setItemViewCacheSize(20);
         bookmarks.setAdapter(new BookmarkAdapter());
-
         LinearLayout bookmarkback= (LinearLayout)v.findViewById(R.id.bookmarkback);
 
         if(Const.nightmode)
@@ -50,10 +56,16 @@ public class BookmarkFrame extends Fragment {
         return v;
     }
 
+
     class BookmarkAdapter extends RecyclerView.Adapter<BookmarkHolder>{
 
         SQLiteDatabase db;
         Cursor cursor;
+
+        @Override
+        public void onViewRecycled(BookmarkHolder holder) {
+            super.onViewRecycled(holder);
+        }
 
         @Override
         public BookmarkHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -61,7 +73,6 @@ public class BookmarkFrame extends Fragment {
             LayoutInflater inflater= LayoutInflater.from(MainActivity.activity);
             View v= inflater.inflate(R.layout.bookmarklayout, parent, false);
             BookmarkHolder holder= new BookmarkHolder(v);
-
             return holder;
         }
 
@@ -72,9 +83,8 @@ public class BookmarkFrame extends Fragment {
             cursor.move(position+1);
             final int deleteid= cursor.getInt(0);
             holder.itemhead.setText(cursor.getString(1));
-            byte image[]= cursor.getBlob(5);
-            Bitmap bit= BitmapFactory.decodeByteArray(image, 0, image.length);
-            holder.image.setImageBitmap(bit);
+            image= cursor.getBlob(5);
+            Glide.with(getContext()).asBitmap().load(image).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE)).into(holder.image);
 
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,6 +97,7 @@ public class BookmarkFrame extends Fragment {
             holder.read.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     cursor= db.rawQuery("select * from BOOKMARKED", null);
                     cursor.move(position+1);
                     id= cursor.getInt(0);

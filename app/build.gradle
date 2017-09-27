@@ -14,7 +14,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            useProguard true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -22,7 +24,8 @@ android {
 
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.3.1'
+
+    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.0.0-alpha1'
     compile 'com.android.support:cardview-v7:26.0.0-alpha1'
@@ -31,4 +34,15 @@ dependencies {
     compile files('libs/activation.jar')
     compile files('libs/additionnal.jar')
     compile files('libs/mail.jar')
+    compile 'com.github.bumptech.glide:glide:4.1.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven {
+            url 'https://maven.google.com'
+        }
+    }
 }

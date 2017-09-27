@@ -25,6 +25,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.ByteArrayOutputStream;
@@ -88,9 +91,8 @@ public class BookedArticleDetails extends Fragment {
         String html;
         cursor.moveToFirst();
 
-        byte image[]= cursor.getBlob(5);
-        Bitmap bit= BitmapFactory.decodeByteArray(image, 0, image.length);
-        newsimage.setImageBitmap(bit);
+        byte[] image= cursor.getBlob(5);
+        Glide.with(getContext()).asBitmap().load(image).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE)).into(newsimage);
 
         html= cursor.getString(4);
         newsAuthor.setText(cursor.getString(2));
