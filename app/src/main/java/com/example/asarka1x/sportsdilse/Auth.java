@@ -63,7 +63,7 @@ public class Auth {
         StringBuffer buffer= new StringBuffer();
         buffer.append("https://sportsdilse.com/api/user/generate_auth_cookie/?nonce=");
         buffer.append(nonce+"&username="+email+"&password="+pass);
-        url= buffer.toString();
+        url= buffer.toString().trim();
         flag=2;
         Background background= new Background(url);
         background.execute();
@@ -85,7 +85,7 @@ public class Auth {
     public void forgotpassword(String email){
         StringBuffer buffer= new StringBuffer();
         buffer.append("https://sportsdilse.com/api/user/retrieve_password/?user_login="+email);
-        url=buffer.toString();
+         url=buffer.toString().trim();
         flag=4;
         Background background= new Background(url);
         background.execute();
@@ -97,7 +97,7 @@ public class Auth {
         StringBuffer buffer= new StringBuffer();
         buffer.append("https://sportsdilse.com/api/user/register/?username="+username+"&email="+email+
                 "&nonce="+nonce+"&display_name="+username+"&user_pass="+pass);
-        url=buffer.toString();
+        url=buffer.toString().trim();
         flag=2;
         Background background= new Background(url);
         background.execute();

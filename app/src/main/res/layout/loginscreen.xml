@@ -62,6 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="#FFFFFF"
+                android:inputType="textNoSuggestions"
                 android:textColor="#FFFFFF"/>
 
             <LinearLayout
@@ -141,8 +142,6 @@
                         android:text="Skip"
                         android:textColor="#FFFFFF"/>
                 </LinearLayout>
-
-
             </LinearLayout>
 
         </LinearLayout>

@@ -24,9 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import in.technomenia.user.sportsdilse.R;
 
+import org.json.JSONException;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 /**
@@ -35,7 +37,7 @@ import java.util.ArrayList;
 
 public class Articls extends Fragment{
 
-    private static Bundle savedstate;
+    public static Bundle savedstate;
     private static RelativeLayout layoutbacktheme;
     private final String KEY_RECYCLER_STATE = "recycler_state";
     Parcelable listState;
@@ -45,7 +47,7 @@ public class Articls extends Fragment{
     private Handler h;
     private Runnable run;
 
-    public static void backtheme(){
+    public static void theme(){
         if(Const.nightmode)
             layoutbacktheme.setBackgroundColor(Color.parseColor("#212121"));
         else
@@ -70,8 +72,23 @@ public class Articls extends Fragment{
         newsRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         newsRecycler.getRecycledViewPool().clear();
         newsRecycler.removeAllViews();
-        backtheme();
+
+        if(Const.news!=null)
+            try {
+                ReadJson.readNews();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        theme();
     }
 
     @Override
@@ -107,6 +124,9 @@ public class Articls extends Fragment{
     @Override
     public void onPause() {
         super.onPause();
+        if(MainActivity.mAdView!=null)
+            MainActivity.mAdView.setVisibility(View.GONE);
+
     }
 
     @Override

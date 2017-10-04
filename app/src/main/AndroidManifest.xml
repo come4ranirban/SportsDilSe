@@ -3,6 +3,7 @@
     package="in.technomenia.user.sportsdilse">
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -20,7 +21,11 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.example.asarka1x.sportsdilse.SportsDilSeService"/>
+        <receiver android:name="com.example.asarka1x.sportsdilse.InternetConnectivity">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

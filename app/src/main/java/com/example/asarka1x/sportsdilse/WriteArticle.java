@@ -54,6 +54,14 @@ public class WriteArticle extends Fragment {
         retrive= (ImageButton)v.findViewById(R.id.retrive);
         back= (ImageButton)v.findViewById(R.id.back);
 
+
+        return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
         db= getActivity().openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
         try{
             cursor= db.rawQuery("select * from writearticle",null);
@@ -61,12 +69,6 @@ public class WriteArticle extends Fragment {
         }catch (SQLiteException e){
             db.execSQL("CREATE TABLE IF NOT EXISTS writearticle(id int, catagory varchar(20), title varchar(200), content varchar(1500))");
         }
-        return v;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
 
         sports.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -193,6 +195,7 @@ public class WriteArticle extends Fragment {
                     cursor= db.rawQuery("select * from writearticle",null);
                     if(cursor.getCount()>0)
                         Toast.makeText(getActivity(), "Data Saved", Toast.LENGTH_SHORT).show();
+                    cursor.close();
                 }
             }
         });
@@ -216,6 +219,7 @@ public class WriteArticle extends Fragment {
                 }else{
                     Toast.makeText(getActivity(), "No Items Saved", Toast.LENGTH_SHORT).show();
                 }
+                cursor.close();
             }
         });
 
@@ -258,6 +262,13 @@ public class WriteArticle extends Fragment {
         },20);
         cursor.moveToFirst();
         SendMail sm= new SendMail(getActivity(), "anirbansrkr007@gmail.com", "Author:-"+cursor.getString(2), buffer.toString());
+        cursor.close();
         sm.execute();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        db.close();
     }
 }

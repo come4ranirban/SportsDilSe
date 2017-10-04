@@ -46,13 +46,14 @@ public class SignUp extends Fragment {
         password= (EditText)v.findViewById(R.id.password);
         cpass= (EditText)v.findViewById(R.id.cpass);
         register= (TextView) v.findViewById(R.id.register);
-        db= getActivity().openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
         return v;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
+        db= getActivity().openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +137,12 @@ public class SignUp extends Fragment {
                 }
             });
         }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        db.close();
     }
+}
 
 

@@ -15,9 +15,8 @@ public class Const {
     static int newsflag=0;//2-compleated loading all news
     static int newsindex=0;
     static String jsonuid;
-    static String jsonMatch;
     static String news=null;
-    static boolean nightmode,starttempid;
+    static boolean nightmode,starttempid, internet;
     static int newsCount=0;
     static boolean allSports,cricket,football,tennis,badminton,formula1,hockey,trackfield,other,setadapter,showadapter;
     static ArrayList<String> uid= new ArrayList<>();

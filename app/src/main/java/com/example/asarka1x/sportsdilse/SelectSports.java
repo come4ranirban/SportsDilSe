@@ -450,6 +450,7 @@ public class SelectSports extends Fragment {
         else
             db.execSQL("UPDATE SPORTSLIST SET other=0");
 
+        db.close();
         if(h!=null)
             h.removeCallbacks(runnable);
 
@@ -458,7 +459,7 @@ public class SelectSports extends Fragment {
             try {
                 Const.starttempid=true;
                 Const.tempid.clear();
-                new ReadJson().readNews();
+                ReadJson.readNews();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (JSONException e) {

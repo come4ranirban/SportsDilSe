@@ -163,11 +163,11 @@ public class NavgationViewfragment extends Fragment {
                 {
                     Const.nightmode=true;
                     db.execSQL("UPDATE SPORTSLIST SET nightmode=1");
-                    Articls.backtheme();
+                    Articls.theme();
                 }else {
                     Const.nightmode=false;
                     db.execSQL("UPDATE SPORTSLIST SET nightmode=0");
-                    Articls.backtheme();
+                    Articls.theme();
                 }
             }
         });

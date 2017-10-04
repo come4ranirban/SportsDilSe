@@ -30,6 +30,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -73,6 +76,13 @@ public class ArticleDetails extends Fragment {
         articlelayout= (LinearLayout)v.findViewById(R.id.articlelayout);
         share= (FloatingActionButton)v.findViewById(R.id.sharefab);
         db= getActivity().openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
+
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("5158C1BB1B9FA97D34B9DBA57C39BEA9").build();
+
+        AdView mAdView;
+        mAdView = (AdView)v.findViewById(R.id.fragadd);
+        mAdView.loadAd(adRequest);
+
         return v;
     }
 

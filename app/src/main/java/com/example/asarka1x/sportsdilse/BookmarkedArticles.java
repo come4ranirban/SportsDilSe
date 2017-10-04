@@ -34,7 +34,8 @@ import in.technomenia.user.sportsdilse.R;
 public class BookmarkedArticles extends Fragment {
 
     static FragmentTransaction fragmentTransaction;
-    SQLiteDatabase db;
+    private SQLiteDatabase db;
+    private Cursor cursor;
     private ImageButton backpress;
 
     @Nullable
@@ -57,7 +58,7 @@ public class BookmarkedArticles extends Fragment {
         super.onResume();
 
         db= MainActivity.activity.openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
-        Cursor cursor=null;
+
         try{
             cursor= db.rawQuery("select * from BOOKMARKED", null);
             if(cursor.getCount()>0){
@@ -73,6 +74,8 @@ public class BookmarkedArticles extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        cursor.close();
+        db.close();
     }
 }
 

@@ -191,5 +191,11 @@ public class LoginPage extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        db.close();
+    }
 }
 

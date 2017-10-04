@@ -43,7 +43,8 @@ import static android.text.Html.fromHtml;
 public class BookedArticleDetails extends Fragment {
 
     static SQLiteDatabase db;
-    ImageButton back;
+    private Cursor cursor;
+    private ImageButton back;
     private ImageView newsimage;
     private TextView newscontent, newsAuthor, newsTime, newsHeadline,nightmode;
     private ImageButton backButton;
@@ -87,7 +88,7 @@ public class BookedArticleDetails extends Fragment {
         super.onResume();
 
         db= MainActivity.activity.openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
-        Cursor cursor= db.rawQuery("select * from BOOKMARKED where id="+BookmarkFrame.id, null);
+        cursor= db.rawQuery("select * from BOOKMARKED where id="+BookmarkFrame.id, null);
         String html;
         cursor.moveToFirst();
 
@@ -126,6 +127,13 @@ public class BookedArticleDetails extends Fragment {
                 MainActivity.activity.onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        cursor.close();
+        db.close();
     }
 
     public void darktheme(){

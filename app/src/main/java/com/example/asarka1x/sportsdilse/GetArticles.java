@@ -19,12 +19,18 @@ import java.net.URL;
 
 class GetArticles {
 
-    static HitServer hitServer;
+    HitServer hitServer;
     private String urls;
     private URL url;
     private StringBuffer buffer;
 
     public void getNews() throws MalformedURLException {
+
+        if(MainActivity.connecth!=null)
+        {
+            MainActivity.connecth.removeCallbacks(MainActivity.connectrun);
+            MainActivity.connecth=null;
+        }
 
         hitServer= new HitServer();
         urls="https://sportsdilse.com/?json=get_recent_posts&count=200";
@@ -51,8 +57,18 @@ class GetArticles {
                     buffer.append(line + "\n");
                 }
             } catch (MalformedURLException e) {
+                try {
+                    getNews();
+                } catch (MalformedURLException e1) {
+                    e1.printStackTrace();
+                }
                 e.printStackTrace();
             } catch (IOException e) {
+                try {
+                    getNews();
+                } catch (MalformedURLException e1) {
+                    e1.printStackTrace();
+                }
                 e.printStackTrace();
             }
             return null;
@@ -67,7 +83,7 @@ class GetArticles {
                 if(Const.news!=null){
                     try {
                         Const.flag=1;
-                        new ReadJson().readNews();
+                        ReadJson.readNews();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (MalformedURLException e) {
@@ -82,10 +98,10 @@ class GetArticles {
 
 class ReadJson {
 
-    JSONObject jsonObject;
-    JSONArray posts;
+    private static JSONObject jsonObject;
+    private static JSONArray posts;
 
-    public void readNews() throws JSONException, MalformedURLException {
+    public static void readNews() throws JSONException, MalformedURLException {
 
         if(Const.news==null) {
             new GetArticles().getNews();

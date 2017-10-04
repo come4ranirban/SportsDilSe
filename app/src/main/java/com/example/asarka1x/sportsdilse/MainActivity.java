@@ -1,10 +1,12 @@
 package com.example.asarka1x.sportsdilse;
 
 import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -32,6 +34,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 import org.json.JSONException;
 
@@ -46,7 +52,11 @@ public class MainActivity extends AppCompatActivity {
     static DrawerLayout drawerLayout;
     static MyPagerAdapter pagerAdapter;
     static MainActivity activity;
+    static AdView mAdView;
+    static Handler connecth,gch;
+    static Runnable connectrun,gcrun;
     SQLiteDatabase db;
+    private BroadcastReceiver connectivity;
     private boolean viewFlag;
     private Toolbar toolbar;
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -77,12 +87,13 @@ public class MainActivity extends AppCompatActivity {
                     Const.other=true;
                 if(cursor.getInt(8)==1)
                     Const.nightmode=true;
+                cursor.close();
             }
         }catch (SQLiteException e){
             db.execSQL("CREATE TABLE IF NOT EXISTS SPORTSLIST(cricket integer default 0, football integer default 0, " +
-
                     "tennis integer default 0, badminton integer default 0, formula integer default 0," +
                     "hockey integer default 0, track integer default 0, other integer default 0, nightmode integer default 0)");
+
             db.execSQL("CREATE TABLE IF NOT EXISTS BOOKMARKED(ID number, HEADLINE varchar(200), AUTHOR varchar(30), DATE varchar(18), CONTENT varchar(1500), IMAGE BLOB NOT NULL)");
 
             ContentValues values= new ContentValues();
@@ -104,7 +115,24 @@ public class MainActivity extends AppCompatActivity {
         Const.tempid.clear();
         Const.starttempid=true;
 
-        new ReadJson().readNews();
+        connecth=new Handler();
+        connecth.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                connectrun=this;
+                if(Const.internet){
+                    try {
+                        ReadJson.readNews();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    connecth.postDelayed(this, 200);
+                }
+            }
+        },200);
 
         db.execSQL("create table if not exists usercredential(status int, username varchar(20), email varchar(40), password varchar(25))");
 
@@ -123,16 +151,6 @@ public class MainActivity extends AppCompatActivity {
         }.start();
     }
 
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager  = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
 
     @Override
@@ -140,13 +158,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         activity= this;
-        //setContentView(R.layout.activity_main);
 
-        if(isMyServiceRunning(SportsDilSeService.class)==false){
-            Intent intent= new Intent();
-            intent.setComponent(new ComponentName(getApplication(), SportsDilSeService.class));
-            startService(intent);
-        }
+        MobileAds.initialize(getApplicationContext(),
+                "ca-app-pub-3940256099942544~3347511713");
+
+        //register Broadcast receiver for internet connnectivity
+        IntentFilter filter = new IntentFilter();
+        connectivity = new InternetConnectivity();
+        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(connectivity, filter);
+
 
         db= openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
 
@@ -165,6 +186,11 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         if(viewFlag){
+
+            mAdView = (AdView) findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().addTestDevice("2697A290015D3B37B97F4E74B4C0517E").build();
+            mAdView.loadAd(adRequest);
+
             toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -213,9 +239,12 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setAdapter(pagerAdapter);
             }else{
                 if(Const.pageHistory.get(Const.pageHistory.size()-1).getPageTitle(0).equals("Feed"))
+                {
                     getSupportActionBar().show();
+                }
                 viewPager.setAdapter(Const.pageHistory.get(Const.pageHistory.size()-1));
             }
+
         }
     }
 
@@ -225,25 +254,64 @@ public class MainActivity extends AppCompatActivity {
         if(viewFlag){
             Const.pageHistory.remove(Const.pageHistory.size()-1);
             if(Const.pageHistory.isEmpty()){
+                InterstitialAd mInterstitialAd = new InterstitialAd(this);
+                mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+                //2697A290015D3B37B97F4E74B4C0517E
+                mInterstitialAd.loadAd(new AdRequest.Builder().addTestDevice("5158C1BB1B9FA97D34B9DBA57C39BEA9").build());
                 super.onBackPressed();
             }
             else
             {
                 if(Const.pageHistory.get(Const.pageHistory.size()-1).getPageTitle(0).equals("Feed"))
+                {
                     getSupportActionBar().show();
+                    if(mAdView!=null)
+                        mAdView.setVisibility(View.VISIBLE);
+                }
                 viewPager.setAdapter(Const.pageHistory.get(Const.pageHistory.size()-1));
             }
+            clearGarbage();
         }
+    }
+
+    private void clearGarbage(){
+        gch=new Handler();
+        gch.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                gcrun=this;
+                // clear both memory and disk caches
+                Fresco.getImagePipeline().clearCaches();
+                Runtime.getRuntime().gc();
+                System.gc();
+                gch.postDelayed(this,1000*60*4);
+            }
+        },1000*60*4);
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+
+        viewFlag=false;
+        if(gch!=null){
+            gch.removeCallbacks(gcrun);
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        db.close();
+        if(connecth!=null)
+        {
+            connecth.removeCallbacks(connectrun);
+            connecth=null;
+        }
+        unregisterReceiver(connectivity);
+        Articls.savedstate=null;
+        MainActivity.activity.finish();
     }
 
     public void writearticle(View v){
@@ -251,6 +319,7 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor= db.rawQuery("select *from usercredential",null);
         cursor.moveToFirst();
         if(cursor.getCount()>0 ){
+            cursor.close();
             getSupportActionBar().hide();
             pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
             pagerAdapter.clearList();
@@ -259,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
             viewPager.setAdapter(pagerAdapter);
             drawerLayout.closeDrawers();
         }else{
+            cursor.close();
             getSupportActionBar().hide();
             pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
             pagerAdapter.clearList();
@@ -267,5 +337,11 @@ public class MainActivity extends AppCompatActivity {
             viewPager.setAdapter(pagerAdapter);
             drawerLayout.closeDrawers();
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        viewFlag=true;
     }
 }
