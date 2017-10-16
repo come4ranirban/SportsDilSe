@@ -10,14 +10,15 @@
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/toobar"
         android:elevation="8dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:background="@android:color/transparent"
-            android:padding="15dp"
             android:src="@drawable/back" />
 
         <View
@@ -29,13 +30,31 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="15dp"
             android:text="Write an Article"
-            android:textAllCaps="true"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:textStyle="bold"
+            android:textStyle="bold|italic"
             />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            >
+            <ImageView
+                android:id="@+id/send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/send"/>
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -65,6 +84,22 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
             </View>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true">
+
+                <ImageButton
+                    android:id="@+id/clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/tabs"/>
+            </LinearLayout>
+            <View
+                android:layout_width="30dp"
+                android:layout_height="match_parent"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -130,6 +165,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="23dp"
             android:layout_marginLeft="23dp"
             android:layout_marginRight="23dp"
             android:layout_marginTop="8dp"
@@ -148,35 +184,6 @@
                 android:textStyle="bold"/>
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="14dp"
-            android:layout_weight="2">
-
-            <ImageButton
-                android:id="@+id/send"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@drawable/send"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-
-            <ImageButton
-                android:id="@+id/retrive"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@drawable/retrive"/>
-        </LinearLayout>
-
     </LinearLayout>
 
 </LinearLayout>

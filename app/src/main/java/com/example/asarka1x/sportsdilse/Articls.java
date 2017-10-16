@@ -94,6 +94,10 @@ public class Articls extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
+
+        if(MainActivity.mAdView!=null)
+            MainActivity.mAdView.setVisibility(View.VISIBLE);
+
         h= new Handler();
 
         if(pvisibility==true)
@@ -126,7 +130,6 @@ public class Articls extends Fragment{
         super.onPause();
         if(MainActivity.mAdView!=null)
             MainActivity.mAdView.setVisibility(View.GONE);
-
     }
 
     @Override

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1097290729632",
+    "firebase_url": "https://sportsdilse-1991.firebaseio.com",
+    "project_id": "sportsdilse-1991",
+    "storage_bucket": "sportsdilse-1991.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097290729632:android:759ff2e4533a0dc8",
+        "android_client_info": {
+          "package_name": "com.example.asarka1x.sportsdilse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1097290729632-0bk8dq53qq411ctv40kq6rq1lu1r1thd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.asarka1x.sportsdilse",
+            "certificate_hash": "f690a29bec04ad6f56eda85ec538889beaa9149a"
+          }
+        },
+        {
+          "client_id": "1097290729632-hmu6660571j3mjplb8age28dr07nrog5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0o84sV6EwgABXJnd4oNYHaysjfUKZoco"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1097290729632-hmu6660571j3mjplb8age28dr07nrog5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

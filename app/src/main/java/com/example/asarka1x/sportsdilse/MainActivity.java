@@ -7,17 +7,20 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -26,6 +29,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -34,16 +38,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 import org.json.JSONException;
 
 import java.net.MalformedURLException;
+import java.util.Random;
 import java.util.Stack;
 
+import in.technomenia.user.sportsdilse.Manifest;
 import in.technomenia.user.sportsdilse.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -95,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
                     "hockey integer default 0, track integer default 0, other integer default 0, nightmode integer default 0)");
 
             db.execSQL("CREATE TABLE IF NOT EXISTS BOOKMARKED(ID number, HEADLINE varchar(200), AUTHOR varchar(30), DATE varchar(18), CONTENT varchar(1500), IMAGE BLOB NOT NULL)");
+
+            //create unique id for user in firebase database
+            db.execSQL("CREATE TABLE IF NOT EXISTS VIEWS(UID number, POSTID number)");
 
             ContentValues values= new ContentValues();
             values.put("cricket", 1);
@@ -152,6 +165,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==1){
+            Const.phone_state_permission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +190,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         db= openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE)!= PackageManager.PERMISSION_GRANTED){
+                requestPermissions(new String[]{android.Manifest.permission.READ_PHONE_STATE},1);
+            }else{
+                Const.phone_state_permission=true;
+            }
+        }else {
+            Const.phone_state_permission=true;
+        }
+
 
         //initialize all settings
         try {
@@ -309,7 +340,17 @@ public class MainActivity extends AppCompatActivity {
             connecth.removeCallbacks(connectrun);
             connecth=null;
         }
+
         unregisterReceiver(connectivity);
+
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdLeftApplication() {
+                super.onAdLeftApplication();
+                mAdView.destroy();
+            }
+        });
+
         Articls.savedstate=null;
         MainActivity.activity.finish();
     }

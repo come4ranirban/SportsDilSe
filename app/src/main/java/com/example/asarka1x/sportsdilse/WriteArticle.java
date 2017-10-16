@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -33,9 +34,10 @@ import in.technomenia.user.sportsdilse.R;
 
 public class WriteArticle extends Fragment {
 
+    ImageView send;
     private Spinner sports;
     private EditText  content, title;
-    private ImageButton  send, filesaved, retrive, back;
+    private ImageButton  filesaved, clear, back;
     private StringBuffer buffer;
     private String catagory;
     private SQLiteDatabase db;
@@ -49,18 +51,11 @@ public class WriteArticle extends Fragment {
         sports= (Spinner)v.findViewById(R.id.sportsspinner);
         title= (EditText)v.findViewById(R.id.title);
         content= (EditText)v.findViewById(R.id.content);
-        send= (ImageButton)v.findViewById(R.id.send);
+        send= (ImageView)v.findViewById(R.id.send);
         filesaved= (ImageButton)v.findViewById(R.id.savedimg);
-        retrive= (ImageButton)v.findViewById(R.id.retrive);
+        clear= (ImageButton)v.findViewById(R.id.clear);
         back= (ImageButton)v.findViewById(R.id.back);
 
-
-        return v;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
 
         db= getActivity().openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
         try{
@@ -118,6 +113,27 @@ public class WriteArticle extends Fragment {
             }
         });
 
+        cursor= db.rawQuery("select * from writearticle",null);
+        cursor.moveToFirst();
+        if(cursor.getCount()>0){
+            for(int i=0; i<sports.getAdapter().getCount(); i++){
+                if(sports.getItemAtPosition(i).toString().equalsIgnoreCase(cursor.getString(1))){
+                    sports.setSelection(i);
+                    break;
+                }
+            }
+
+            title.setText(cursor.getString(2));
+            content.setText(cursor.getString(3));
+        }
+        cursor.close();
+
+        return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -200,26 +216,29 @@ public class WriteArticle extends Fragment {
             }
         });
 
-        retrive.setOnClickListener(new View.OnClickListener() {
+        clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cursor= db.rawQuery("select * from writearticle",null);
-                cursor.moveToFirst();
-                if(cursor.getCount()>0){
-                    for(int i=0; i<sports.getAdapter().getCount(); i++){
-                        if(sports.getItemAtPosition(i).toString().equalsIgnoreCase(cursor.getString(1))){
-                            sports.setSelection(i);
-                            break;
-                        }
+                alert.setTitle("Warning");
+                alert.setMessage("All your saved data will be deleted");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        db.execSQL("delete from writearticle");
+                        content.setText("");
+                        title.setText("");
+                        sports.setSelection(0);
                     }
+                });
 
-                    title.setText(cursor.getString(2));
-                    content.setText(cursor.getString(3));
-
-                }else{
-                    Toast.makeText(getActivity(), "No Items Saved", Toast.LENGTH_SHORT).show();
-                }
-                cursor.close();
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.show();
             }
         });
 

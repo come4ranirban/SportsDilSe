@@ -17,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,11 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,6 +59,7 @@ public class ArticleDetails extends Fragment {
 
     static SQLiteDatabase db;
     ImageView bookmark;
+    private int views;
     private SimpleDraweeView newsimage;
     private FloatingActionButton share;
     private TextView newscontent, newsAuthor, newsTime, newsHeadline,nightmode;
@@ -63,7 +70,7 @@ public class ArticleDetails extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.articledetails, container, false);
+        final View v= inflater.inflate(R.layout.articledetails, container, false);
         newsimage= (SimpleDraweeView)v.findViewById(R.id.newsimage);
         newscontent= (TextView)v.findViewById(R.id.newscontent);
         newsAuthor= (TextView)v.findViewById(R.id.newsAuthor);
@@ -77,11 +84,51 @@ public class ArticleDetails extends Fragment {
         share= (FloatingActionButton)v.findViewById(R.id.sharefab);
         db= getActivity().openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
 
+
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("5158C1BB1B9FA97D34B9DBA57C39BEA9").build();
 
         AdView mAdView;
         mAdView = (AdView)v.findViewById(R.id.fragadd);
         mAdView.loadAd(adRequest);
+        final TelephonyManager telephonyManager = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        final DatabaseReference postId;
+        postId= FirebaseDatabase.getInstance().getReference("Postid");
+        postId.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(Const.newsDetails.get(Const.newsindex).toString())){
+                    if(Const.phone_state_permission){
+                        if(!dataSnapshot.child(Const.newsDetails.get(Const.newsindex).toString()).hasChild(telephonyManager.getDeviceId()))
+                            dataSnapshot.child(Const.newsDetails.get(Const.newsindex).toString()).getRef().child(telephonyManager.getDeviceId()).setValue(telephonyManager.getDeviceId());
+                    }
+                }else{
+                    if(Const.phone_state_permission){
+                        TelephonyManager telephonyManager = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+                        if(!dataSnapshot.child(Const.newsDetails.get(Const.newsindex).toString()).hasChild(telephonyManager.getDeviceId()))
+                            dataSnapshot.child(Const.newsDetails.get(Const.newsindex).toString()).getRef().child(telephonyManager.getDeviceId()).setValue(telephonyManager.getDeviceId());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
+
+        postId.child(Const.newsDetails.get(Const.newsindex).toString()).getRef().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                views= (int) dataSnapshot.getChildrenCount();
+                Toast.makeText(getActivity(),""+views,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         return v;
     }

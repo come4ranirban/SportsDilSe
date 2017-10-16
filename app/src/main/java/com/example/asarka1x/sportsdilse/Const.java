@@ -18,6 +18,7 @@ public class Const {
     static String news=null;
     static boolean nightmode,starttempid, internet;
     static int newsCount=0;
+    static boolean phone_state_permission;
     static boolean allSports,cricket,football,tennis,badminton,formula1,hockey,trackfield,other,setadapter,showadapter;
     static ArrayList<String> uid= new ArrayList<>();
     static ArrayList<String> newsid= new ArrayList<>();

@@ -5,6 +5,12 @@ package com.example.asarka1x.sportsdilse;
 import android.os.AsyncTask;
 
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -119,9 +125,10 @@ class ReadJson {
 
             posts = jsonObject.getJSONArray("posts");
             for (int i = 0; i < posts.length(); i++) {
-                JSONObject post = posts.getJSONObject(i);
-                if (post.has("id"))
+                final JSONObject post = posts.getJSONObject(i);
+                if (post.has("id")) {
                     Const.newsid.add(post.getString("id"));
+                }
             }
 
             for(int i=0; i<posts.length(); i++){

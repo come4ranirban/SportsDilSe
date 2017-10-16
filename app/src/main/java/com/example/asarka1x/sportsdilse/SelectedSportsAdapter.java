@@ -1,10 +1,12 @@
 package com.example.asarka1x.sportsdilse;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import in.technomenia.user.sportsdilse.R;
@@ -15,18 +17,21 @@ import in.technomenia.user.sportsdilse.R;
 
 public class SelectedSportsAdapter extends RecyclerView.Adapter<SportsHolder> {
 
+    LinearLayout sportsclick;
+
     @Override
     public SportsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater= LayoutInflater.from(MainActivity.activity);
         View v= inflater.inflate(R.layout.selectedsports, parent, false);
+        sportsclick= (LinearLayout)v.findViewById(R.id.sportsclick);
         SportsHolder sportsHolder= new SportsHolder(v);
         return sportsHolder;
     }
 
 
     @Override
-    public void onBindViewHolder(SportsHolder holder, int position) {
+    public void onBindViewHolder(final SportsHolder holder, int position) {
         holder.sportsname.setText(Const.selectedsportslist.get(position));
 
         switch (Const.selectedsportslist.get(position)){
@@ -63,6 +68,19 @@ public class SelectedSportsAdapter extends RecyclerView.Adapter<SportsHolder> {
                 holder.sportsimage.setImageResource(R.drawable.other24);
 
         }
+
+        sportsclick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Color.parseColor("#18FFFF")==holder.sportsname.getCurrentTextColor()){
+                    holder.sportsname.setTextColor(Color.WHITE);
+                 
+                }else {
+                    holder.sportsname.setTextColor(Color.parseColor("#18FFFF"));
+                }
+
+            }
+        });
     }
 
     @Override
