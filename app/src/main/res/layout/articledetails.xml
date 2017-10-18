@@ -132,20 +132,24 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/nightmode"
+                            android:id="@+id/views"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Night Mode"
-                            android:textColor="#FFFFFF"/>
+                            android:textSize="20sp"/>
 
                         <View
-                            android:layout_width="2dp"
+                            android:layout_width="4dp"
                             android:layout_height="wrap_content"/>
 
-                        <Switch
-                            android:id="@+id/nightswitch"
+                        <TextView
+                            android:id="@+id/viewtext"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:text="Views"
+                            android:textSize="20sp" />
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="match_parent"/>
                     </LinearLayout>
                 </LinearLayout>
 

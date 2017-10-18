@@ -59,13 +59,13 @@ public class ArticleDetails extends Fragment {
 
     static SQLiteDatabase db;
     ImageView bookmark;
-    private int views;
+    private ValueEventListener dataentry,viewdisplay;
     private SimpleDraweeView newsimage;
+    private DatabaseReference postId;
     private FloatingActionButton share;
-    private TextView newscontent, newsAuthor, newsTime, newsHeadline,nightmode;
+    private TextView newscontent, newsAuthor, newsTime, newsHeadline, viewtext, views;
     private ImageButton backButton;
     private LinearLayout articlelayout;
-    private Switch nightswitch;
     private Uri uri;
     @Nullable
     @Override
@@ -74,8 +74,8 @@ public class ArticleDetails extends Fragment {
         newsimage= (SimpleDraweeView)v.findViewById(R.id.newsimage);
         newscontent= (TextView)v.findViewById(R.id.newscontent);
         newsAuthor= (TextView)v.findViewById(R.id.newsAuthor);
-        nightswitch= (Switch)v.findViewById(R.id.nightswitch);
-        nightmode= (TextView)v.findViewById(R.id.nightmode);
+        views= (TextView)v.findViewById(R.id.views);
+        viewtext= (TextView)v.findViewById(R.id.viewtext);
         newsTime= (TextView)v.findViewById(R.id.date);
         newsHeadline= (TextView)v.findViewById(R.id.newsHeadline);
         backButton= (ImageButton) v.findViewById(R.id.back);
@@ -90,10 +90,24 @@ public class ArticleDetails extends Fragment {
         AdView mAdView;
         mAdView = (AdView)v.findViewById(R.id.fragadd);
         mAdView.loadAd(adRequest);
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+
+        return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if(Const.nightmode==true)
+            darktheme();
+        else
+            lighttheme();
+
         final TelephonyManager telephonyManager = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        final DatabaseReference postId;
         postId= FirebaseDatabase.getInstance().getReference("Postid");
-        postId.addValueEventListener(new ValueEventListener() {
+        dataentry= postId.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.hasChild(Const.newsDetails.get(Const.newsindex).toString())){
@@ -103,7 +117,6 @@ public class ArticleDetails extends Fragment {
                     }
                 }else{
                     if(Const.phone_state_permission){
-                        TelephonyManager telephonyManager = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
                         if(!dataSnapshot.child(Const.newsDetails.get(Const.newsindex).toString()).hasChild(telephonyManager.getDeviceId()))
                             dataSnapshot.child(Const.newsDetails.get(Const.newsindex).toString()).getRef().child(telephonyManager.getDeviceId()).setValue(telephonyManager.getDeviceId());
                     }
@@ -117,11 +130,14 @@ public class ArticleDetails extends Fragment {
 
         });
 
-        postId.child(Const.newsDetails.get(Const.newsindex).toString()).getRef().addValueEventListener(new ValueEventListener() {
+        viewdisplay= postId.child(Const.newsDetails.get(Const.newsindex).toString()).getRef().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                views= (int) dataSnapshot.getChildrenCount();
-                Toast.makeText(getActivity(),""+views,Toast.LENGTH_SHORT).show();
+                if((int)dataSnapshot.getChildrenCount() <= 1)
+                    viewtext.setText("View");
+                else
+                    viewtext.setText("Views");
+                views.setText(""+(int) dataSnapshot.getChildrenCount());
             }
 
             @Override
@@ -130,21 +146,6 @@ public class ArticleDetails extends Fragment {
             }
         });
 
-        return v;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-
-        if(Const.nightmode==false){
-            nightswitch.setChecked(false);
-            lighttheme();
-        }else{
-            nightswitch.setChecked(true);
-            darktheme();
-        }
     }
 
     @Override
@@ -217,21 +218,6 @@ public class ArticleDetails extends Fragment {
             }
         });
 
-        nightswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    Const.nightmode=true;
-                    db.execSQL("UPDATE SPORTSLIST SET nightmode=1");
-                    darktheme();
-                }else {
-                    Const.nightmode=false;
-                    db.execSQL("UPDATE SPORTSLIST SET nightmode=0");
-                    lighttheme();
-                }
-            }
-        });
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,7 +235,8 @@ public class ArticleDetails extends Fragment {
         newsAuthor.setTextColor(Color.WHITE);
         newsHeadline.setTextColor(Color.WHITE);
         newsTime.setTextColor(Color.WHITE);
-        nightmode.setTextColor(Color.WHITE);
+        viewtext.setTextColor(Color.WHITE);
+        views.setTextColor(Color.WHITE);
         newscontent.setTextColor(Color.WHITE);
     }
 
@@ -258,7 +245,8 @@ public class ArticleDetails extends Fragment {
         newsAuthor.setTextColor(Color.BLACK);
         newsHeadline.setTextColor(Color.BLACK);
         newsTime.setTextColor(Color.DKGRAY);
-        nightmode.setTextColor(Color.BLUE);
+        viewtext.setTextColor(Color.BLUE);
+        views.setTextColor(Color.BLUE);
         newscontent.setTextColor(Color.DKGRAY);
     }
     @Override
@@ -285,5 +273,12 @@ public class ArticleDetails extends Fragment {
             temp=false;
 
         return temp;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        postId.removeEventListener(viewdisplay);
+        postId.removeEventListener(dataentry);
     }
 }

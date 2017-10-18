@@ -18,11 +18,13 @@ public class Const {
     static String news=null;
     static boolean nightmode,starttempid, internet;
     static int newsCount=0;
+    static StringBuffer sportsSelected= new StringBuffer();//sports selected on navigation drawer
     static boolean phone_state_permission;
     static boolean allSports,cricket,football,tennis,badminton,formula1,hockey,trackfield,other,setadapter,showadapter;
     static ArrayList<String> uid= new ArrayList<>();
     static ArrayList<String> newsid= new ArrayList<>();
     static ArrayList<String> tempid= new ArrayList<>();
+    static ArrayList<String> sportsdisplayid= new ArrayList<>();
     static ArrayList<String> matchDetails= new ArrayList<>();
     static ArrayList<Object> newsDetails= new ArrayList<>();
     static ArrayList<MyPagerAdapter> pageHistory= new ArrayList<>();
