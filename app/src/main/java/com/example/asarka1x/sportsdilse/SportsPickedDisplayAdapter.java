@@ -54,7 +54,7 @@ public class SportsPickedDisplayAdapter extends RecyclerView.Adapter<NewsHolder>
 
     @Override
     public int getItemCount() {
-        return Const.tempid.size()-1;
+        return Const.sportsdisplayid.size()-1;
     }
 }
 

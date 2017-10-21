@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -33,6 +35,7 @@ public class SportsPicked extends Fragment {
     Parcelable listState;
     ProgressBar progressBar;
     boolean pvisibility;
+    private boolean showSports=false;
     private RecyclerView newsRecycler;
     private Handler h;
     private Runnable run;
@@ -47,22 +50,8 @@ public class SportsPicked extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.articlelayout, container, false);
 
-        layoutbacktheme= (RelativeLayout)v.findViewById(R.id.articlelayout);
-        progressBar= (ProgressBar)v.findViewById(R.id.progressbar);
-        pvisibility=true;
-        newsRecycler= (RecyclerView) v.findViewById(R.id.newsRecycler);
-        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        newsRecycler.setLayoutManager(layoutManager);
-        newsRecycler.setHasFixedSize(true);
-        newsRecycler.setNestedScrollingEnabled(false);
-        newsRecycler.setItemViewCacheSize(20);
-        newsRecycler.setDrawingCacheEnabled(true);
-        newsRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        newsRecycler.getRecycledViewPool().clear();
-        newsRecycler.removeAllViews();
-
+        View v;
         Const.sportsdisplayid.clear();
 
         for(int i=0; i<Const.newsDetails.size(); i=i+9){
@@ -71,14 +60,43 @@ public class SportsPicked extends Fragment {
             }
         }
 
+        if(Const.sportsdisplayid.size()==0)
+        {
+            showSports=false;
+            v= inflater.inflate(R.layout.noitemlayout,container,false);
+        }
+        else
+        {
+            showSports=true;
+            v= inflater.inflate(R.layout.articlelayout, container, false);
+        }
+
+        if(showSports){
+            layoutbacktheme= (RelativeLayout)v.findViewById(R.id.articlelayout);
+            progressBar= (ProgressBar)v.findViewById(R.id.progressbar);
+            pvisibility=true;
+            newsRecycler= (RecyclerView) v.findViewById(R.id.newsRecycler);
+            RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            newsRecycler.setLayoutManager(layoutManager);
+            newsRecycler.setHasFixedSize(true);
+            newsRecycler.setNestedScrollingEnabled(false);
+            newsRecycler.setItemViewCacheSize(20);
+            newsRecycler.setDrawingCacheEnabled(true);
+            newsRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+            newsRecycler.getRecycledViewPool().clear();
+            newsRecycler.removeAllViews();
+        }
         return v;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        theme();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        if(showSports)
+            theme();
     }
+
 
     @Override
     public void onResume() {
@@ -87,30 +105,32 @@ public class SportsPicked extends Fragment {
         if(MainActivity.mAdView!=null)
             MainActivity.mAdView.setVisibility(View.VISIBLE);
 
-        h= new Handler();
+        if(showSports){
+            h= new Handler();
 
-        if(pvisibility==true)
-            progressBar.setVisibility(View.VISIBLE);
-        else
-            progressBar.setVisibility(View.GONE);
+            if(pvisibility==true)
+                progressBar.setVisibility(View.VISIBLE);
+            else
+                progressBar.setVisibility(View.GONE);
 
-        h.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(savedstate==null){
+            h.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(savedstate==null){
 
-                    if(Const.sportsdisplayid.size()>0) {
-                        progressBar.setVisibility(View.GONE);
-                        newsRecycler.setAdapter(new SportsPickedDisplayAdapter());
-                        run=this;
-                        h.removeCallbacks(this);
-                    }
-                    else{
-                        h.postDelayed(this,20);
+                        if(Const.sportsdisplayid.size()>0) {
+                            progressBar.setVisibility(View.GONE);
+                            newsRecycler.setAdapter(new SportsPickedDisplayAdapter());
+                            run=this;
+                            h.removeCallbacks(this);
+                        }
+                        else{
+                            h.postDelayed(this,20);
+                        }
                     }
                 }
-            }
-        },20);
+            },20);
+        }
     }
 
     @Override
@@ -122,9 +142,12 @@ public class SportsPicked extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        listState = newsRecycler.getLayoutManager().onSaveInstanceState();
-        savedstate=outState;
-        savedstate.putParcelable(KEY_RECYCLER_STATE, listState);
+
+        if(showSports){
+            listState = newsRecycler.getLayoutManager().onSaveInstanceState();
+            savedstate=outState;
+            savedstate.putParcelable(KEY_RECYCLER_STATE, listState);
+        }
         super.onSaveInstanceState(outState);
     }
 
@@ -132,18 +155,20 @@ public class SportsPicked extends Fragment {
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
 
-        if (savedstate != null) {
+        if(showSports){
+            if (savedstate != null) {
 
-            if(Const.setadapter==true){
-                Const.setadapter= false;
-                savedstate= null;
-                pvisibility=true;
-            }
-            else{
-                listState = savedstate.getParcelable(KEY_RECYCLER_STATE);
-                pvisibility=false;
-                newsRecycler.getLayoutManager().onRestoreInstanceState(listState);
-                newsRecycler.setAdapter(new SportsPickedDisplayAdapter());
+                if(Const.setadapter==true){
+                    Const.setadapter= false;
+                    savedstate= null;
+                    pvisibility=true;
+                }
+                else{
+                    listState = savedstate.getParcelable(KEY_RECYCLER_STATE);
+                    pvisibility=false;
+                    newsRecycler.getLayoutManager().onRestoreInstanceState(listState);
+                    newsRecycler.setAdapter(new SportsPickedDisplayAdapter());
+                }
             }
         }
     }

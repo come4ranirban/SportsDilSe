@@ -36,7 +36,9 @@ public class NavgationViewfragment extends Fragment {
     private RecyclerView selectedsports;
     private LinearLayout bookmark,sportsPreference;
     private LinearLayout wrt;
+    private TextView navigationheader;
     private Switch nightswitch;
+    private SQLiteDatabase db;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class NavgationViewfragment extends Fragment {
         View v= inflater.inflate(R.layout.navigationfragment, container, false);
         bookmark= (LinearLayout)v.findViewById(R.id.bookmarks);
         wrt= (LinearLayout)v.findViewById(R.id.wrt);
+        navigationheader= (TextView)v.findViewById(R.id.navigationheader);
         nightswitch= (Switch)v.findViewById(R.id.nightswitch);
         Const.selectedsportslist.clear();
 
@@ -106,7 +109,27 @@ public class NavgationViewfragment extends Fragment {
                 drawerLayout.closeDrawers();
             }
         });
+
+        db= getActivity().openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
+
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Cursor cursor= db.rawQuery("select * from usercredential",null);
+        if(cursor.getCount()>0){
+            cursor.moveToFirst();
+            if(cursor.getString(1).equals(""))
+            {
+                navigationheader.setText("Welcome, "+cursor.getString(2).substring(0,cursor.getString(2).indexOf("@")));
+            }
+            else
+                navigationheader.setText("Welcome, "+cursor.getString(1));
+        }else
+            navigationheader.setText("Welcome..");
+
     }
 
     @Override
