@@ -36,7 +36,12 @@ public class SelectedSportsAdapter extends RecyclerView.Adapter<SportsHolder> {
 
     @Override
     public void onBindViewHolder(final SportsHolder holder, int position) {
+
         holder.sportsname.setText(Const.selectedsportslist.get(position));
+
+        if(holder.sportsname.getText().equals(Const.sportsSelected.toString()))
+            holder.sportsname.setTextColor(Color.WHITE);
+
 
         switch (Const.selectedsportslist.get(position)){
 
@@ -82,45 +87,51 @@ public class SelectedSportsAdapter extends RecyclerView.Adapter<SportsHolder> {
 
                 if(Color.parseColor("#18FFFF")==holder.sportsname.getCurrentTextColor()){
                     holder.sportsname.setTextColor(Color.WHITE);
+                    if(holder.sportsname.getText().equals("Cricket"))
+                        Const.sportsSelected.append("Cricket");
+
+                    if(holder.sportsname.getText().equals("Football"))
+                        Const.sportsSelected.append("Football");
+
+                    if(holder.sportsname.getText().equals("Tennis"))
+                        Const.sportsSelected.append("Tennis");
+
+                    if(holder.sportsname.getText().equals("Badminton"))
+                        Const.sportsSelected.append("Badminton");
+
+                    if(holder.sportsname.getText().equals("Formula 1"))
+                        Const.sportsSelected.append("Formula 1");
+
+                    if(holder.sportsname.getText().equals("Hockey"))
+                        Const.sportsSelected.append("Hockey");
+
+                    if(holder.sportsname.getText().equals("Track & Field"))
+                        Const.sportsSelected.append("Track & Field");
+
+                    if(holder.sportsname.getText().equals("other"))
+                        Const.sportsSelected.append("other");
+
+
+                    for(int i=0;i<Const.pageHistory.size();i++){
+                        if(Const.pageHistory.get(i).getPageTitle(0).equals("SportsPickedforDisplay"))
+                            Const.pageHistory.remove(i);
+                    }
+
+                    pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
+                    pagerAdapter.clearList();
+                    pagerAdapter.addFragment(new SportsPicked(),"SportsPickedforDisplay");
+                    Const.pageHistory.add(pagerAdapter);
+                    viewPager.setAdapter(pagerAdapter);
+                    drawerLayout.closeDrawers();
+
                 }else {
                     holder.sportsname.setTextColor(Color.parseColor("#18FFFF"));
+                    Const.sportsSelected.delete(0,Const.sportsSelected.length());
+                    Const.pageHistory.remove(Const.pageHistory.size()-1);
+                    viewPager.setAdapter(Const.pageHistory.get(Const.pageHistory.size()-1));
+                    drawerLayout.closeDrawers();
                 }
 
-                if(holder.sportsname.getText().equals("Cricket"))
-                    Const.sportsSelected.append("Cricket");
-
-                if(holder.sportsname.getText().equals("Football"))
-                    Const.sportsSelected.append("Football");
-
-                if(holder.sportsname.getText().equals("Tennis"))
-                    Const.sportsSelected.append("Tennis");
-
-                if(holder.sportsname.getText().equals("Badminton"))
-                    Const.sportsSelected.append("Badminton");
-
-                if(holder.sportsname.getText().equals("Formula 1"))
-                    Const.sportsSelected.append("Formula 1");
-
-                if(holder.sportsname.getText().equals("Hockey"))
-                    Const.sportsSelected.append("Hockey");
-
-                if(holder.sportsname.getText().equals("Track & Field"))
-                    Const.sportsSelected.append("Track & Field");
-
-                if(holder.sportsname.getText().equals("other"))
-                    Const.sportsSelected.append("other");
-
-                for(int i=0;i<Const.pageHistory.size();i++){
-                    if(Const.pageHistory.get(i).getPageTitle(0).equals("SportsPickedforDisplay"))
-                        Const.pageHistory.remove(i);
-                }
-
-                pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
-                pagerAdapter.clearList();
-                pagerAdapter.addFragment(new SportsPicked(),"SportsPickedforDisplay");
-                Const.pageHistory.add(pagerAdapter);
-                viewPager.setAdapter(pagerAdapter);
-                drawerLayout.closeDrawers();
             }
         });
     }

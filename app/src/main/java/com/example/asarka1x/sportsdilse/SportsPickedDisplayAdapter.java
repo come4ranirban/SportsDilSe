@@ -31,10 +31,12 @@ public class SportsPickedDisplayAdapter extends RecyclerView.Adapter<NewsHolder>
 
     @Override
     public void onBindViewHolder(final NewsHolder holder, final int position) {
+
+
         index= Const.newsDetails.indexOf(Const.sportsdisplayid.get(position));
         holder.catagory.setText((String) Const.newsDetails.get(index+6));
         holder.title.setText((String) Const.newsDetails.get(index+1));
-//        holder.datetime.setText((String)Const.newsDetails.get(index+2));
+        //holder.datetime.setText((String)Const.newsDetails.get(index+2));
         uri= Uri.parse(Const.newsDetails.get(index+8).toString());
         holder.imageNews.setImageURI(uri);
 
@@ -54,7 +56,7 @@ public class SportsPickedDisplayAdapter extends RecyclerView.Adapter<NewsHolder>
 
     @Override
     public int getItemCount() {
-        return Const.sportsdisplayid.size()-1;
+        return Const.sportsdisplayid.size();
     }
 }
 

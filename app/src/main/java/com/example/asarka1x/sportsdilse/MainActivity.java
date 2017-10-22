@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     static Handler connecth,gch;
     static Runnable connectrun,gcrun;
     SQLiteDatabase db;
+    private CountDownTimer countDownTimer;
     private BroadcastReceiver connectivity;
     private boolean viewFlag;
     private Toolbar toolbar;
@@ -149,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
         db.execSQL("create table if not exists usercredential(status int, username varchar(20), email varchar(40), password varchar(25))");
 
-        new CountDownTimer(2 * 1000, 1000) {
+        countDownTimer= new CountDownTimer(2 * 1000, 1000) {
             @Override
             public void onTick(long l) {
                 setContentView(R.layout.welcomscreen);
@@ -157,9 +158,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                viewFlag=true;
-                setContentView(R.layout.activity_main);
-                onStart();
+                if(Const.phone_state_permission){
+                    viewFlag=true;
+                    setContentView(R.layout.activity_main);
+                    countDownTimer.cancel();
+                    onStart();
+                }else
+                    countDownTimer.start();
             }
         }.start();
     }
@@ -296,9 +301,11 @@ public class MainActivity extends AppCompatActivity {
                 if(Const.pageHistory.get(Const.pageHistory.size()-1).getPageTitle(0).equals("Feed"))
                 {
                     getSupportActionBar().show();
+                    Const.sportsSelected.delete(0,Const.sportsSelected.length());
                     if(mAdView!=null)
                         mAdView.setVisibility(View.VISIBLE);
                 }
+
                 viewPager.setAdapter(Const.pageHistory.get(Const.pageHistory.size()-1));
             }
             clearGarbage();

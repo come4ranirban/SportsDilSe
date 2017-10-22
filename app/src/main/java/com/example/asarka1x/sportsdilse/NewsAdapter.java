@@ -58,7 +58,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsHolder>{
 
     @Override
     public int getItemCount() {
-        return Const.tempid.size()-1;
+        return Const.tempid.size();
     }
 }
 
@@ -71,7 +71,7 @@ class NewsHolder extends RecyclerView.ViewHolder {
     public NewsHolder(View itemView) {
         super(itemView);
         title= (TextView)itemView.findViewById(R.id.title);
-  //      datetime= (TextView)itemView.findViewById(R.id.time);
+        //datetime= (TextView)itemView.findViewById(R.id.time);
         catagory= (TextView)itemView.findViewById(R.id.catagory);
         imageNews= (SimpleDraweeView)itemView.findViewById(R.id.newsimage);
         newscard= (CardView)itemView.findViewById(R.id.newscard);
