@@ -35,6 +35,7 @@ public class SignUp extends Fragment {
     EditText username,email,password,cpass;
     TextView register;
     SQLiteDatabase db;
+    private Runnable run;
 
     @Nullable
     @Override
@@ -93,6 +94,7 @@ public class SignUp extends Fragment {
                         h.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                run=this;
                                 if(regresult==true){
                                     regresult=false;
                                     pdialog.dismiss();
@@ -111,10 +113,16 @@ public class SignUp extends Fragment {
                                         Const.pageHistory.add(pagerAdapter);
                                         viewPager.setAdapter(pagerAdapter);
                                     }else {
+                                        error=false;
                                         alert.setMessage("You are already registered.\n Please login..");
                                         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
+                                                username.setText("");
+                                                password.setText("");
+                                                email.setText("");
+                                                cpass.setText("");
+                                                h.removeCallbacks(run);
                                                 dialog.dismiss();
                                             }
                                         });
@@ -127,7 +135,7 @@ public class SignUp extends Fragment {
                             }
                         },20);
 
-                        final Auth auth= new Auth(username.getText().toString(),email.getText().toString(),cpass.getText().toString());
+                        Auth auth= new Auth(username.getText().toString(),email.getText().toString(),cpass.getText().toString());
                         auth.registration=true;
                         auth.getNonceReg();
 

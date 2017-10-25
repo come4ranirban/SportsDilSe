@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/toobar"
+        android:elevation="8dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent">
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Your Preference"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <!--All Sports-->
+                <LinearLayout
+                    android:id="@+id/allSports"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/rectangleshapewhite"
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="7"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/allSportsicon"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            ></ImageView>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:text="All Sports"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5">
+                </LinearLayout>
+
+                <!--Cricket Layout-->
+                <LinearLayout
+                    android:id="@+id/cricket"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/rectangleshapewhite"
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="7"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/cricketicon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            ></ImageView>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:text="Cricket"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5">
+                </LinearLayout>
+
+
+                <!--Football Layout-->
+                <LinearLayout
+                    android:id="@+id/football"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/rectangleshapewhite"
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="7"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/footballicon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            ></ImageView>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:text="Football"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <!--Tennis-->
+                <LinearLayout
+                    android:id="@+id/tennis"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/rectangleshapewhite"
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="7"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/tennisicon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            ></ImageView>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:text="Tennis"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5">
+                </LinearLayout>
+
+                <!--Badminton Layout-->
+                <LinearLayout
+                    android:id="@+id/badminton"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/rectangleshapewhite"
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="7"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/badmintonicon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            ></ImageView>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:text="Badminton"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5">
+                </LinearLayout>
+
+
+                <!--Formula 1 Layout-->
+                <LinearLayout
+                    android:id="@+id/formula1"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/rectangleshapewhite"
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="7"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/formulaicon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            ></ImageView>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:text="Formula 1"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <!--Hockey -->
+                <LinearLayout
+                    android:id="@+id/hockey"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/rectangleshapewhite"
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="7"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/hockeyicon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            ></ImageView>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:text="Hockey"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5">
+                </LinearLayout>
+
+                <!--Track and field Layout-->
+                <LinearLayout
+                    android:id="@+id/trackfield"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/rectangleshapewhite"
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="7"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/trackfieldicon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            ></ImageView>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:text="Track Field"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5">
+                </LinearLayout>
+
+
+                <!--Other Sports Layout-->
+                <LinearLayout
+                    android:id="@+id/others"
+                    android:layout_width="0dp"
+                    android:layout_height="110dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/rectangleshapewhite"
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="7"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/othericon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            ></ImageView>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:text="Other Sports"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/transparent"
+                android:onClick="next"
+                android:src="@drawable/next64"/>
+
+
+            <!--LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+            </LinearLayout-->
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

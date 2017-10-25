@@ -117,6 +117,8 @@ public class LoginPage extends Fragment {
                                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        username.setText("");
+                                        password.setText("");
                                         dialog.dismiss();
                                     }
                                 });

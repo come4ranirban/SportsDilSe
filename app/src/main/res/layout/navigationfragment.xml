@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/colorPrimaryDark"
+        android:elevation="8dp"
         android:orientation="horizontal">
 
         <TextView
@@ -32,11 +33,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#FFFFFF" />
 
             <!-- WRITE AN ARTICLE-->
             <LinearLayout
@@ -210,6 +206,55 @@
                     android:layout_weight="8">
                 </android.support.v7.widget.RecyclerView>
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="15dp"
+                android:background="#FFFFFF"/>
+
+
+            <!--ABOUT US-->
+            <LinearLayout
+                android:id="@+id/aboutus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:clickable="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:text="About us"
+                    android:textColor="@color/navitext"
+                    android:textSize="16sp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/question32"/>
+
+                <LinearLayout
+                    android:layout_width="8dp"
+                    android:layout_height="match_parent">
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
+
         </LinearLayout>
     </ScrollView>
 

@@ -57,6 +57,8 @@ public class Articls extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+
         View v= inflater.inflate(R.layout.articlelayout, container, false);
 
         layoutbacktheme= (RelativeLayout)v.findViewById(R.id.articlelayout);
@@ -108,7 +110,7 @@ public class Articls extends Fragment{
         h.postDelayed(new Runnable() {
             @Override
             public void run() {
-                 if(savedstate==null){
+                if(savedstate==null){
 
                     if(Const.showadapter==true && Const.starttempid==false) {
                         Const.showadapter=false;

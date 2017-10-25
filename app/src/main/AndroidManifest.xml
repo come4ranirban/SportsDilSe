@@ -22,6 +22,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.example.asarka1x.sportsdilse.SportsSelectionOnStart"/>
+
         <receiver android:name="com.example.asarka1x.sportsdilse.InternetConnectivity">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

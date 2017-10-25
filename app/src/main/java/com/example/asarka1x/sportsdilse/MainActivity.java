@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         try{
             Cursor cursor= db.rawQuery("select * from sportslist",null);
-            if(cursor!=null){
+            if(cursor!=null && cursor.getCount()>0){
                 cursor.moveToFirst();
                 if(cursor.getInt(0)==1)
                     Const.cricket=true;
@@ -110,17 +110,6 @@ public class MainActivity extends AppCompatActivity {
             //create unique id for user in firebase database
             db.execSQL("CREATE TABLE IF NOT EXISTS VIEWS(UID number, POSTID number)");
 
-            ContentValues values= new ContentValues();
-            values.put("cricket", 1);
-            values.put("football", 1);
-            values.put("tennis", 1);
-            values.put("badminton", 1);
-            values.put("formula", 1);
-            values.put("hockey", 1);
-            values.put("track", 1);
-            values.put("other", 1);
-            values.put("nightmode", 0);
-            db.insert("sportslist", null, values);
             init();
         }
 
@@ -159,16 +148,40 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 if(Const.phone_state_permission){
-                    viewFlag=true;
-                    setContentView(R.layout.activity_main);
-                    countDownTimer.cancel();
-                    onStart();
+                    Cursor cursor= db.rawQuery("select * from sportslist",null);
+                    if(cursor.getCount()>0){
+                        viewFlag=true;
+                        setContentView(R.layout.activity_main);
+                        countDownTimer.cancel();
+                        onStart();
+                    }else {
+                        Intent intent= new Intent(MainActivity.activity,SportsSelectionOnStart.class);
+                        startActivityForResult(intent, 101);
+                    }
                 }else
                     countDownTimer.start();
             }
         }.start();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==101){
+            viewFlag=true;
+            Const.starttempid=true;
+            Const.tempid.clear();
+            try {
+                ReadJson.readNews();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            setContentView(R.layout.activity_main);
+            onStart();
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -350,13 +363,15 @@ public class MainActivity extends AppCompatActivity {
 
         unregisterReceiver(connectivity);
 
-        mAdView.setAdListener(new AdListener(){
-            @Override
-            public void onAdLeftApplication() {
-                super.onAdLeftApplication();
-                mAdView.destroy();
-            }
-        });
+        if(mAdView!=null){
+            mAdView.setAdListener(new AdListener(){
+                @Override
+                public void onAdLeftApplication() {
+                    super.onAdLeftApplication();
+                    mAdView.destroy();
+                }
+            });
+        }
 
         Articls.savedstate=null;
         MainActivity.activity.finish();

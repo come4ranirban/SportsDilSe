@@ -1,6 +1,7 @@
 package com.example.asarka1x.sportsdilse;
 
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -138,27 +139,49 @@ public class Auth {
     //read json responce for readauth
     public void readAuth(String authres) throws JSONException {
         buffer.delete(0,buffer.length());
-        String cookey= null;
-        JSONObject jsonObject= new JSONObject(authres);
-        if(jsonObject.has("cookie"))
-                cookey= jsonObject.getString("cookie");
-            validate(cookey);
-    }
+        String cookey=null;
+        if(!authres.equals("")){
 
-    //read json responce for validation
-    public void readValidate(String res) throws JSONException {
-        String result=null;
-        JSONObject jsonObject= new JSONObject(res);
-        if(jsonObject.has("valid")){
-            result= jsonObject.getString("valid");
-            if(result.equals("true"))
-                LoginPage.result=1;
-            else
+            JSONObject jsonObject= new JSONObject(authres.toString().trim());
+            if(jsonObject.has("cookie"))
+                cookey= jsonObject.getString("cookie");
+            if(cookey==null)
                 LoginPage.result=0;
-            LoginPage.isresultready=1;
+            else
+                LoginPage.result=1;
+
+            validate(cookey);
         }
     }
 
+    //read json responce for validation
+    public void readloginValidate(String res) throws JSONException {
+        String result=null;
+        if(!res.equals("")){
+            JSONObject jsonObject= new JSONObject(res);
+            if(jsonObject.has("valid")){
+                result= jsonObject.getString("valid");
+                if(result.equals("true"))
+                    LoginPage.result=1;
+                else
+                    LoginPage.result=0;
+                LoginPage.isresultready=1;
+            }
+        }
+    }
+
+
+    //read json responce for validation
+    public void readRegValidate(String res) throws JSONException {
+        String result=null;
+        JSONObject jsonObject= new JSONObject(res);
+        if(!res.equals("")){
+            if(jsonObject.has("valid")){
+                result= jsonObject.getString("valid");
+                SignUp.regresult = result.equals("true");
+            }
+        }
+    }
 
     class Background extends AsyncTask {
 
@@ -180,19 +203,19 @@ public class Auth {
                 String line = null;
 
                 while ((line = reader.readLine()) != null) {
-                    buffer.append(line + "\n");
+                    buffer.append(line);
                 }
 
                 if(buffer!=null && flag==1){
                     readnonce(buffer.toString());
                 }
 
-                if(buffer!=null && flag==2){
-                    readAuth(buffer.toString());
-                }
-
                 if(buffer!=null && flag==3){
-                    readValidate(buffer.toString());
+                    if(registration)
+                        readRegValidate(buffer.toString());
+                    else
+                        readloginValidate(buffer.toString());
+
                 }
 
                 if(buffer!=null && flag==4){
@@ -216,5 +239,16 @@ public class Auth {
             return null;
         }
 
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            if(buffer!=null && flag==2){
+                try {
+                    readAuth(buffer.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

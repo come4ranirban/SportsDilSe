@@ -34,8 +34,7 @@ import static com.example.asarka1x.sportsdilse.MainActivity.viewPager;
 public class NavgationViewfragment extends Fragment {
 
     private RecyclerView selectedsports;
-    private LinearLayout bookmark,sportsPreference;
-    private LinearLayout wrt;
+    private LinearLayout bookmark,sportsPreference,wrt,aboutus;
     private TextView navigationheader;
     private Switch nightswitch;
     private SQLiteDatabase db;
@@ -46,6 +45,7 @@ public class NavgationViewfragment extends Fragment {
         View v= inflater.inflate(R.layout.navigationfragment, container, false);
         bookmark= (LinearLayout)v.findViewById(R.id.bookmarks);
         wrt= (LinearLayout)v.findViewById(R.id.wrt);
+        aboutus= (LinearLayout)v.findViewById(R.id.aboutus);
         navigationheader= (TextView)v.findViewById(R.id.navigationheader);
         nightswitch= (Switch)v.findViewById(R.id.nightswitch);
         Const.selectedsportslist.clear();
@@ -187,11 +187,26 @@ public class NavgationViewfragment extends Fragment {
                     Const.nightmode=true;
                     db.execSQL("UPDATE SPORTSLIST SET nightmode=1");
                     Articls.theme();
+                    drawerLayout.closeDrawers();
                 }else {
                     Const.nightmode=false;
                     db.execSQL("UPDATE SPORTSLIST SET nightmode=0");
                     Articls.theme();
+                    drawerLayout.closeDrawers();
                 }
+            }
+        });
+
+        aboutus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+                pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
+                pagerAdapter.clearList();
+                pagerAdapter.addFragment(new AboutUs(), "AboutUs");
+                Const.pageHistory.add(pagerAdapter);
+                viewPager.setAdapter(pagerAdapter);
+                drawerLayout.closeDrawers();
             }
         });
     }
