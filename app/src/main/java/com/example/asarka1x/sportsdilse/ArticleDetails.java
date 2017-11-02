@@ -225,10 +225,12 @@ public class ArticleDetails extends Fragment {
                 Intent shareIntent= new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, Const.newsDetails.get(Const.newsindex+4).toString());
-                startActivity(Intent.createChooser(shareIntent, "choose"));
+                startActivity(Intent.createChooser(shareIntent, "Share With"));
             }
         });
     }
+
+
 
     public void darktheme(){
         articlelayout.setBackgroundColor(Color.parseColor("#616161"));
