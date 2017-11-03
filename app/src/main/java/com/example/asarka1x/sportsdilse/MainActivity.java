@@ -139,15 +139,13 @@ public class MainActivity extends AppCompatActivity {
 
         db.execSQL("create table if not exists usercredential(status int, username varchar(20), email varchar(40), password varchar(25))");
 
+        //CountDowntimer to check inApps Permission
         countDownTimer= new CountDownTimer(2 * 1000, 1000) {
             @Override
             public void onTick(long l) {
                 setContentView(R.layout.welcomscreen);
-            }
-
-            @Override
-            public void onFinish() {
                 if(Const.phone_state_permission){
+                    countDownTimer.cancel();
                     Cursor cursor= db.rawQuery("select * from sportslist",null);
                     if(cursor.getCount()>0){
                         viewFlag=true;
@@ -158,7 +156,11 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent= new Intent(MainActivity.activity,SportsSelectionOnStart.class);
                         startActivityForResult(intent, 101);
                     }
-                }else
+                }
+            }
+
+            @Override
+            public void onFinish() {
                     countDownTimer.start();
             }
         }.start();

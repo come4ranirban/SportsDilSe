@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="#FFFFFF"
-                android:inputType="textNoSuggestions"
+                android:inputType="textPassword"
                 android:textColor="#FFFFFF"/>
 
             <LinearLayout
