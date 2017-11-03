@@ -210,17 +210,6 @@ class ReadJson {
                                             if (Const.hockey == true)
                                                 Const.tempid.add(post.getString("id"));
                                             break;
-
-                                        case "Track & Field":
-                                            if (Const.trackfield == true)
-                                                Const.tempid.add(post.getString("id"));
-                                            break;
-
-                                        default:
-                                            if (Const.other == true) {
-                                                Const.tempid.add(post.getString("id"));
-                                            }
-                                            break;
                                     }
                                 }
                             }

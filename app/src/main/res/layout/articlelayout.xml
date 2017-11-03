@@ -31,4 +31,5 @@
         android:background="@android:color/transparent"
         android:indeterminate="true"
         android:indeterminateDrawable="@drawable/customdialog"/>
+
 </RelativeLayout>

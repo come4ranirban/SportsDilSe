@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/desi"
     android:orientation="vertical">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
@@ -33,78 +34,35 @@
             android:textStyle="bold"/>
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#73263238"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1">
-            </LinearLayout>
+                android:layout_weight="2.5"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
                 android:orientation="horizontal">
-
-                <!--All Sports-->
-                <LinearLayout
-                    android:id="@+id/allSports"
-                    android:layout_width="0dp"
-                    android:layout_height="110dp"
-                    android:layout_weight="3"
-                    android:background="@drawable/rectangleshapewhite"
-                    android:clickable="true"
-                    android:orientation="vertical"
-                    >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="7"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:id="@+id/allSportsicon"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            ></ImageView>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:gravity="center"
-                        android:text="All Sports"
-                        android:textColor="#000000"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5">
-                </LinearLayout>
 
                 <!--Cricket Layout-->
                 <LinearLayout
                     android:id="@+id/cricket"
-                    android:layout_width="0dp"
+                    android:layout_width="120dp"
                     android:layout_height="110dp"
-                    android:layout_weight="3"
                     android:background="@drawable/rectangleshapewhite"
                     android:clickable="true"
                     android:orientation="vertical"
@@ -125,27 +83,25 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/cricketText"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:text="Cricket"
-                        android:textColor="#000000"/>
+                        android:text="Cricket" />
                 </LinearLayout>
 
-                <LinearLayout
+                <View
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.5">
-                </LinearLayout>
+                    android:layout_weight="1"/>
 
 
                 <!--Football Layout-->
                 <LinearLayout
                     android:id="@+id/football"
-                    android:layout_width="0dp"
+                    android:layout_width="120dp"
                     android:layout_height="110dp"
-                    android:layout_weight="3"
                     android:background="@drawable/rectangleshapewhite"
                     android:clickable="true"
                     android:orientation="vertical"
@@ -166,34 +122,34 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/footballText"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:text="Football"
-                        android:textColor="#000000"/>
+                        android:text="Football" />
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1">
-            </LinearLayout>
+                android:layout_weight="2.5"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
                 android:orientation="horizontal">
 
                 <!--Tennis-->
                 <LinearLayout
                     android:id="@+id/tennis"
-                    android:layout_width="0dp"
+                    android:layout_width="120dp"
                     android:layout_height="110dp"
-                    android:layout_weight="3"
                     android:background="@drawable/rectangleshapewhite"
                     android:clickable="true"
                     android:orientation="vertical"
@@ -214,26 +170,25 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/tennisText"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:text="Tennis"
-                        android:textColor="#000000"/>
+                        android:text="Tennis" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.5">
+                    android:layout_weight="1">
                 </LinearLayout>
 
                 <!--Badminton Layout-->
                 <LinearLayout
                     android:id="@+id/badminton"
-                    android:layout_width="0dp"
+                    android:layout_width="120dp"
                     android:layout_height="110dp"
-                    android:layout_weight="3"
                     android:background="@drawable/rectangleshapewhite"
                     android:clickable="true"
                     android:orientation="vertical"
@@ -254,27 +209,32 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/badmintonText"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:text="Badminton"
-                        android:textColor="#000000"/>
+                        android:text="Badminton"/>
                 </LinearLayout>
+            </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5">
-                </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2.5"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp">
 
                 <!--Formula 1 Layout-->
                 <LinearLayout
                     android:id="@+id/formula1"
-                    android:layout_width="0dp"
+                    android:layout_width="120dp"
                     android:layout_height="110dp"
-                    android:layout_weight="3"
                     android:background="@drawable/rectangleshapewhite"
                     android:clickable="true"
                     android:orientation="vertical"
@@ -295,35 +255,24 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/formulaText"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:text="Formula 1"
-                        android:textColor="#000000"/>
+                        android:text="Formula 1" />
                 </LinearLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
 
                 <!--Hockey -->
                 <LinearLayout
                     android:id="@+id/hockey"
-                    android:layout_width="0dp"
+                    android:layout_width="120dp"
                     android:layout_height="110dp"
-                    android:layout_weight="3"
                     android:background="@drawable/rectangleshapewhite"
                     android:clickable="true"
                     android:orientation="vertical"
@@ -344,104 +293,19 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/hockeyText"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:text="Hockey"
-                        android:textColor="#000000"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5">
-                </LinearLayout>
-
-                <!--Track and field Layout-->
-                <LinearLayout
-                    android:id="@+id/trackfield"
-                    android:layout_width="0dp"
-                    android:layout_height="110dp"
-                    android:layout_weight="3"
-                    android:background="@drawable/rectangleshapewhite"
-                    android:clickable="true"
-                    android:orientation="vertical"
-                    >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="7"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:id="@+id/trackfieldicon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            ></ImageView>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:gravity="center"
-                        android:text="Track Field"
-                        android:textColor="#000000"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5">
-                </LinearLayout>
-
-
-                <!--Other Sports Layout-->
-                <LinearLayout
-                    android:id="@+id/others"
-                    android:layout_width="0dp"
-                    android:layout_height="110dp"
-                    android:layout_weight="3"
-                    android:background="@drawable/rectangleshapewhite"
-                    android:clickable="true"
-                    android:orientation="vertical"
-                    >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="7"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:id="@+id/othericon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            ></ImageView>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:gravity="center"
-                        android:text="Other Sports"
-                        android:textColor="#000000"/>
+                        android:text="Hockey" />
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1">
-            </LinearLayout>
-
-
+                android:layout_weight="2.5"/>
         </LinearLayout>
 
     </LinearLayout>

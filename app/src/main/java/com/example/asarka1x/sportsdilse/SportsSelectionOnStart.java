@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -27,26 +29,29 @@ import in.technomenia.user.sportsdilse.R;
 
 public class SportsSelectionOnStart extends AppCompatActivity {
 
-    private ImageView cricketicon,footballicon,tennisicon,badmintonicon,formulaicon,hockeyicon,trackfieldicon,othericon,allsportsicon;
-    private LinearLayout allsports,cricket,football,tennis,badminton,formula1,hockey,trackfield,others;
+    private ImageView cricketicon,footballicon,tennisicon,badmintonicon,formulaicon,hockeyicon;
+    private LinearLayout cricket,football,tennis,badminton,formula1,hockey;
+    private TextView cricketText, footballText, tennisText, badmintonText, formulaText, hockeyText;
     private SQLiteDatabase db;
-    private Handler h;
-    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sportsselectfirstscreen);
 
-        allsports= (LinearLayout)findViewById(R.id.allSports);
+        cricketText= (TextView)findViewById(R.id.cricketText);
+        footballText= (TextView)findViewById(R.id.footballText);
+        tennisText= (TextView)findViewById(R.id.tennisText);
+        badmintonText= (TextView)findViewById(R.id.badmintonText);
+        formulaText= (TextView)findViewById(R.id.formulaText);
+        hockeyText= (TextView)findViewById(R.id.hockeyText);
+
         cricket= (LinearLayout)findViewById(R.id.cricket);
         football= (LinearLayout)findViewById(R.id.football);
         tennis= (LinearLayout)findViewById(R.id.tennis);
         badminton= (LinearLayout)findViewById(R.id.badminton);
         formula1= (LinearLayout)findViewById(R.id.formula1);
         hockey= (LinearLayout)findViewById(R.id.hockey);
-        trackfield = (LinearLayout)findViewById(R.id.trackfield);
-        others= (LinearLayout)findViewById(R.id.others);
 
         cricketicon= (ImageView)findViewById(R.id.cricketicon);
         footballicon= (ImageView)findViewById(R.id.footballicon);
@@ -54,124 +59,73 @@ public class SportsSelectionOnStart extends AppCompatActivity {
         badmintonicon= (ImageView)findViewById(R.id.badmintonicon);
         formulaicon= (ImageView)findViewById(R.id.formulaicon);
         hockeyicon= (ImageView)findViewById(R.id.hockeyicon);
-        trackfieldicon= (ImageView)findViewById(R.id.trackfieldicon);
-        othericon= (ImageView)findViewById(R.id.othericon);
-        allsportsicon= (ImageView)findViewById(R.id.allSportsicon);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        if(Const.allSports== true)
-        {
-            allsports.setBackgroundResource(R.drawable.selectedsports);
-            allsportsicon.setImageResource(R.drawable.allsportswhite);
-        }else {
-            allsportsicon.setImageResource(R.drawable.allsportsblack);
-            allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
-        }
-
         if(Const.cricket== true){
             cricket.setBackgroundResource(R.drawable.selectedsports);
             cricketicon.setImageResource(R.drawable.cricketwhite);
+            cricketText.setTextColor(Color.WHITE);
         }else{
             cricket.setBackgroundResource(R.drawable.rectangleshapewhite);
             cricketicon.setImageResource(R.drawable.cricketblack);
+            cricketText.setTextColor(Color.BLACK);
         }
 
         if(Const.football== true){
             football.setBackgroundResource(R.drawable.selectedsports);
             footballicon.setImageResource(R.drawable.footballwhite);
+            footballText.setTextColor(Color.WHITE);
         }else{
             football.setBackgroundResource(R.drawable.rectangleshapewhite);
             footballicon.setImageResource(R.drawable.footballblack);
+            footballText.setTextColor(Color.BLACK);
         }
 
         if(Const.tennis== true){
             tennis.setBackgroundResource(R.drawable.selectedsports);
             tennisicon.setImageResource(R.drawable.tenniswhite);
+            tennisText.setTextColor(Color.WHITE);
         }else{
             tennis.setBackgroundResource(R.drawable.rectangleshapewhite);
             tennisicon.setImageResource(R.drawable.tennisblack);
+            tennisText.setTextColor(Color.BLACK);
         }
         if(Const.badminton== true){
             badminton.setBackgroundResource(R.drawable.selectedsports);
             badmintonicon.setImageResource(R.drawable.badmintonwhite);
+            badmintonText.setTextColor(Color.WHITE);
         }else{
             badminton.setBackgroundResource(R.drawable.rectangleshapewhite);
             badmintonicon.setImageResource(R.drawable.badmintonblack);
+            badmintonText.setTextColor(Color.BLACK);
         }
         if(Const.formula1== true){
             formula1.setBackgroundResource(R.drawable.selectedsports);
             formulaicon.setImageResource(R.drawable.formulawhite);
+            formulaText.setTextColor(Color.WHITE);
         }else{
             formula1.setBackgroundResource(R.drawable.rectangleshapewhite);
             formulaicon.setImageResource(R.drawable.formulablack);
+            formulaText.setTextColor(Color.BLACK);
         }
         if(Const.hockey== true){
             hockey.setBackgroundResource(R.drawable.selectedsports);
             hockeyicon.setImageResource(R.drawable.hockeywhite);
+            hockeyText.setTextColor(Color.WHITE);
         }else{
             hockey.setBackgroundResource(R.drawable.rectangleshapewhite);
             hockeyicon.setImageResource(R.drawable.hockeyblack);
-        }
-        if(Const.trackfield== true){
-            trackfield.setBackgroundResource(R.drawable.selectedsports);
-            trackfieldicon.setImageResource(R.drawable.trackswhite);
-        }else{
-            trackfield.setBackgroundResource(R.drawable.rectangleshapewhite);
-            trackfieldicon.setImageResource(R.drawable.tracksblack);
-        }
-
-        if(Const.other== true)
-        {
-            others.setBackgroundResource(R.drawable.selectedsports);
-            othericon.setImageResource(R.drawable.climbingwhite);
-        }else {
-            others.setBackgroundResource(R.drawable.rectangleshapewhite);
-            othericon.setImageResource(R.drawable.climbingblack);
+            hockeyText.setTextColor(Color.BLACK);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        h= new Handler();
-        h.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(Const.cricket==true && Const.football==true && Const.hockey==true && Const.tennis==true && Const.badminton==true
-                        && Const.formula1==true && Const.other==true && Const.trackfield==true)
-                {
-                    allsports.setBackgroundResource(R.drawable.selectedsports);
-                    allsportsicon.setImageResource(R.drawable.allsportswhite);
-                }
-                else
-                {
-                    allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
-                    allsportsicon.setImageResource(R.drawable.allsportsblack);
-                }
-                runnable= this;
-                h.postDelayed(this, 20);
-            }
-        },20);
-
-        allsports.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Const.setadapter= true;
-
-                if(Const.allSports==false){
-                    selectAllSports();
-                }else {
-                    disselectAllSports();
-                }
-            }
-        });
-
 
         cricket.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,14 +135,12 @@ public class SportsSelectionOnStart extends AppCompatActivity {
                 if(Const.cricket==false){
                     cricket.setBackgroundResource(R.drawable.selectedsports);
                     cricketicon.setImageResource(R.drawable.cricketwhite);
+                    cricketText.setTextColor(Color.WHITE);
                     Const.cricket=true;
                 }else {
-                    if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
-                        Const.allSports=false;
-                    }
                     cricket.setBackgroundResource(R.drawable.rectangleshapewhite);
                     cricketicon.setImageResource(R.drawable.cricketblack);
+                    cricketText.setTextColor(Color.BLACK);
                     Const.cricket= false;
                 }
             }
@@ -201,14 +153,12 @@ public class SportsSelectionOnStart extends AppCompatActivity {
                 if(Const.football==false){
                     football.setBackgroundResource(R.drawable.selectedsports);
                     footballicon.setImageResource(R.drawable.footballwhite);
+                    footballText.setTextColor(Color.WHITE);
                     Const.football=true;
                 }else {
-                    if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
-                        Const.allSports=false;
-                    }
                     football.setBackgroundResource(R.drawable.rectangleshapewhite);
                     footballicon.setImageResource(R.drawable.footballblack);
+                    footballText.setTextColor(Color.BLACK);
                     Const.football= false;
                 }
             }
@@ -221,14 +171,12 @@ public class SportsSelectionOnStart extends AppCompatActivity {
                 if(Const.tennis==false){
                     tennis.setBackgroundResource(R.drawable.selectedsports);
                     tennisicon.setImageResource(R.drawable.tenniswhite);
+                    tennisText.setTextColor(Color.WHITE);
                     Const.tennis=true;
                 }else {
-                    if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
-                        Const.allSports=false;
-                    }
                     tennis.setBackgroundResource(R.drawable.rectangleshapewhite);
                     tennisicon.setImageResource(R.drawable.tennisblack);
+                    tennisText.setTextColor(Color.BLACK);
                     Const.tennis= false;
                 }
             }
@@ -241,14 +189,12 @@ public class SportsSelectionOnStart extends AppCompatActivity {
                 if(Const.badminton==false){
                     badminton.setBackgroundResource(R.drawable.selectedsports);
                     badmintonicon.setImageResource(R.drawable.badmintonwhite);
+                    badmintonText.setTextColor(Color.WHITE);
                     Const.badminton=true;
                 }else {
-                    if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
-                        Const.allSports=false;
-                    }
                     badminton.setBackgroundResource(R.drawable.rectangleshapewhite);
                     badmintonicon.setImageResource(R.drawable.badmintonblack);
+                    badmintonText.setTextColor(Color.BLACK);
                     Const.badminton= false;
                 }
             }
@@ -261,14 +207,12 @@ public class SportsSelectionOnStart extends AppCompatActivity {
                 if(Const.formula1==false){
                     formula1.setBackgroundResource(R.drawable.selectedsports);
                     formulaicon.setImageResource(R.drawable.formulawhite);
+                    formulaText.setTextColor(Color.WHITE);
                     Const.formula1=true;
                 }else {
-                    if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
-                        Const.allSports=false;
-                    }
                     formula1.setBackgroundResource(R.drawable.rectangleshapewhite);
                     formulaicon.setImageResource(R.drawable.formulablack);
+                    formulaText.setTextColor(Color.BLACK);
                     Const.formula1= false;
                 }
             }
@@ -281,120 +225,19 @@ public class SportsSelectionOnStart extends AppCompatActivity {
                 if(Const.hockey==false){
                     hockey.setBackgroundResource(R.drawable.selectedsports);
                     hockeyicon.setImageResource(R.drawable.hockeywhite);
+                    hockeyText.setTextColor(Color.WHITE);
                     Const.hockey=true;
                 }else {
-                    if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
-                        Const.allSports=false;
-                    }
                     hockey.setBackgroundResource(R.drawable.rectangleshapewhite);
                     hockeyicon.setImageResource(R.drawable.hockeyblack);
+                    hockeyText.setTextColor(Color.BLACK);
                     Const.hockey= false;
                 }
             }
         });
 
-        trackfield.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Const.setadapter= true;
-                if(Const.trackfield==false){
-                    trackfield.setBackgroundResource(R.drawable.selectedsports);
-                    trackfieldicon.setImageResource(R.drawable.trackswhite);
-                    Const.trackfield=true;
-                }else {
-                    if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
-                        Const.allSports=false;
-                    }
-                    trackfield.setBackgroundResource(R.drawable.rectangleshapewhite);
-                    trackfieldicon.setImageResource(R.drawable.tracksblack);
-                    Const.trackfield= false;
-                }
-            }
-        });
-
-        others.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Const.setadapter= true;
-                if(Const.other==false){
-                    others.setBackgroundResource(R.drawable.selectedsports);
-                    othericon.setImageResource(R.drawable.climbingwhite);
-                    Const.other=true;
-                }else {
-                    if(Const.allSports==true){
-                        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
-                        Const.allSports=false;
-                    }
-                    others.setBackgroundResource(R.drawable.rectangleshapewhite);
-                    othericon.setImageResource(R.drawable.climbingblack);
-                    Const.other= false;
-                }
-            }
-        });
     }
 
-
-    public void disselectAllSports(){
-        allsports.setBackgroundResource(R.drawable.rectangleshapewhite);
-        allsportsicon.setImageResource(R.drawable.allsportsblack);
-        cricket.setBackgroundResource(R.drawable.rectangleshapewhite);
-        cricketicon.setImageResource(R.drawable.cricketblack);
-        football.setBackgroundResource(R.drawable.rectangleshapewhite);
-        footballicon.setImageResource(R.drawable.footballblack);
-        tennis.setBackgroundResource(R.drawable.rectangleshapewhite);
-        tennisicon.setImageResource(R.drawable.tennisblack);
-        badminton.setBackgroundResource(R.drawable.rectangleshapewhite);
-        badmintonicon.setImageResource(R.drawable.badmintonblack);
-        formula1.setBackgroundResource(R.drawable.rectangleshapewhite);
-        formulaicon.setImageResource(R.drawable.formulablack);
-        hockey.setBackgroundResource(R.drawable.rectangleshapewhite);
-        hockeyicon.setImageResource(R.drawable.hockeyblack);
-        trackfield.setBackgroundResource(R.drawable.rectangleshapewhite);
-        trackfieldicon.setImageResource(R.drawable.tracksblack);
-        others.setBackgroundResource(R.drawable.rectangleshapewhite);
-        othericon.setImageResource(R.drawable.climbingblack);
-        Const.allSports=false;
-        Const.cricket=false;
-        Const.football=false;
-        Const.tennis=false;
-        Const.badminton=false;
-        Const.formula1=false;
-        Const.hockey=false;
-        Const.trackfield=false;
-        Const.other=false;
-    }
-
-    public void selectAllSports(){
-        allsports.setBackgroundResource(R.drawable.selectedsports);
-        allsportsicon.setImageResource(R.drawable.allsportswhite);
-        cricket.setBackgroundResource(R.drawable.selectedsports);
-        cricketicon.setImageResource(R.drawable.cricketwhite);
-        football.setBackgroundResource(R.drawable.selectedsports);
-        footballicon.setImageResource(R.drawable.footballwhite);
-        tennis.setBackgroundResource(R.drawable.selectedsports);
-        tennisicon.setImageResource(R.drawable.tenniswhite);
-        badminton.setBackgroundResource(R.drawable.selectedsports);
-        badmintonicon.setImageResource(R.drawable.badmintonwhite);
-        formula1.setBackgroundResource(R.drawable.selectedsports);
-        formulaicon.setImageResource(R.drawable.formulawhite);
-        hockey.setBackgroundResource(R.drawable.selectedsports);
-        hockeyicon.setImageResource(R.drawable.hockeywhite);
-        trackfield.setBackgroundResource(R.drawable.selectedsports);
-        trackfieldicon.setImageResource(R.drawable.trackswhite);
-        others.setBackgroundResource(R.drawable.selectedsports);
-        othericon.setImageResource(R.drawable.climbingwhite);
-        Const.allSports=true;
-        Const.cricket=true;
-        Const.football=true;
-        Const.tennis=true;
-        Const.badminton=true;
-        Const.formula1=true;
-        Const.hockey= true;
-        Const.trackfield= true;
-        Const.other= true;
-    }
 
     public void next(View v){
 
@@ -422,20 +265,12 @@ public class SportsSelectionOnStart extends AppCompatActivity {
         else
             db.execSQL("UPDATE SPORTSLIST SET hockey=0");
 
-        if(Const.trackfield==true)
-            values.put("track", 1);
-
-        if(Const.other==true)
-            values.put("other", 1);
         values.put("nightmode", 0);
         db.insert("sportslist", null, values);
         db.close();
 
-        if(h!=null)
-            h.removeCallbacks(runnable);
-
         if(Const.cricket || Const.formula1 || Const.football || Const.badminton ||
-                Const.trackfield || Const.tennis || Const.hockey || Const.other)
+                 Const.tennis || Const.hockey)
         {
             setResult(101);
             finish();

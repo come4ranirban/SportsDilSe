@@ -93,17 +93,13 @@ public class MainActivity extends AppCompatActivity {
                 if(cursor.getInt(5)==1)
                     Const.hockey=true;
                 if(cursor.getInt(6)==1)
-                    Const.trackfield=true;
-                if(cursor.getInt(7)==1)
-                    Const.other=true;
-                if(cursor.getInt(8)==1)
                     Const.nightmode=true;
                 cursor.close();
             }
         }catch (SQLiteException e){
             db.execSQL("CREATE TABLE IF NOT EXISTS SPORTSLIST(cricket integer default 0, football integer default 0, " +
                     "tennis integer default 0, badminton integer default 0, formula integer default 0," +
-                    "hockey integer default 0, track integer default 0, other integer default 0, nightmode integer default 0)");
+                    "hockey integer default 0, nightmode integer default 0)");
 
             db.execSQL("CREATE TABLE IF NOT EXISTS BOOKMARKED(ID number, HEADLINE varchar(200), AUTHOR varchar(30), DATE varchar(18), CONTENT varchar(1500), IMAGE BLOB NOT NULL)");
 
@@ -140,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         db.execSQL("create table if not exists usercredential(status int, username varchar(20), email varchar(40), password varchar(25))");
 
         //CountDowntimer to check inApps Permission
-        countDownTimer= new CountDownTimer(2 * 1000, 1000) {
+        countDownTimer= new CountDownTimer(3 * 1000, 1000) {
             @Override
             public void onTick(long l) {
                 setContentView(R.layout.welcomscreen);

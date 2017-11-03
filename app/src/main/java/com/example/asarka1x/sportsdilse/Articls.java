@@ -39,6 +39,7 @@ public class Articls extends Fragment{
 
     public static Bundle savedstate;
     private static RelativeLayout layoutbacktheme;
+    private static Articls articls= new Articls();
     private final String KEY_RECYCLER_STATE = "recycler_state";
     Parcelable listState;
     ProgressBar progressBar;
@@ -46,6 +47,10 @@ public class Articls extends Fragment{
     private RecyclerView newsRecycler;
     private Handler h;
     private Runnable run;
+
+    public static Articls getInstance(){
+        return articls;
+    }
 
     public static void theme(){
         if(Const.nightmode)

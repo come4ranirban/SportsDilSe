@@ -1,8 +1,10 @@
 package com.example.asarka1x.sportsdilse;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
@@ -59,7 +62,7 @@ public class ArticleDetails extends Fragment {
 
     static SQLiteDatabase db;
     ImageView bookmark;
-    private ValueEventListener dataentry,viewdisplay;
+    private ValueEventListener dataentry, viewdisplay;
     private SimpleDraweeView newsimage;
     private DatabaseReference postId;
     private FloatingActionButton share;
@@ -67,31 +70,32 @@ public class ArticleDetails extends Fragment {
     private ImageButton backButton;
     private LinearLayout articlelayout;
     private Uri uri;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View v= inflater.inflate(R.layout.articledetails, container, false);
-        newsimage= (SimpleDraweeView)v.findViewById(R.id.newsimage);
-        newscontent= (TextView)v.findViewById(R.id.newscontent);
-        newsAuthor= (TextView)v.findViewById(R.id.newsAuthor);
-        views= (TextView)v.findViewById(R.id.views);
-        viewtext= (TextView)v.findViewById(R.id.viewtext);
-        newsTime= (TextView)v.findViewById(R.id.date);
-        newsHeadline= (TextView)v.findViewById(R.id.newsHeadline);
-        backButton= (ImageButton) v.findViewById(R.id.back);
-        bookmark= (ImageView) v.findViewById(R.id.bookmark);
-        articlelayout= (LinearLayout)v.findViewById(R.id.articlelayout);
-        share= (FloatingActionButton)v.findViewById(R.id.sharefab);
-        db= getActivity().openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
+        final View v = inflater.inflate(R.layout.articledetails, container, false);
+        newsimage = (SimpleDraweeView) v.findViewById(R.id.newsimage);
+        newscontent = (TextView) v.findViewById(R.id.newscontent);
+        newsAuthor = (TextView) v.findViewById(R.id.newsAuthor);
+        views = (TextView) v.findViewById(R.id.views);
+        viewtext = (TextView) v.findViewById(R.id.viewtext);
+        newsTime = (TextView) v.findViewById(R.id.date);
+        newsHeadline = (TextView) v.findViewById(R.id.newsHeadline);
+        backButton = (ImageButton) v.findViewById(R.id.back);
+        bookmark = (ImageView) v.findViewById(R.id.bookmark);
+        articlelayout = (LinearLayout) v.findViewById(R.id.articlelayout);
+        share = (FloatingActionButton) v.findViewById(R.id.sharefab);
+        db = getActivity().openOrCreateDatabase("SPORTSDILSE", Context.MODE_PRIVATE, null);
 
 
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("5158C1BB1B9FA97D34B9DBA57C39BEA9").build();
 
         AdView mAdView;
-        mAdView = (AdView)v.findViewById(R.id.fragadd);
+        mAdView = (AdView) v.findViewById(R.id.fragadd);
         mAdView.loadAd(adRequest);
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
         return v;
     }
@@ -100,19 +104,19 @@ public class ArticleDetails extends Fragment {
     public void onStart() {
         super.onStart();
 
-        if(Const.nightmode==true)
+        if (Const.nightmode == true)
             darktheme();
         else
             lighttheme();
 
-        final TelephonyManager telephonyManager = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        postId= FirebaseDatabase.getInstance().getReference("Postid");
-        dataentry= postId.addValueEventListener(new ValueEventListener() {
+        final TelephonyManager telephonyManager = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        postId = FirebaseDatabase.getInstance().getReference("Postid");
+        dataentry = postId.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(Const.newsDetails.get(Const.newsindex).toString())){
-                    if(Const.phone_state_permission){
-                        if(!dataSnapshot.child(Const.newsDetails.get(Const.newsindex).toString()).hasChild(telephonyManager.getDeviceId()))
+                if (dataSnapshot.hasChild(Const.newsDetails.get(Const.newsindex).toString())) {
+                    if (Const.phone_state_permission) {
+                        if (!dataSnapshot.child(Const.newsDetails.get(Const.newsindex).toString()).hasChild(telephonyManager.getDeviceId()))
                             dataSnapshot.child(Const.newsDetails.get(Const.newsindex).toString()).getRef().child(telephonyManager.getDeviceId()).setValue(telephonyManager.getDeviceId());
                     }
                 }else{
@@ -196,6 +200,7 @@ public class ArticleDetails extends Fragment {
 
                 if(bookstatus==false){
                     bookmark.setImageResource(R.drawable.bookmarkadded);
+                    Toast.makeText(getActivity(), "Bookmark Added", Toast.LENGTH_SHORT).show();
                     newsimage.setDrawingCacheEnabled(true);
                     newsimage.buildDrawingCache();
                     Bitmap bm= newsimage.getDrawingCache();
@@ -213,6 +218,7 @@ public class ArticleDetails extends Fragment {
                     db.insert("BOOKMARKED", null, values);
                 }else{
                     db.execSQL("delete from BOOKMARKED where id="+Const.newsDetails.get(Const.newsindex+0));
+                    Toast.makeText(getActivity(),"Bookmark Removed", Toast.LENGTH_SHORT).show();
                     bookmark.setImageResource(R.drawable.makebookmark);
                 }
             }

@@ -56,40 +56,25 @@ public class NavgationViewfragment extends Fragment {
             nightswitch.setChecked(true);
         }
 
-        if(Const.allSports==true){
+        if(Const.cricket==true)
             Const.selectedsportslist.add("Cricket");
+
+        if(Const.football==true)
             Const.selectedsportslist.add("Football");
+
+        if(Const.tennis)
             Const.selectedsportslist.add("Tennis");
+
+        if(Const.badminton==true)
             Const.selectedsportslist.add("Badminton");
+
+        if(Const.formula1==true)
             Const.selectedsportslist.add("Formula 1");
+
+        if(Const.hockey==true)
             Const.selectedsportslist.add("Hockey");
-            Const.selectedsportslist.add("Track & Field");
-            Const.selectedsportslist.add("other");
-        }else{
-            if(Const.cricket==true)
-                Const.selectedsportslist.add("Cricket");
 
-            if(Const.football==true)
-                Const.selectedsportslist.add("Football");
 
-            if(Const.tennis)
-                Const.selectedsportslist.add("Tennis");
-
-            if(Const.badminton==true)
-                Const.selectedsportslist.add("Badminton");
-
-            if(Const.formula1==true)
-                Const.selectedsportslist.add("Formula 1");
-
-            if(Const.hockey==true)
-                Const.selectedsportslist.add("Hockey");
-
-            if(Const.trackfield==true)
-                Const.selectedsportslist.add("Track & Field");
-
-            if(Const.other==true)
-                Const.selectedsportslist.add("other");
-        }
 
         sportsPreference= (LinearLayout)v.findViewById(R.id.yourpreference);
         selectedsports= (RecyclerView)v.findViewById(R.id.selectedsportsrecycler);
