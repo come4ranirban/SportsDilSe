@@ -16,6 +16,12 @@ import in.technomenia.user.sportsdilse.R;
 
 public class AboutUs extends Fragment {
 
+    private static AboutUs aboutUs= new AboutUs();
+
+    public static AboutUs getInstance(){
+        return aboutUs;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

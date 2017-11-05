@@ -188,7 +188,7 @@ public class NavgationViewfragment extends Fragment {
                 ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
                 pagerAdapter=  new MyPagerAdapter(MainActivity.activity.getSupportFragmentManager());
                 pagerAdapter.clearList();
-                pagerAdapter.addFragment(new AboutUs(), "AboutUs");
+                pagerAdapter.addFragment(AboutUs.getInstance(), "AboutUs");
                 Const.pageHistory.add(pagerAdapter);
                 viewPager.setAdapter(pagerAdapter);
                 drawerLayout.closeDrawers();
